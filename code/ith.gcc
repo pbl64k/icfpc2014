@@ -1,0 +1,48 @@
+	DUM	1
+	LDF	22
+	LDF	26
+	RAP	1
+	RTN	
+; then_0:
+	LD	0 2
+	RTN	
+; then_1:
+	LD	0 0
+	LD	0 1
+	LDC	1
+	SUB	
+	LD	0 2
+	CDR	
+	LD	0 0
+	TAP	3
+	RTN	
+; else_2:
+	LD	0 2
+	CAR	
+	RTN	
+; else_3:
+	LD	0 1
+	TSEL	7 16
+	RTN	
+; lambda_4:
+	LD	0 2
+	ATOM	
+	TSEL	5 19
+	RTN	
+; let_5:
+	LD	0 0
+	LDC	5
+	LDC	3
+	LDC	2
+	LDC	4
+	LDC	5
+	LDC	1
+	LDC	0
+	CONS	
+	CONS	
+	CONS	
+	CONS	
+	CONS	
+	LD	0 0
+	AP	3
+	RTN	

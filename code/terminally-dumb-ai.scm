@@ -3,7 +3,42 @@
         (cons 0 step)))
 (def step
     (fun [ai-state world-state]
-        (cons ai-state DIR-LT)))
+        (let (
+            [wmap (ws-map world-state)]
+            [loc (lm-loc (ws-lmst world-state))]
+            [move-cells (map (fun [d] (vec-add d loc)) neighbors)]
+            [valid-cells (filter (fun [pos] (valid-cell? wmap pos)) move-cells)]
+            [stupid-cell (car valid-cells)]
+            )
+            (cons ai-state (car (car (filter (fun [mv] (vec-=? (cdr mv) stupid-cell)) (nb-moves))))))))
+(def map (fun [f xs] (reverse (map-rev NIL f xs))))
+(def map-rev
+    (fun [acc f xs]
+        (if [atom? xs]
+            acc
+            (recur (cons (f (car xs)) acc) f (cdr xs)))))
+(def filter (fun [f xs] (reverse (filter-rev NIL f xs))))
+(def filter-rev
+    (fun [acc f xs]
+        (if [atom? xs]
+            acc
+            (if [f (car xs)]
+                (recur (cons (car xs) acc) f (cdr xs))
+                (recur acc f (cdr xs))))))
+(def zip (fun [a b] (reverse (zip-rev NIL a b))))
+(def zip-rev
+    (fun [acc a b]
+        (if [atom? a]
+            acc
+            (if [atom? b]
+                acc
+                (recur (cons (cons (car a) (car b)) acc) (cdr a) (cdr b))))))
+(def reverse (fun [xs] (rev-acc NIL xs)))
+(def rev-acc
+    (fun [acc xs]
+        (if [atom? xs]
+            acc
+            (recur (cons (car xs) acc) (cdr xs)))))
 (def ith
     (fun [ix xs]
         (if [atom? xs]
@@ -11,6 +46,32 @@
             (if ix
                 (recur (- ix 1) (cdr xs))
                 (car xs)))))
+(def vec-add
+    (fun [a b]
+        (cons (+ (car a) (car b)) (+ (cdr a) (cdr b)))))
+(def vec-=?
+    (fun [a b]
+        (if [= (car a) (car b)]
+            (if [= (cdr a) (cdr b)]
+                1
+                0)
+            0)))
+(def m-ix
+    (fun [wmap pos]
+        (if [< (car pos) 0]
+            0
+            (if [< (cdr pos) 0]
+                0
+                (ith (cdr pos) (ith (car pos) wmap))))))
+(def valid-cell?
+    (fun [wmap pos]
+        (let (
+            [st (m-ix wmap pos)]
+            )
+            (> st M-WALL))))
+(def NIL 0)
+(def neighbors (cons (cons 1 0) (cons (cons -1 0) (cons (cons 0 1) (cons (cons 0 -1) 0)))))
+(def nb-moves (fun [] (zip (cons DIR-DN (cons DIR-UP (cons DIR-RT (cons DIR-LT 0)))) neighbors)))
 (def M-WALL 0)
 (def M-EMPTY 1)
 (def M-PILL 2)

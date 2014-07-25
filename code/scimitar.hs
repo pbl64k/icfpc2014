@@ -3,6 +3,8 @@ import qualified Data.Map as M
 import Data.Maybe
 import Text.ParserCombinators.ReadP
 
+import System.IO.Unsafe
+
 data Ast = Lit Int | Var String | Lam [String] Ast | Let [(String, Ast)] Ast | App [Ast] | Spec String [Ast] deriving (Show, Eq, Ord)
 data Program = Prog [(String, Ast)] Ast deriving (Show, Eq, Ord)
 
@@ -58,11 +60,18 @@ p_anyid = do
 
 p_id = do
     id <- p_anyid
-    if reserved id then pfail else return id
+    if (not (null id) && head id == '-') || reserved id then pfail else return id
 
-p_lit = do
+p_plit = do
     numstr <- many1 p_digit
     (return . Lit . read) numstr
+
+p_nlit = do
+    char '-'
+    numstr <- many1 p_digit
+    (return . Lit . (0 -) . read) numstr
+
+p_lit = choice [p_plit, p_nlit]
 
 p_var = do
     id <- p_id
@@ -119,7 +128,7 @@ p_program = do
 
 var_lookup name (n, env) = [Num $ n - frame, Num ix]
     where
-        (frame, ix) = fromJust $ name `M.lookup` env
+        (frame, ix) = (unsafePerformIO $ if name `M.member` env then return () else putStrLn $ "Cannot find: " ++ name) `seq` (fromJust $ name `M.lookup` env)
 
 cg_1 n env labels op a = (c_a ++ [Op op []], l)
     where
