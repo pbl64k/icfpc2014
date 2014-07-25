@@ -130,12 +130,8 @@ cg_2 n env labels op a b = (c_a ++ c_b ++ [Op op []], l')
         (c_a, l) = cg n env labels a
         (c_b, l') = cg n env l b
 
---data Ast = Lit Int | Var String | Lam [String] Ast | Let [(String, Ast)] Ast | App [Ast] | Spec String [Ast] deriving (Show, Eq, Ord)
---spec = ["+", "-", "*", "/", "=", ">", "<", ">=", "<=", "atom?", "cons", "car", "cdr", "if", "recur", "do"]
-
 cg n env labels (Lit x) = ([Op "LDC" [Num x]], labels)
 cg n env labels (Var name) = ([Op "LD" (name `var_lookup` (n, env))], labels)
---cg n env labels (Lam ids expr) = ([Op "LDF" [Lbl lbl]], (lbl, ((Cmt $ show expr) : inner_code) ++ [Op "RTN" []]) : inner_labels)
 cg n env labels (Lam ids expr) = ([Op "LDF" [Lbl lbl]], (lbl, inner_code ++ [Op "RTN" []]) : inner_labels)
     where
         env' = foldl (\e (ix, name) -> M.insert name (succ n, ix) e) env ([0 ..] `zip` ("$@recur" : ids))
@@ -145,7 +141,6 @@ cg n env labels (Let defs expr) = ([Op "DUM" [Num $ length defs]] ++ code' ++ [O
     where
         env' = foldl (\e (ix, name) -> M.insert name (succ n, ix) e) env ([0 ..] `zip` (fst `map` defs))
         (code', labels') = foldl (\(c, l) expr -> let (c', l') = cg (succ n) env' l expr in (c ++ c', l')) ([], labels) (snd `map` defs)
-        --(inner_code, inner_labels) = cg (succ n) env' labels' expr
         (inner_code, inner_labels) = cg (succ n) env' labels' expr
         lbl = "let_" ++ (show $ length inner_labels)
 cg n env labels (App all@(f : rest)) = (code' ++ code'' ++ [Op "AP" [Num $ succ $ length rest]], labels'')
