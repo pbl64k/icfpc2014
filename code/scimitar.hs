@@ -27,7 +27,7 @@ p_alpha = p_oneof (['A' .. 'Z'] ++ ['a' .. 'z'])
 
 p_digit = p_oneof ['0' .. '9']
 
-p_spec = p_oneof ['+', '-', '*', '/', '=', '<', '>']
+p_spec = p_oneof ['+', '-', '*', '/', '=', '<', '>', '?', '!']
 
 p_alnum = choice [p_alpha, p_digit]
 
@@ -191,7 +191,7 @@ out lbls (Op name args) = "\t" ++ name ++ "\t" ++ (" " `intercalate` ((outarg lb
 codegen (Prog defs expr) = "\n" `intercalate` ((out lbls) `map` flat_code)
     where
         (code, labels) = cg (-1) M.empty [] (Let defs expr)
-        (_, lbls, fc) = foldl (\acc (lbl, code) -> flatten acc ((Label lbl) : code)) (flatten (0, M.empty, []) code) (reverse labels)
+        (_, lbls, fc) = foldl (\acc (lbl, code) -> flatten acc ((Label lbl) : code)) (flatten (0, M.empty, []) (code ++ [Op "RTN" []])) (reverse labels)
         flat_code = reverse fc
 
 main = do

@@ -1,0 +1,48 @@
+	DUM	2
+	LDF	19
+	LDF	23
+	LDF	27
+	RAP	2
+	RTN	
+; then_0:
+	LD	0 1
+	JOIN	
+; else_1:
+	LD	0 0
+	LD	0 1
+	LD	0 2
+	CAR	
+	LD	0 0
+	AP	2
+	LD	0 2
+	CDR	
+	LD	1 0
+	AP	3
+	JOIN	
+; lambda_2:
+	LD	0 2
+	ATOM	
+	SEL	6 8
+	RTN	
+; lambda_3:
+	LD	0 0
+	LD	0 1
+	ADD	
+	RTN	
+; let_4:
+	LD	0 1
+	LDC	0
+	LDC	1
+	LDC	2
+	LDC	3
+	LDC	4
+	LDC	5
+	LDC	0
+	CONS	
+	CONS	
+	CONS	
+	CONS	
+	CONS	
+	LD	0 0
+	AP	3
+	RTN	
