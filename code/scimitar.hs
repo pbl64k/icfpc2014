@@ -163,6 +163,15 @@ cg n env labels (Spec "atom?" [a]) = cg_1 n env labels "ATOM" a
 cg n env labels (Spec "cons" [a, b]) = cg_2 n env labels "CONS" a b
 cg n env labels (Spec "car" [a]) = cg_1 n env labels "CAR" a
 cg n env labels (Spec "cdr" [a]) = cg_1 n env labels "CDR" a
+cg n env labels (Spec "if" [cond, thn, els]) = (cond_code ++ [Op "SEL" []], (e_lbl, els_code ++ [Op "JOIN" []]) : labels''')
+    where
+        (cond_code, labels') = cg n env labels cond
+        (thn_code, labels'') = cg n env labels' thn
+        t_lbl = "then_" ++ (show $ length labels'')
+        (els_code, labels''') = cg n env ((t_lbl, thn_code ++ [Op "JOIN" []]) : labels'') els
+        e_lbl = "else_" ++ (show $ length labels''')
+-- Unsupported: recur
+-- Unsupported: do
 cg n env labels expr = ([Cmt $ "WARNING!!! Unable to generate code for {" ++ show expr ++ "}"], labels)
 
 flatten acc [] = acc
@@ -170,14 +179,14 @@ flatten (line, labels, acc) (op@(Op _ _) : ops) = flatten (succ line, labels, op
 flatten (line, labels, acc) ((Label lbl) : ops) = flatten (line, M.insert lbl line labels, (Cmt $ lbl ++ ":") : acc) ops
 flatten (line, labels, acc) (op : ops) = flatten (line, labels, op : acc) ops
 
-outarg (Num x) = show x
-outarg (Lbl lbl) = lbl
+outarg _ (Num x) = show x
+outarg lbls (Lbl lbl) = (show . fromJust) $ lbl `M.lookup` lbls
 
-out (Cmt str) = "; " ++ str
-out (Label lbl) = lbl ++ ":"
-out (Op name args) = "\t" ++ name ++ "\t" ++ (" " `intercalate` (outarg `map` args))
+out _ (Cmt str) = "; " ++ str
+out _ (Label lbl) = lbl ++ ":"
+out lbls (Op name args) = "\t" ++ name ++ "\t" ++ (" " `intercalate` ((outarg lbls) `map` args))
 
-codegen (Prog defs expr) = "\n" `intercalate` (out `map` flat_code)
+codegen (Prog defs expr) = "\n" `intercalate` ((out lbls) `map` flat_code)
     where
         (code, labels) = cg (-1) M.empty [] (Let defs expr)
         (_, lbls, fc) = foldl (\acc (lbl, code) -> flatten acc ((Label lbl) : code)) (flatten (0, M.empty, []) code) (reverse labels)
