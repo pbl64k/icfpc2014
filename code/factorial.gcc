@@ -1,44 +1,47 @@
 	DUM	2
-	LDF	27
+	LDF	29
 	LDC	1
-	LDF	32
+	LDF	34
 	RAP	2
 	RTN	
 ; then_0:
-	LD	0 1
+	LD	0 2
 	JOIN	
 ; else_1:
+	LD	1 0
 	LDC	1
-	LD	0 0
-	ADD	
-	LD	0 0
 	LD	0 1
+	ADD	
+	LD	0 1
+	LD	0 2
 	MUL	
 	LD	1 0
-	AP	2
+	AP	3
 	JOIN	
 ; lambda_2:
-	LD	0 0
-	LD	2 0
+	LD	0 1
+	LD	2 1
 	CGT	
 	SEL	6 8
 	RTN	
 ; let_3:
+	LD	0 0
 	LDC	1
 	LD	2 1
 	LD	0 0
-	AP	2
+	AP	3
 	RTN	
 ; lambda_4:
 	DUM	1
-	LDF	17
-	LDF	22
+	LDF	18
+	LDF	23
 	RAP	1
 	RTN	
 ; let_5:
+	LD	0 0
 	LDC	2
 	LDC	3
 	ADD	
 	LD	0 0
-	AP	1
+	AP	2
 	RTN	

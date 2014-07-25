@@ -138,7 +138,7 @@ cg n env labels (Var name) = ([Op "LD" (name `var_lookup` (n, env))], labels)
 --cg n env labels (Lam ids expr) = ([Op "LDF" [Lbl lbl]], (lbl, ((Cmt $ show expr) : inner_code) ++ [Op "RTN" []]) : inner_labels)
 cg n env labels (Lam ids expr) = ([Op "LDF" [Lbl lbl]], (lbl, inner_code ++ [Op "RTN" []]) : inner_labels)
     where
-        env' = foldl (\e (ix, name) -> M.insert name (succ n, ix) e) env ([0 ..] `zip` ids)
+        env' = foldl (\e (ix, name) -> M.insert name (succ n, ix) e) env ([0 ..] `zip` ("$@recur" : ids))
         (inner_code, inner_labels) = cg (succ n) env' labels expr
         lbl = "lambda_" ++ (show $ length inner_labels)
 cg n env labels (Let defs expr) = ([Op "DUM" [Num $ length defs]] ++ code' ++ [Op "LDF" [Lbl lbl], Op "RAP" [Num $ length defs]], (lbl, inner_code ++ [Op "RTN" []]) : inner_labels)
@@ -148,9 +148,9 @@ cg n env labels (Let defs expr) = ([Op "DUM" [Num $ length defs]] ++ code' ++ [O
         --(inner_code, inner_labels) = cg (succ n) env' labels' expr
         (inner_code, inner_labels) = cg (succ n) env' labels' expr
         lbl = "let_" ++ (show $ length inner_labels)
-cg n env labels (App (f : rest)) = (code' ++ code'' ++ [Op "AP" [Num $ length rest]], labels'')
+cg n env labels (App all@(f : rest)) = (code' ++ code'' ++ [Op "AP" [Num $ succ $ length rest]], labels'')
     where
-        (code', labels') = foldl (\(c, l) expr -> let (c', l') = cg n env l expr in (c ++ c', l')) ([], labels) rest
+        (code', labels') = foldl (\(c, l) expr -> let (c', l') = cg n env l expr in (c ++ c', l')) ([], labels) all
         (code'', labels'') = cg n env labels' f
 cg n env labels (Spec "+" [a, b]) = cg_2 n env labels "ADD" a b
 cg n env labels (Spec "-" [a, b]) = cg_2 n env labels "SUB" a b
@@ -172,6 +172,7 @@ cg n env labels (Spec "if" [cond, thn, els]) = (cond_code ++ [Op "SEL" [Lbl t_lb
         t_lbl = "then_" ++ (show $ length labels'')
         (els_code, labels''') = cg n env ((t_lbl, thn_code ++ [Op "JOIN" []]) : labels'') els
         e_lbl = "else_" ++ (show $ length labels''')
+-- Note that `recur' MUST ONLY be used with NAMED functions
 -- Unsupported: recur
 -- Unsupported: do
 cg n env labels expr = ([Cmt $ "WARNING!!! Unable to generate code for {" ++ show expr ++ "}"], labels)

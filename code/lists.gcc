@@ -1,35 +1,38 @@
 	DUM	2
-	LDF	19
-	LDF	23
-	LDF	27
+	LDF	21
+	LDF	25
+	LDF	29
 	RAP	2
 	RTN	
 ; then_0:
-	LD	0 1
+	LD	0 2
 	JOIN	
 ; else_1:
-	LD	0 0
+	LD	1 0
+	LD	0 1
 	LD	0 1
 	LD	0 2
+	LD	0 3
 	CAR	
-	LD	0 0
-	AP	2
-	LD	0 2
+	LD	0 1
+	AP	3
+	LD	0 3
 	CDR	
 	LD	1 0
-	AP	3
+	AP	4
 	JOIN	
 ; lambda_2:
-	LD	0 2
+	LD	0 3
 	ATOM	
 	SEL	6 8
 	RTN	
 ; lambda_3:
-	LD	0 0
 	LD	0 1
+	LD	0 2
 	ADD	
 	RTN	
 ; let_4:
+	LD	0 0
 	LD	0 1
 	LDC	0
 	LDC	1
@@ -44,5 +47,5 @@
 	CONS	
 	CONS	
 	LD	0 0
-	AP	3
+	AP	4
 	RTN	
