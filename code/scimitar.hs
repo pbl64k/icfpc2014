@@ -135,15 +135,17 @@ cg_2 n env labels op a b = (c_a ++ c_b ++ [Op op []], l')
 
 cg n env labels (Lit x) = ([Op "LDC" [Num x]], labels)
 cg n env labels (Var name) = ([Op "LD" (name `var_lookup` (n, env))], labels)
-cg n env labels (Lam ids expr) = ([Op "LDF" [Lbl lbl]], (lbl, ((Cmt $ show expr) : inner_code) ++ [Op "RTN" []]) : inner_labels)
+--cg n env labels (Lam ids expr) = ([Op "LDF" [Lbl lbl]], (lbl, ((Cmt $ show expr) : inner_code) ++ [Op "RTN" []]) : inner_labels)
+cg n env labels (Lam ids expr) = ([Op "LDF" [Lbl lbl]], (lbl, inner_code ++ [Op "RTN" []]) : inner_labels)
     where
-        env' = foldl (\e (ix, name) -> M.insert name (n, ix) e) env ([0 ..] `zip` ids)
+        env' = foldl (\e (ix, name) -> M.insert name (succ n, ix) e) env ([0 ..] `zip` ids)
         (inner_code, inner_labels) = cg (succ n) env' labels expr
         lbl = "lambda_" ++ (show $ length inner_labels)
 cg n env labels (Let defs expr) = ([Op "DUM" [Num $ length defs]] ++ code' ++ [Op "LDF" [Lbl lbl], Op "RAP" [Num $ length defs]], (lbl, inner_code ++ [Op "RTN" []]) : inner_labels)
     where
-        env' = foldl (\e (ix, name) -> M.insert name (n, ix) e) env ([0 ..] `zip` (fst `map` defs))
-        (code', labels') = foldl (\(c, l) expr -> let (c', l') = cg n env' l expr in (c ++ c', l')) ([], labels) (snd `map` defs)
+        env' = foldl (\e (ix, name) -> M.insert name (succ n, ix) e) env ([0 ..] `zip` (fst `map` defs))
+        (code', labels') = foldl (\(c, l) expr -> let (c', l') = cg (succ n) env' l expr in (c ++ c', l')) ([], labels) (snd `map` defs)
+        --(inner_code, inner_labels) = cg (succ n) env' labels' expr
         (inner_code, inner_labels) = cg (succ n) env' labels' expr
         lbl = "let_" ++ (show $ length inner_labels)
 cg n env labels (App (f : rest)) = (code' ++ code'' ++ [Op "AP" [Num $ length rest]], labels'')
@@ -163,7 +165,7 @@ cg n env labels (Spec "atom?" [a]) = cg_1 n env labels "ATOM" a
 cg n env labels (Spec "cons" [a, b]) = cg_2 n env labels "CONS" a b
 cg n env labels (Spec "car" [a]) = cg_1 n env labels "CAR" a
 cg n env labels (Spec "cdr" [a]) = cg_1 n env labels "CDR" a
-cg n env labels (Spec "if" [cond, thn, els]) = (cond_code ++ [Op "SEL" []], (e_lbl, els_code ++ [Op "JOIN" []]) : labels''')
+cg n env labels (Spec "if" [cond, thn, els]) = (cond_code ++ [Op "SEL" [Lbl t_lbl, Lbl e_lbl]], (e_lbl, els_code ++ [Op "JOIN" []]) : labels''')
     where
         (cond_code, labels') = cg n env labels cond
         (thn_code, labels'') = cg n env labels' thn

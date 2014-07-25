@@ -1,0 +1,43 @@
+	DUM	2
+	LDF	26
+	LDC	1
+	LDF	31
+	RAP	2
+; then_0:
+	LD	0 1
+	JOIN	
+; else_1:
+	LDC	1
+	LD	0 0
+	ADD	
+	LD	0 0
+	LD	0 1
+	MUL	
+	LD	1 0
+	AP	2
+	JOIN	
+; lambda_2:
+	LD	0 0
+	LD	2 0
+	CGT	
+	SEL	5 7
+	RTN	
+; let_3:
+	LDC	1
+	LD	2 1
+	LD	0 0
+	AP	2
+	RTN	
+; lambda_4:
+	DUM	1
+	LDF	16
+	LDF	21
+	RAP	1
+	RTN	
+; let_5:
+	LDC	2
+	LDC	3
+	ADD	
+	LD	0 0
+	AP	1
+	RTN	

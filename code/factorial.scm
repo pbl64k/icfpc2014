@@ -3,7 +3,7 @@
         (let (
             [aux
                 (fun [x acc]
-                    (if (= x n)
+                    (if (> x n)
                         acc
                         (aux (+ 1 x) (* x acc))))]
             )
