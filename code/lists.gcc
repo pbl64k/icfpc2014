@@ -6,9 +6,9 @@
 	RTN	
 ; then_0:
 	LD	0 2
-	JOIN	
+	RTN	
 ; else_1:
-	LD	1 0
+	LD	0 0
 	LD	0 1
 	LD	0 1
 	LD	0 2
@@ -18,13 +18,13 @@
 	AP	3
 	LD	0 3
 	CDR	
-	LD	1 0
-	AP	4
-	JOIN	
+	LD	0 0
+	TAP	4
+	RTN	
 ; lambda_2:
 	LD	0 3
 	ATOM	
-	SEL	6 8
+	TSEL	6 8
 	RTN	
 ; lambda_3:
 	LD	0 1

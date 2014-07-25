@@ -165,15 +165,18 @@ cg n env labels (Spec "atom?" [a]) = cg_1 n env labels "ATOM" a
 cg n env labels (Spec "cons" [a, b]) = cg_2 n env labels "CONS" a b
 cg n env labels (Spec "car" [a]) = cg_1 n env labels "CAR" a
 cg n env labels (Spec "cdr" [a]) = cg_1 n env labels "CDR" a
-cg n env labels (Spec "if" [cond, thn, els]) = (cond_code ++ [Op "SEL" [Lbl t_lbl, Lbl e_lbl]], (e_lbl, els_code ++ [Op "JOIN" []]) : labels''')
+cg n env labels (Spec "if" [cond, thn, els]) = (cond_code ++ [Op "TSEL" [Lbl t_lbl, Lbl e_lbl]], (e_lbl, els_code ++ [Op "RTN" []]) : labels''')
     where
         (cond_code, labels') = cg n env labels cond
         (thn_code, labels'') = cg n env labels' thn
         t_lbl = "then_" ++ (show $ length labels'')
-        (els_code, labels''') = cg n env ((t_lbl, thn_code ++ [Op "JOIN" []]) : labels'') els
+        (els_code, labels''') = cg n env ((t_lbl, thn_code ++ [Op "RTN" []]) : labels'') els
         e_lbl = "else_" ++ (show $ length labels''')
 -- Note that `recur' MUST ONLY be used with NAMED functions
--- Unsupported: recur
+-- In general, never apply to unnamed functions: might be expensive
+cg n env labels (Spec "recur" args) = ([Op "LD" [Num 0, Num 0]] ++ code' ++ [Op "LD" [Num 0, Num 0], Op "TAP" [Num $ succ $ length args]], labels')
+    where
+        (code', labels') = foldl (\(c, l) expr -> let (c', l') = cg n env l expr in (c ++ c', l')) ([], labels) args
 -- Unsupported: do
 cg n env labels expr = ([Cmt $ "WARNING!!! Unable to generate code for {" ++ show expr ++ "}"], labels)
 

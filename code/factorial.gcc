@@ -6,23 +6,23 @@
 	RTN	
 ; then_0:
 	LD	0 2
-	JOIN	
+	RTN	
 ; else_1:
-	LD	1 0
+	LD	0 0
 	LDC	1
 	LD	0 1
 	ADD	
 	LD	0 1
 	LD	0 2
 	MUL	
-	LD	1 0
-	AP	3
-	JOIN	
+	LD	0 0
+	TAP	3
+	RTN	
 ; lambda_2:
 	LD	0 1
 	LD	2 1
 	CGT	
-	SEL	6 8
+	TSEL	6 8
 	RTN	
 ; let_3:
 	LD	0 0
