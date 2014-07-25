@@ -1,0 +1,233 @@
+	DUM	11
+	LDC	0
+	LDF	15
+	LDF	41
+	LDF	45
+	LDF	83
+	LDF	87
+	LDF	120
+	LDF	124
+	LDF	142
+	LDF	163
+	LDF	167
+	LDF	187
+	RAP	11
+	RTN	
+; lambda_0:
+	LD	1 7
+	LD	1 2
+	LD	1 0
+	LD	0 1
+	LD	0 2
+	LD	1 2
+	AP	4
+	LD	1 7
+	AP	2
+	RTN	
+; then_1:
+	LD	0 1
+	RTN	
+; else_2:
+	LD	0 0
+	LD	0 2
+	LD	0 3
+	CAR	
+	LD	0 2
+	AP	2
+	LD	0 1
+	CONS	
+	LD	0 2
+	LD	0 3
+	CDR	
+	LD	0 0
+	TAP	4
+	RTN	
+; lambda_3:
+	LD	0 3
+	ATOM	
+	TSEL	25 27
+	RTN	
+; lambda_4:
+	LD	1 7
+	LD	1 4
+	LD	1 0
+	LD	0 1
+	LD	0 2
+	LD	1 4
+	AP	4
+	LD	1 7
+	AP	2
+	RTN	
+; then_5:
+	LD	0 1
+	RTN	
+; then_6:
+	LD	0 0
+	LD	0 3
+	CAR	
+	LD	0 1
+	CONS	
+	LD	0 2
+	LD	0 3
+	CDR	
+	LD	0 0
+	TAP	4
+	RTN	
+; else_7:
+	LD	0 0
+	LD	0 1
+	LD	0 2
+	LD	0 3
+	CDR	
+	LD	0 0
+	TAP	4
+	RTN	
+; else_8:
+	LD	0 2
+	LD	0 3
+	CAR	
+	LD	0 2
+	AP	2
+	TSEL	57 68
+	RTN	
+; lambda_9:
+	LD	0 3
+	ATOM	
+	TSEL	55 76
+	RTN	
+; lambda_10:
+	LD	1 7
+	LD	1 6
+	LD	1 0
+	LD	0 1
+	LD	0 2
+	LD	1 6
+	AP	4
+	LD	1 7
+	AP	2
+	RTN	
+; then_11:
+	LD	0 1
+	RTN	
+; then_12:
+	LD	0 1
+	RTN	
+; else_13:
+	LD	0 0
+	LD	0 2
+	CAR	
+	LD	0 3
+	CAR	
+	CONS	
+	LD	0 1
+	CONS	
+	LD	0 2
+	CDR	
+	LD	0 3
+	CDR	
+	LD	0 0
+	TAP	4
+	RTN	
+; else_14:
+	LD	0 3
+	ATOM	
+	TSEL	99 101
+	RTN	
+; lambda_15:
+	LD	0 2
+	ATOM	
+	TSEL	97 116
+	RTN	
+; lambda_16:
+	LD	1 8
+	LD	1 0
+	LD	0 1
+	LD	1 8
+	AP	3
+	RTN	
+; then_17:
+	LD	0 1
+	RTN	
+; else_18:
+	LD	0 0
+	LD	0 2
+	CAR	
+	LD	0 1
+	CONS	
+	LD	0 2
+	CDR	
+	LD	0 0
+	TAP	3
+	RTN	
+; lambda_19:
+	LD	0 2
+	ATOM	
+	TSEL	130 132
+	RTN	
+; then_20:
+	LD	0 2
+	RTN	
+; then_21:
+	LD	0 0
+	LD	0 1
+	LDC	1
+	SUB	
+	LD	0 2
+	CDR	
+	LD	0 0
+	TAP	3
+	RTN	
+; else_22:
+	LD	0 2
+	CAR	
+	RTN	
+; else_23:
+	LD	0 1
+	TSEL	148 157
+	RTN	
+; lambda_24:
+	LD	0 2
+	ATOM	
+	TSEL	146 160
+	RTN	
+; lambda_25:
+	LD	0 1
+	CAR	
+	LD	0 2
+	CAR	
+	ADD	
+	LD	0 1
+	CDR	
+	LD	0 2
+	CDR	
+	ADD	
+	CONS	
+	RTN	
+; lambda_26:
+	LD	1 10
+	LD	0 1
+	LDC	5
+	LDC	5
+	CONS	
+	LD	1 10
+	AP	3
+	RTN	
+; let_27:
+	LD	0 1
+	LDF	179
+	LDC	1
+	LDC	2
+	CONS	
+	LDC	2
+	LDC	3
+	CONS	
+	LDC	3
+	LDC	4
+	CONS	
+	LDC	0
+	CONS	
+	CONS	
+	CONS	
+	LD	0 1
+	AP	3
+	RTN	

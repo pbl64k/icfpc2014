@@ -5,13 +5,13 @@ import Text.ParserCombinators.ReadP
 
 import System.IO.Unsafe
 
-data Ast = Lit Int | Var String | Lam [String] Ast | Let [(String, Ast)] Ast | App [Ast] | Spec String [Ast] deriving (Show, Eq, Ord)
+data Ast = Lit Int | Var String | Lam [String] Ast | LamAbi [String] Ast | Let [(String, Ast)] Ast | App [Ast] | Spec String [Ast] deriving (Show, Eq, Ord)
 data Program = Prog [(String, Ast)] Ast deriving (Show, Eq, Ord)
 
 data Arg = Num Int | Lbl String deriving (Show, Eq, Ord)
 data Op = Cmt String | Label String | Op String [Arg] deriving (Show, Eq, Ord)
 
-keyws = ["def", "fun", "let"]
+keyws = ["def", "fun", "fun-abi", "let"]
 
 spec = ["+", "-", "*", "/", "=", ">", "<", ">=", "<=", "atom?", "cons", "car", "cdr", "if", "recur", "do"]
 
@@ -85,6 +85,14 @@ p_lam = p_par $ do
     expr <- p_expr
     return (Lam args expr)
 
+p_lamabi = p_par $ do
+    string "fun-abi"
+    p_ws
+    args <- p_par (p_id `sepBy` p_ws)
+    p_ws
+    expr <- p_expr
+    return (LamAbi args expr)
+
 p_let = p_par $ do
     string "let"
     p_ws
@@ -107,7 +115,7 @@ p_specf = p_par $ do
             exprs <- p_expr `sepBy1` p_ws
             return (Spec name exprs)
     
-p_expr = choice [p_lit, p_var, p_lam, p_let, p_app, p_specf]
+p_expr = choice [p_lit, p_var, p_lam, p_lamabi, p_let, p_app, p_specf]
 
 p_def = p_par $ do
     string "def"
@@ -141,11 +149,19 @@ cg_2 n env labels op a b = (c_a ++ c_b ++ [Op op []], l')
 
 cg n env labels (Lit x) = ([Op "LDC" [Num x]], labels)
 cg n env labels (Var name) = ([Op "LD" (name `var_lookup` (n, env))], labels)
+-- ABI is not compatible with my approach to TCE
+-- note that `fun-abi's MUST NOT be called internally
+cg n env labels (LamAbi ids expr) = ([Op "LDF" [Lbl lbl]], (lbl, inner_code ++ [Op "RTN" []]) : inner_labels)
+    where
+        env' = foldl (\e (ix, name) -> M.insert name (succ n, ix) e) env ([0 ..] `zip` ids)
+        (inner_code, inner_labels) = cg (succ n) env' labels expr
+        lbl = "lambda_" ++ (show $ length inner_labels)
 cg n env labels (Lam ids expr) = ([Op "LDF" [Lbl lbl]], (lbl, inner_code ++ [Op "RTN" []]) : inner_labels)
     where
         env' = foldl (\e (ix, name) -> M.insert name (succ n, ix) e) env ([0 ..] `zip` ("$@recur" : ids))
         (inner_code, inner_labels) = cg (succ n) env' labels expr
         lbl = "lambda_" ++ (show $ length inner_labels)
+-- OK, so I know what's going on here. let is not recursive.
 cg n env labels (Let defs expr) = ([Op "DUM" [Num $ length defs]] ++ code' ++ [Op "LDF" [Lbl lbl], Op "RAP" [Num $ length defs]], (lbl, inner_code ++ [Op "RTN" []]) : inner_labels)
     where
         env' = foldl (\e (ix, name) -> M.insert name (succ n, ix) e) env ([0 ..] `zip` (fst `map` defs))
@@ -190,7 +206,7 @@ flatten (line, labels, acc) ((Label lbl) : ops) = flatten (line, M.insert lbl li
 flatten (line, labels, acc) (op : ops) = flatten (line, labels, op : acc) ops
 
 outarg _ (Num x) = show x
-outarg lbls (Lbl lbl) = (show . fromJust) $ lbl `M.lookup` lbls
+outarg lbls (Lbl lbl) = (unsafePerformIO $ if lbl `M.member` lbls then return () else putStrLn $ "Cannot find: " ++ lbl) `seq` ((show . fromJust) $ lbl `M.lookup` lbls)
 
 out _ (Cmt str) = "; " ++ str
 out _ (Label lbl) = lbl ++ ":"

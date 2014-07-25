@@ -1,0 +1,13 @@
+	DUM	1
+	LDF	5
+	LDF	7
+	RAP	1
+	RTN	
+; lambda_0:
+	LDC	1
+	RTN	
+; let_1:
+	LD	0 0
+	LD	0 0
+	AP	1
+	RTN	

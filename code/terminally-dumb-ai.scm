@@ -2,15 +2,13 @@
     (fun []
         (cons 0 step)))
 (def step
-    (fun [ai-state world-state]
+    (fun-abi [ai-state world-state]
         (let (
             [wmap (ws-map world-state)]
             [loc (lm-loc (ws-lmst world-state))]
-            [move-cells (map (fun [d] (vec-add d loc)) neighbors)]
-            [valid-cells (filter (fun [pos] (valid-cell? wmap pos)) move-cells)]
-            [stupid-cell (car valid-cells)]
+            [move-cells (map (fun [d] (vec-add d (cons 0 0))) neighbors)]
             )
-            (cons ai-state (car (car (filter (fun [mv] (vec-=? (cdr mv) stupid-cell)) (nb-moves))))))))
+            (cons ai-state DIR-LT))))
 (def map (fun [f xs] (reverse (map-rev NIL f xs))))
 (def map-rev
     (fun [acc f xs]
@@ -71,7 +69,7 @@
             (> st M-WALL))))
 (def NIL 0)
 (def neighbors (cons (cons 1 0) (cons (cons -1 0) (cons (cons 0 1) (cons (cons 0 -1) 0)))))
-(def nb-moves (fun [] (zip (cons DIR-DN (cons DIR-UP (cons DIR-RT (cons DIR-LT 0)))) neighbors)))
+(def nb-moves (fun [] (zip (cons DIR-DN (cons DIR-UP (cons DIR-RT (cons DIR-LT NIL)))) neighbors)))
 (def M-WALL 0)
 (def M-EMPTY 1)
 (def M-PILL 2)
