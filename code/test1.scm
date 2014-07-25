@@ -9,5 +9,5 @@
             )
             (aux 1 INIT-FACT))))
 (def INIT-FACT 1)
-(fact 5)
+(fact (+ 2 3))
 

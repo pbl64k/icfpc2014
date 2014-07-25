@@ -124,6 +124,11 @@ var_lookup name (n, env) = [Num $ n - frame, Num ix]
 --data Ast = Lit Int | Var String | Lam [String] Ast | Let [(String, Ast)] Ast | App [Ast] | Spec String [Ast] deriving (Show, Eq, Ord)
 --spec = ["+", "-", "*", "/", "=", ">", "<", ">=", "<=", "atom?", "cons", "car", "cdr", "if", "recur", "do"]
 
+cg_2 n env labels op a b = (c_a ++ c_b ++ [Op op []], l')
+    where
+        (c_a, l) = cg n env labels a
+        (c_b, l') = cg n env l b
+
 cg n env labels (Lit x) = ([Op "LDC" [Num x]], labels)
 cg n env labels (Var name) = ([Op "LD" (name `var_lookup` (n, env))], labels)
 cg n env labels (Lam ids expr) = ([Op "LDF" [Lbl lbl]], (lbl, ((Cmt $ show expr) : inner_code) ++ [Op "RTN" []]) : inner_labels)
@@ -141,6 +146,16 @@ cg n env labels (App (f : rest)) = (code' ++ code'' ++ [Op "AP" [Num $ length re
     where
         (code', labels') = foldl (\(c, l) expr -> let (c', l') = cg n env l expr in (c ++ c', l')) ([], labels) rest
         (code'', labels'') = cg n env labels' f
+cg n env labels (Spec "+" [a, b]) = cg_2 n env labels "ADD" a b
+cg n env labels (Spec "-" [a, b]) = cg_2 n env labels "SUB" a b
+cg n env labels (Spec "*" [a, b]) = cg_2 n env labels "MUL" a b
+cg n env labels (Spec "/" [a, b]) = cg_2 n env labels "DIV" a b
+cg n env labels (Spec "=" [a, b]) = cg_2 n env labels "CEQ" a b
+cg n env labels (Spec ">" [a, b]) = cg_2 n env labels "CGT" a b
+cg n env labels (Spec "<" [a, b]) = cg_2 n env labels "CGT" b a -- funky!
+cg n env labels (Spec ">=" [a, b]) = cg_2 n env labels "CGTE" a b
+cg n env labels (Spec "<=" [a, b]) = cg_2 n env labels "CGTE" b a -- funky!
+cg n env labels (Spec "cons" [a, b]) = cg_2 n env labels "CONS" a b
 cg n env labels expr = ([Cmt $ "WARNING!!! Unable to generate code for {" ++ show expr ++ "}"], labels)
 
 flatten acc [] = acc
