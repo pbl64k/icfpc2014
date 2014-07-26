@@ -3,7 +3,9 @@
 ; [0 - 3] direction scores
 ; [4 - 5] pos. considered
 ; d - direction
-; f - dirs
+; e - best dir
+; f - num of valid dirs, then best score
+; h - opp. dir
 
             mov     d, 0    ; first direction to try
             mov     f, 0    ; number of valid directions
@@ -25,15 +27,61 @@ st_pos:     mov     [4], a
             mov     [5], b
 
 ; check if map square is not a wall
+            get_map_sq
+            jgt     $not_wall, a, 0
+            mov     [d], 255
+            jeq     $sc_loop_x, 0, 0
+not_wall:   add     f, 1
 
 ; find distance for this pos
+            get_lm_1_pos
+            mov     g, [4]
+            mov     h, [5]
+            jlt     $ga, a, g
+            sub     a, g
+            jeq     $ag_done, 0, 0
+ga:         sub     g, a
+            mov     a, g
+ag_done:    jlt     $hb, b, h
+            sub     b, h
+            jeq     $bh_done, 0, 0
+hb:         sub     h, b
+            mov     b, h
+bh_done:    add     a, b
 
 ; write distance
+            mov     [d], a
 
 sc_loop_x:  add     d, 1
             jlt     $sc_loop, d, 4     ; checked all immediate directions
 
 ; pick the best direction
+            jlt     $halt, f, 3     ; no real choice here
 
-            hlt
+            mov     e, 255      ; best so far
+            mov     f, 255      ; score of best so far
+            mov     d, 0
+
+            get_my_ix
+            get_gh_cur_st
+
+            mov     h, b
+            add     h, 2
+            jlt     $pc_loop, h, 4
+            sub     h, 4
+
+; main loop for picking best distance
+pc_loop:    jeq     $pc_loop_x, [d], 255
+            jeq     $pc_loop_x, d, h ; cannot go in the opposite direction
+            jgt     $pc_loop_x, [d], f
+            mov     e, d
+            mov     f, [d]
+
+pc_loop_x:  add     d, 1
+            jlt     $pc_loop, d, 4
+
+            mov     e, a
+            set_dir
+
+halt:       hlt
 

@@ -14,6 +14,45 @@
 	sub	a, 1	; pos_3:
 	mov	[4], a	; st_pos:
 	mov	[5], b
+	int	7
+	jgt	20, a, 0
+	mov	[d], 255
+	jeq	36, 0, 0
+	add	f, 1	; not_wall:
+	int	1
+	mov	g, [4]
+	mov	h, [5]
+	jlt	27, a, g
+	sub	a, g
+	jeq	29, 0, 0
+	sub	g, a	; ga:
+	mov	a, g
+	jlt	32, b, h	; ag_done:
+	sub	b, h
+	jeq	34, 0, 0
+	sub	h, b	; hb:
+	mov	b, h
+	add	a, b	; bh_done:
+	mov	[d], a
 	add	d, 1	; sc_loop_x:
 	jlt	2, d, 4
-	hlt	
+	jlt	57, f, 3
+	mov	e, 255
+	mov	f, 255
+	mov	d, 0
+	int	3
+	int	6
+	mov	h, b
+	add	h, 2
+	jlt	48, h, 4
+	sub	h, 4
+	jeq	53, [d], 255	; pc_loop:
+	jeq	53, d, h
+	jgt	53, [d], f
+	mov	e, d
+	mov	f, [d]
+	add	d, 1	; pc_loop_x:
+	jlt	48, d, 4
+	mov	e, a
+	int	0
+	hlt		; halt:
