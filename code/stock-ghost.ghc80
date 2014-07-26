@@ -1,0 +1,22 @@
+; this is a sample ghost translated back to assembler with labels
+
+                mov     a, 255  ; let's see if comments work
+                mov     b, 0 
+                mov     c, 255  
+
+loop_0:         inc     c
+                jgt     $loop_0_exit, [c], a
+
+                mov     a, [c]  
+                mov     b, c    
+loop_0_exit:    jlt     $loop_0, c, 3  
+        
+                mov     a, b
+                set_dir
+
+                get_my_ix
+                get_gh_cur_st
+                inc     [b]
+
+                hlt
+

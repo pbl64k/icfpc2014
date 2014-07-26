@@ -1,6 +1,7 @@
 ; precompute dot positions? need !0 support
 ; efficient queues?
 ; BFS? all-sources shortest paths in main?
+; with-matrix or somesuch would help? -- prolly not a good idea, no way to index sanely
 (def main
     (fun [arg]
         (cons arg (fun-abi [a b] (step a b)))))
