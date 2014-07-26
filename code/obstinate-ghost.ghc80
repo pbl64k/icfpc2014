@@ -53,9 +53,18 @@ hb:         sub     h, b
             mov     b, h
 bh_done:    add     a, b
 
-; TODO: run away if frightened
+; run away if frightened
+            mov     h, a
+            get_my_ix
+            get_gh_cur_st
+            jeq     $frightened, a, 1
+            jeq     $write_dist, 0, 0
+frightened: mov     g, 255
+            sub     g, h
+            mov     h, g
 
 ; write distance
+write_dist: mov     a, h
             mov     [d], a
 
 sc_loop_x:  add     d, 1
@@ -66,7 +75,7 @@ sc_loop_x:  add     d, 1
 
             mov     e, 255      ; best so far
             mov     f, 255      ; score of best so far
-            mov     d, 0
+            mov     c, 0
 
             get_my_ix
             get_gh_cur_st
@@ -81,8 +90,12 @@ sc_loop_x:  add     d, 1
             mov     g, [6]
 
 ; main loop for picking best distance
-; TODO: add shift by ghost index
-pc_loop:    jeq     $pc_loop_x, [d], 255
+pc_loop:    get_my_ix
+            mov     d, a
+            add     d, c
+            jlt     $d_is_ok, d, 4
+            sub     d, 4
+d_is_ok:    jeq     $pc_loop_x, [d], 255
             jeq     $pc_loop_x, d, h    ; cannot go in the opposite direction
             mov     [8], d
             jlt     $check_rd, [8], 2
@@ -92,8 +105,8 @@ check_rd:   jeq     $pc_loop_x, g, [8]       ; check for many repeated moves in 
             mov     e, d
             mov     f, [d]
 
-pc_loop_x:  add     d, 1
-            jlt     $pc_loop, d, 4
+pc_loop_x:  add     c, 1
+            jlt     $pc_loop, c, 4
 
             mov     a, e
             set_dir
