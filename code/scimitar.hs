@@ -13,7 +13,7 @@ data Op = Cmt String | Label String | Op String [Arg] deriving (Show, Eq, Ord)
 
 keyws = ["def", "fun", "fun-abi", "let", "let*"]
 
-spec = ["+", "-", "*", "/", "=", ">", "<", ">=", "<=", "atom?", "cons", "car", "cdr", "if", "recur", "do"]
+spec = ["+", "-", "*", "/", "=", ">", "<", ">=", "<=", "atom?", "cons", "car", "cdr", "if", "recur", "do", "debug"]
 
 reserved = (`elem` (keyws ++ spec))
 
@@ -200,7 +200,14 @@ cg n env labels (Spec "if" [cond, thn, els]) = (cond_code ++ [Op "TSEL" [Lbl t_l
 cg n env labels (Spec "recur" args) = ([Op "LD" [Num 0, Num 0]] ++ code' ++ [Op "LD" [Num 0, Num 0], Op "TAP" [Num $ succ $ length args]], labels')
     where
         (code', labels') = foldl (\(c, l) expr -> let (c', l') = cg n env l expr in (c ++ c', l')) ([], labels) args
--- Unsupported: do
+cg n env labels (Spec "do" []) = ([], labels)
+cg n env labels (Spec "do" (expr : rest)) = (code' ++ code'', labels')
+    where
+        (code', labels') = cg n env labels expr
+        (code'', labels'') = cg n env labels' (Spec "do" rest)
+cg n env labels (Spec "debug" [expr]) = (code' ++ [Op "DBUG" []], labels')
+    where
+        (code', labels') = cg n env labels expr
 cg n env labels expr = ([Cmt $ "WARNING!!! Unable to generate code for {" ++ show expr ++ "}"], labels)
 
 flatten acc [] = acc

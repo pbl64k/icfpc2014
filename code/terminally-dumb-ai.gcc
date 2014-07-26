@@ -1,38 +1,38 @@
 	DUM	60
 	LDF	120
-	LDF	192
-	LDF	200
-	LDF	226
-	LDF	230
-	LDF	268
-	LDF	272
-	LDF	305
-	LDF	309
-	LDF	327
-	LDF	348
-	LDF	352
-	LDF	377
-	LDF	406
+	LDF	183
+	LDF	191
+	LDF	217
+	LDF	221
+	LDF	259
+	LDF	263
+	LDF	296
+	LDF	300
+	LDF	318
+	LDF	339
+	LDF	343
+	LDF	368
+	LDF	397
+	LDF	407
+	LDC	0
+	LDC	1
+	LDC	0
+	CONS	
+	LDC	-1
+	LDC	0
+	CONS	
+	LDC	0
+	LDC	1
+	CONS	
+	LDC	0
+	LDC	-1
+	CONS	
+	LDC	0
+	CONS	
+	CONS	
+	CONS	
+	CONS	
 	LDF	416
-	LDC	0
-	LDC	1
-	LDC	0
-	CONS	
-	LDC	-1
-	LDC	0
-	CONS	
-	LDC	0
-	LDC	1
-	CONS	
-	LDC	0
-	LDC	-1
-	CONS	
-	LDC	0
-	CONS	
-	CONS	
-	CONS	
-	CONS	
-	LDF	425
 	LDC	0
 	LDC	1
 	LDC	2
@@ -47,30 +47,30 @@
 	LDC	2
 	LDC	3
 	LDC	2
-	LDF	439
-	LDF	445
-	LDF	451
-	LDF	457
-	LDF	463
-	LDF	467
-	LDF	471
-	LDF	475
-	LDF	479
-	LDF	483
-	LDF	487
-	LDF	491
-	LDF	497
-	LDF	503
-	LDF	509
-	LDF	515
-	LDF	521
-	LDF	527
-	LDF	533
-	LDF	539
-	LDF	543
-	LDF	547
-	LDF	551
-	LDF	554
+	LDF	430
+	LDF	436
+	LDF	442
+	LDF	448
+	LDF	454
+	LDF	458
+	LDF	462
+	LDF	466
+	LDF	470
+	LDF	474
+	LDF	478
+	LDF	482
+	LDF	488
+	LDF	494
+	LDF	500
+	LDF	506
+	LDF	512
+	LDF	518
+	LDF	524
+	LDF	530
+	LDF	534
+	LDF	538
+	LDF	542
+	LDF	545
 	LDC	0
 	LDC	1
 	LDC	0
@@ -109,7 +109,7 @@
 	LDC	0
 	CONS	
 	LDC	0
-	LDF	557
+	LDF	548
 	RAP	60
 	RTN	
 ; lambda_0:
@@ -120,7 +120,7 @@
 	AP	3
 	RTN	
 ; lambda_1:
-	LDC	0
+	LD	0 1
 	LDF	114
 	CONS	
 	RTN	
@@ -140,55 +140,45 @@
 	LD	6 14
 	AP	3
 	RTN	
-; lambda_4:
-	LD	7 12
-	LD	0 1
-	CDR	
-	LD	1 0
-	LD	7 12
-	AP	3
-	RTN	
-; let_5:
+; let_4:
 	LD	5 1
-	LD	6 4
-	LDF	138
-	LD	6 17
-	LD	6 17
-	AP	1
-	LD	6 4
-	AP	3
-	CAR	
-	CAR	
+	LDC	3
 	CONS	
 	RTN	
-; let_6:
+; let_5:
 	DUM	1
+	LD	3 0
+	DBUG	
+	LD	2 0
+	DBUG	
+	LD	1 0
+	DBUG	
 	LD	1 0
 	CAR	
-	LDF	145
+	LDF	138
 	RAP	1
 	RTN	
-; let_7:
+; let_6:
 	DUM	1
 	LD	5 4
 	LDF	132
 	LD	1 0
 	LD	5 4
 	AP	3
-	LDF	157
+	LDF	142
 	RAP	1
 	RTN	
-; let_8:
+; let_7:
 	DUM	1
 	LD	4 2
 	LDF	124
 	LD	4 16
 	LD	4 2
 	AP	3
-	LDF	163
+	LDF	154
 	RAP	1
 	RTN	
-; let_9:
+; let_8:
 	DUM	1
 	LD	3 44
 	LD	3 33
@@ -197,19 +187,19 @@
 	AP	2
 	LD	3 44
 	AP	2
-	LDF	172
+	LDF	163
 	RAP	1
 	RTN	
-; lambda_10:
+; lambda_9:
 	DUM	1
 	LD	2 32
 	LD	1 2
 	LD	2 32
 	AP	2
-	LDF	181
+	LDF	172
 	RAP	1
 	RTN	
-; lambda_11:
+; lambda_10:
 	LD	1 8
 	LD	1 3
 	LD	1 15
@@ -220,10 +210,10 @@
 	LD	1 8
 	AP	2
 	RTN	
-; then_12:
+; then_11:
 	LD	0 1
 	RTN	
-; else_13:
+; else_12:
 	LD	0 0
 	LD	0 2
 	LD	0 3
@@ -238,12 +228,12 @@
 	LD	0 0
 	TAP	4
 	RTN	
-; lambda_14:
+; lambda_13:
 	LD	0 3
 	ATOM	
-	TSEL	210 212
+	TSEL	201 203
 	RTN	
-; lambda_15:
+; lambda_14:
 	LD	1 8
 	LD	1 5
 	LD	1 15
@@ -254,15 +244,24 @@
 	LD	1 8
 	AP	2
 	RTN	
-; then_16:
+; then_15:
 	LD	0 1
 	RTN	
-; then_17:
+; then_16:
 	LD	0 0
 	LD	0 3
 	CAR	
 	LD	0 1
 	CONS	
+	LD	0 2
+	LD	0 3
+	CDR	
+	LD	0 0
+	TAP	4
+	RTN	
+; else_17:
+	LD	0 0
+	LD	0 1
 	LD	0 2
 	LD	0 3
 	CDR	
@@ -270,28 +269,19 @@
 	TAP	4
 	RTN	
 ; else_18:
-	LD	0 0
-	LD	0 1
-	LD	0 2
-	LD	0 3
-	CDR	
-	LD	0 0
-	TAP	4
-	RTN	
-; else_19:
 	LD	0 2
 	LD	0 3
 	CAR	
 	LD	0 2
 	AP	2
-	TSEL	242 253
+	TSEL	233 244
 	RTN	
-; lambda_20:
+; lambda_19:
 	LD	0 3
 	ATOM	
-	TSEL	240 261
+	TSEL	231 252
 	RTN	
-; lambda_21:
+; lambda_20:
 	LD	1 8
 	LD	1 7
 	LD	1 15
@@ -302,13 +292,13 @@
 	LD	1 8
 	AP	2
 	RTN	
+; then_21:
+	LD	0 1
+	RTN	
 ; then_22:
 	LD	0 1
 	RTN	
-; then_23:
-	LD	0 1
-	RTN	
-; else_24:
+; else_23:
 	LD	0 0
 	LD	0 2
 	CAR	
@@ -324,27 +314,27 @@
 	LD	0 0
 	TAP	4
 	RTN	
-; else_25:
+; else_24:
 	LD	0 3
 	ATOM	
-	TSEL	284 286
+	TSEL	275 277
 	RTN	
-; lambda_26:
+; lambda_25:
 	LD	0 2
 	ATOM	
-	TSEL	282 301
+	TSEL	273 292
 	RTN	
-; lambda_27:
+; lambda_26:
 	LD	1 9
 	LD	1 15
 	LD	0 1
 	LD	1 9
 	AP	3
 	RTN	
-; then_28:
+; then_27:
 	LD	0 1
 	RTN	
-; else_29:
+; else_28:
 	LD	0 0
 	LD	0 2
 	CAR	
@@ -355,15 +345,15 @@
 	LD	0 0
 	TAP	3
 	RTN	
-; lambda_30:
+; lambda_29:
 	LD	0 2
 	ATOM	
-	TSEL	315 317
+	TSEL	306 308
 	RTN	
-; then_31:
+; then_30:
 	LD	0 2
 	RTN	
-; then_32:
+; then_31:
 	LD	0 0
 	LD	0 1
 	LDC	1
@@ -373,20 +363,20 @@
 	LD	0 0
 	TAP	3
 	RTN	
-; else_33:
+; else_32:
 	LD	0 2
 	CAR	
 	RTN	
-; else_34:
+; else_33:
 	LD	0 1
-	TSEL	333 342
+	TSEL	324 333
 	RTN	
-; lambda_35:
+; lambda_34:
 	LD	0 2
 	ATOM	
-	TSEL	331 345
+	TSEL	322 336
 	RTN	
-; lambda_36:
+; lambda_35:
 	LD	0 1
 	CAR	
 	LD	0 2
@@ -399,38 +389,38 @@
 	ADD	
 	CONS	
 	RTN	
-; then_37:
+; then_36:
 	LDC	1
 	RTN	
-; else_38:
+; else_37:
 	LDC	0
 	RTN	
-; then_39:
+; then_38:
 	LD	0 1
 	CDR	
 	LD	0 2
 	CDR	
 	CEQ	
-	TSEL	364 366
+	TSEL	355 357
 	RTN	
-; else_40:
+; else_39:
 	LDC	0
 	RTN	
-; lambda_41:
+; lambda_40:
 	LD	0 1
 	CAR	
 	LD	0 2
 	CAR	
 	CEQ	
-	TSEL	368 375
+	TSEL	359 366
+	RTN	
+; then_41:
+	LDC	0
 	RTN	
 ; then_42:
 	LDC	0
 	RTN	
-; then_43:
-	LDC	0
-	RTN	
-; else_44:
+; else_43:
 	LD	1 10
 	LD	0 2
 	CDR	
@@ -443,36 +433,36 @@
 	LD	1 10
 	AP	3
 	RTN	
-; else_45:
+; else_44:
 	LDC	0
 	LD	0 2
 	CDR	
 	CGT	
-	TSEL	386 388
+	TSEL	377 379
 	RTN	
-; lambda_46:
+; lambda_45:
 	LDC	0
 	LD	0 2
 	CAR	
 	CGT	
-	TSEL	384 400
+	TSEL	375 391
 	RTN	
-; let_47:
+; let_46:
 	LD	0 0
 	LD	2 18
 	CGT	
 	RTN	
-; lambda_48:
+; lambda_47:
 	DUM	1
 	LD	2 13
 	LD	1 1
 	LD	1 2
 	LD	2 13
 	AP	3
-	LDF	412
+	LDF	403
 	RAP	1
 	RTN	
-; lambda_49:
+; lambda_48:
 	LD	1 6
 	LD	1 29
 	LD	1 27
@@ -487,149 +477,150 @@
 	LD	1 6
 	AP	3
 	RTN	
-; lambda_50:
+; lambda_49:
 	LD	1 10
 	LDC	0
+	LD	0 1
+	LD	1 10
+	AP	3
+	RTN	
+; lambda_50:
+	LD	1 10
+	LDC	1
 	LD	0 1
 	LD	1 10
 	AP	3
 	RTN	
 ; lambda_51:
 	LD	1 10
-	LDC	1
+	LDC	2
 	LD	0 1
 	LD	1 10
 	AP	3
 	RTN	
 ; lambda_52:
 	LD	1 10
-	LDC	2
-	LD	0 1
-	LD	1 10
-	AP	3
-	RTN	
-; lambda_53:
-	LD	1 10
 	LDC	3
 	LD	0 1
 	LD	1 10
 	AP	3
 	RTN	
-; lambda_54:
+; lambda_53:
 	LD	0 1
 	LD	1 18
 	CEQ	
 	RTN	
-; lambda_55:
+; lambda_54:
 	LD	0 1
 	LD	1 19
 	CEQ	
 	RTN	
-; lambda_56:
+; lambda_55:
 	LD	0 1
 	LD	1 20
 	CEQ	
 	RTN	
-; lambda_57:
+; lambda_56:
 	LD	0 1
 	LD	1 21
 	CEQ	
 	RTN	
-; lambda_58:
+; lambda_57:
 	LD	0 1
 	LD	1 22
 	CEQ	
 	RTN	
-; lambda_59:
+; lambda_58:
 	LD	0 1
 	LD	1 23
 	CEQ	
 	RTN	
-; lambda_60:
+; lambda_59:
 	LD	0 1
 	LD	1 24
 	CEQ	
 	RTN	
-; lambda_61:
+; lambda_60:
 	LD	1 10
 	LDC	0
+	LD	0 1
+	LD	1 10
+	AP	3
+	RTN	
+; lambda_61:
+	LD	1 10
+	LDC	1
 	LD	0 1
 	LD	1 10
 	AP	3
 	RTN	
 ; lambda_62:
 	LD	1 10
-	LDC	1
+	LDC	2
 	LD	0 1
 	LD	1 10
 	AP	3
 	RTN	
 ; lambda_63:
 	LD	1 10
-	LDC	2
+	LDC	3
 	LD	0 1
 	LD	1 10
 	AP	3
 	RTN	
 ; lambda_64:
 	LD	1 10
-	LDC	3
+	LDC	4
 	LD	0 1
 	LD	1 10
 	AP	3
 	RTN	
 ; lambda_65:
 	LD	1 10
-	LDC	4
+	LDC	0
 	LD	0 1
 	LD	1 10
 	AP	3
 	RTN	
 ; lambda_66:
 	LD	1 10
-	LDC	0
+	LDC	1
 	LD	0 1
 	LD	1 10
 	AP	3
 	RTN	
 ; lambda_67:
 	LD	1 10
-	LDC	1
-	LD	0 1
-	LD	1 10
-	AP	3
-	RTN	
-; lambda_68:
-	LD	1 10
 	LDC	2
 	LD	0 1
 	LD	1 10
 	AP	3
 	RTN	
-; lambda_69:
+; lambda_68:
 	LD	0 1
 	LD	1 25
 	CEQ	
 	RTN	
-; lambda_70:
+; lambda_69:
 	LD	0 1
 	LD	1 26
 	CEQ	
 	RTN	
-; lambda_71:
+; lambda_70:
 	LD	0 1
 	LD	1 31
 	CEQ	
 	RTN	
-; lambda_72:
+; lambda_71:
 	LD	0 1
 	CAR	
 	RTN	
-; lambda_73:
+; lambda_72:
 	LD	0 1
 	CDR	
 	RTN	
-; let_74:
+; let_73:
+	LD	0 0
 	LD	0 1
 	LDC	0
 	LD	0 56
@@ -641,4 +632,6 @@
 	CONS	
 	LD	0 1
 	AP	3
+	LD	0 0
+	AP	2
 	RTN	
