@@ -8,13 +8,38 @@
             [loc (lm-loc (ws-lmst world-state))]
             [move-cells (map (fun [d] (vec-+ d loc)) neighbors)]
             [valid-cells (filter (fun [pos] (valid-cell? wmap pos)) move-cells)]
-            ; and now with comments
-            [stupid-cell (do (debug (map (fun [pos] (m-ix wmap pos)) move-cells)) (debug loc) (debug move-cells) (debug valid-cells) (car valid-cells))]
+            [cell-costs (map-map (fun [x] (ai-score world-state x)) valid-cells)]
+            [best-cost (pick-best cell-costs)]
+            [best-cell (car best-cost)]
             [nb-movs (nb-moves)]
-            [match (filter (fun [mv] (vec-=? (vec-+ (cdr mv) loc) stupid-cell)) nb-movs)]
-            [best-move (do (debug match) (car (car match)))]
+            [match (filter (fun [mv] (vec-=? (vec-+ (cdr mv) loc) best-cell)) nb-movs)]
+            [best-move (do (debug cell-costs) (debug best-cost) (debug match) (car (car match)))]
             )
             (cons ai-state best-move))))
+(def ai-score
+    (fun [ws pos]
+        (let* (
+            [wmap (ws-map ws)]
+            [cell (m-ix wmap pos)]
+            [csc (cell-score cell)]
+            )
+            (+ 0 csc))))
+(def pick-best
+    (fun [xs]
+        (pick-best-acc (car xs) (cdr xs))))
+(def pick-best-acc
+    (fun [acc xs]
+        (if [atom? xs]
+            acc
+            (if [> (cdr (car xs)) (cdr acc)]
+                (pick-best-acc (car xs) (cdr xs))
+                (pick-best-acc acc (cdr xs))))))
+(def foldl
+    (fun [f init xs]
+        (if [atom? xs]
+            init
+            (recur f (f init (car xs)) (cdr xs)))))
+(def map-map (fun [f xs] (map (fun [x] (cons x (f x))) xs)))
 (def map (fun [f xs] (reverse (map-rev NIL f xs))))
 (def map-rev
     (fun [acc f xs]
@@ -50,6 +75,8 @@
             (if ix
                 (recur (- ix 1) (cdr xs))
                 (car xs)))))
+(def sum (fun [xs] (foldl (fun [a b] (+ a b)) 0 xs)))
+(def prod (fun [xs] (foldl (fun [a b] (* a b)) 0 xs)))
 (def vec-+
     (fun [a b]
         (cons (+ (car a) (car b)) (+ (cdr a) (cdr b)))))
@@ -73,6 +100,13 @@
             [st (m-ix wmap pos)]
             )
             (> st M-WALL))))
+(def cell-score
+    (fun [cell]
+        (if [= cell M-PILL]
+            10
+            (if [= cell M-PPILL]
+                50
+                0))))
 (def NIL 0)
 (def neighbors (cons (cons 1 0) (cons (cons -1 0) (cons (cons 0 1) (cons (cons 0 -1) 0)))))
 (def nb-moves (fun [] (zip (cons DIR-RT (cons DIR-LT (cons DIR-DN (cons DIR-UP NIL)))) neighbors)))
@@ -119,6 +153,6 @@
 (def test-ghs (cons (cons 0 (cons (cons 1 2) 3)) 0))
 (def test-frs 0)
 (do
-    (debug (step 0 (cons test-map (cons test-lms (cons test-ghs test-frs)))))
+    ;(debug (step 0 (cons test-map (cons test-lms (cons test-ghs test-frs)))))
     (main 0))
 

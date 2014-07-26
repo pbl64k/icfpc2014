@@ -24,7 +24,7 @@ p_whitespace = p_oneof [' ', '\t', '\r', '\n']
 p_comment = do
     char ';'
     many $ satisfy (/= '\n')
-    return ' '
+    char '\n'
 
 p_wsc = choice [p_whitespace, p_comment]
 
@@ -195,6 +195,7 @@ cg n env labels (Spec "atom?" [a]) = cg_1 n env labels "ATOM" a
 cg n env labels (Spec "cons" [a, b]) = cg_2 n env labels "CONS" a b
 cg n env labels (Spec "car" [a]) = cg_1 n env labels "CAR" a
 cg n env labels (Spec "cdr" [a]) = cg_1 n env labels "CDR" a
+-- if's MUST be in tail position!!!
 cg n env labels (Spec "if" [cond, thn, els]) = (cond_code ++ [Op "TSEL" [Lbl t_lbl, Lbl e_lbl]], (e_lbl, els_code ++ [Op "RTN" []]) : labels''')
     where
         (cond_code, labels') = cg n env labels cond
