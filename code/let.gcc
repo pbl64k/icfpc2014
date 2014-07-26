@@ -1,21 +1,40 @@
 	DUM	1
-	LDF	7
-	LDF	15
+	LDF	26
+	LDF	31
 	RAP	1
 	RTN	
-; let_0:
+; lambda_0:
 	LD	0 1
-	RTN	
-; lambda_1:
-	DUM	2
 	LDC	1
+	ADD	
+	RTN	
+; let_1:
 	LD	0 0
 	LDC	1
 	ADD	
-	LDF	5
-	RAP	2
 	RTN	
 ; let_2:
+	DUM	1
+	LD	1 0
+	LD	2 0
+	LD	1 0
+	AP	2
+	LDF	9
+	RAP	1
+	RTN	
+; let_3:
+	DUM	1
+	LDF	5
+	LDF	13
+	RAP	1
+	RTN	
+; lambda_4:
+	DUM	1
+	LDC	1
+	LDF	21
+	RAP	1
+	RTN	
+; let_5:
 	LD	0 0
 	LD	0 0
 	AP	1

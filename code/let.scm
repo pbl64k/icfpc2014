@@ -1,8 +1,9 @@
 (def f
     (fun []
-        (let (
+        (let* (
             [a 1]
-            [b (+ a 1)]
+            [g (fun [x] (+ x 1))]
+            [b (g a)]
             )
-            b)))
+            (+ b 1))))
 (f)

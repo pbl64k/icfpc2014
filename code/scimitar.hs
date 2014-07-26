@@ -5,13 +5,13 @@ import Text.ParserCombinators.ReadP
 
 import System.IO.Unsafe
 
-data Ast = Lit Int | Var String | Lam [String] Ast | LamAbi [String] Ast | Let [(String, Ast)] Ast | App [Ast] | Spec String [Ast] deriving (Show, Eq, Ord)
+data Ast = Lit Int | Var String | Lam [String] Ast | LamAbi [String] Ast | Let Bool [(String, Ast)] Ast | App [Ast] | Spec String [Ast] deriving (Show, Eq, Ord)
 data Program = Prog [(String, Ast)] Ast deriving (Show, Eq, Ord)
 
 data Arg = Num Int | Lbl String deriving (Show, Eq, Ord)
 data Op = Cmt String | Label String | Op String [Arg] deriving (Show, Eq, Ord)
 
-keyws = ["def", "fun", "fun-abi", "let"]
+keyws = ["def", "fun", "fun-abi", "let", "let*"]
 
 spec = ["+", "-", "*", "/", "=", ">", "<", ">=", "<=", "atom?", "cons", "car", "cdr", "if", "recur", "do"]
 
@@ -95,12 +95,13 @@ p_lamabi = p_par $ do
 
 p_let = p_par $ do
     string "let"
+    flag <- option False (char '*' >> return True)
     p_ws
     vars <- p_par (p_varp `sepBy1` p_ws)
     p_ws
     expr <- p_expr
     p_ows
-    return (Let vars expr)
+    return (Let flag vars expr)
 
 p_app = do
     exprs <- p_par (p_expr `sepBy1` p_ws)
@@ -161,13 +162,15 @@ cg n env labels (Lam ids expr) = ([Op "LDF" [Lbl lbl]], (lbl, inner_code ++ [Op 
         env' = foldl (\e (ix, name) -> M.insert name (succ n, ix) e) env ([0 ..] `zip` ("$@recur" : ids))
         (inner_code, inner_labels) = cg (succ n) env' labels expr
         lbl = "lambda_" ++ (show $ length inner_labels)
--- OK, so I know what's going on here. let is not recursive.
-cg n env labels (Let defs expr) = ([Op "DUM" [Num $ length defs]] ++ code' ++ [Op "LDF" [Lbl lbl], Op "RAP" [Num $ length defs]], (lbl, inner_code ++ [Op "RTN" []]) : inner_labels)
+-- Mind the *
+cg n env labels (Let False defs expr) = ([Op "DUM" [Num $ length defs]] ++ code' ++ [Op "LDF" [Lbl lbl], Op "RAP" [Num $ length defs]], (lbl, inner_code ++ [Op "RTN" []]) : inner_labels)
     where
         env' = foldl (\e (ix, name) -> M.insert name (succ n, ix) e) env ([0 ..] `zip` (fst `map` defs))
         (code', labels') = foldl (\(c, l) expr -> let (c', l') = cg (succ n) env' l expr in (c ++ c', l')) ([], labels) (snd `map` defs)
         (inner_code, inner_labels) = cg (succ n) env' labels' expr
         lbl = "let_" ++ (show $ length inner_labels)
+cg n env labels (Let True [] expr) = cg n env labels expr
+cg n env labels (Let True (def : defs) expr) = cg n env labels (Let False [def] (Let True defs expr))
 cg n env labels (App all@(f : rest)) = (code' ++ code'' ++ [Op "AP" [Num $ succ $ length rest]], labels'')
     where
         (code', labels') = foldl (\(c, l) expr -> let (c', l') = cg n env l expr in (c ++ c', l')) ([], labels) all
@@ -214,7 +217,7 @@ out lbls (Op name args) = "\t" ++ name ++ "\t" ++ (" " `intercalate` ((outarg lb
 
 codegen (Prog defs expr) = "\n" `intercalate` ((out lbls) `map` flat_code)
     where
-        (code, labels) = cg (-1) M.empty [] (Let defs expr)
+        (code, labels) = cg (-1) M.empty [] (Let False defs expr)
         (_, lbls, fc) = foldl (\acc (lbl, code) -> flatten acc ((Label lbl) : code)) (flatten (0, M.empty, []) (code ++ [Op "RTN" []])) (reverse labels)
         flat_code = reverse fc
 

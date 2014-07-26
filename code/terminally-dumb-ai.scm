@@ -1,14 +1,16 @@
 (def main
     (fun []
-        (cons 0 step)))
+        (cons 0 (fun-abi [a b] (step a b)))))
 (def step
-    (fun-abi [ai-state world-state]
-        (let (
+    (fun [ai-state world-state]
+        (let* (
             [wmap (ws-map world-state)]
             [loc (lm-loc (ws-lmst world-state))]
             [move-cells (map (fun [d] (vec-add d (cons 0 0))) neighbors)]
+            [valid-cells (filter (fun [pos] (valid-cell? wmap pos)) move-cells)]
+            [stupid-cell (car valid-cells)]
             )
-            (cons ai-state DIR-LT))))
+            (cons ai-state (car (car (filter (fun [mv] (vec-=? (cdr mv) stupid-cell)) (nb-moves))))))))
 (def map (fun [f xs] (reverse (map-rev NIL f xs))))
 (def map-rev
     (fun [acc f xs]
@@ -108,4 +110,8 @@
 (def gh-inv? (fun [vit] (= vit GH-INV)))
 (def loc-x (fun [loc] (car loc)))
 (def loc-y (fun [loc] (cdr loc)))
-(main)
+(def test-map (cons (cons 0 (cons 1 (cons 0 0))) (cons (cons 0 (cons 1 (cons 2 0))) 0)))
+(def test-lms (cons 0 (cons (cons 1 1) (cons 0 (cons 3 100)))))
+(def test-ghs (cons (cons 0 (cons (cons 1 2) 3)) 0))
+(def test-frs 0)
+(step 0 (cons test-map (cons test-lms (cons test-ghs test-frs))))
