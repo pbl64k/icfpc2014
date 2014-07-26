@@ -1,4 +1,3 @@
-; precompute dot positions? need (!0) support
 ; efficient queues?
 ; BFS?
 ; all-sources shortest paths in main?
