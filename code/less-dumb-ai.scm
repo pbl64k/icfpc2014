@@ -1,11 +1,13 @@
 ; precompute dot positions? need (!0) support
 ; efficient queues?
-; BFS? all-sources shortest paths in main?
+; BFS?
+; all-sources shortest paths in main?
 ; with-matrix or somesuch would help? -- prolly not a good idea, no way to index sanely
 ; try to eat the friggin' fruit?
+; binary tree for fast map lookups?
 (def main
-    (fun [arg]
-        (cons arg (fun-abi [a b] (step a b)))))
+    (fun [world-state]
+        (cons (ai-cons 0) (fun-abi [a b] (step a b)))))
 (def step
     (fun [ai-state world-state]
         (let* (
@@ -245,5 +247,6 @@
 (def test-frs 0)
 (do
     ;(debug (step (ai-cons 0) (cons test-map (cons test-lms (cons test-ghs test-frs)))))
-    (main (ai-cons 0)))
+    ;(!0 1) retrieves the zeroth argument passed by external caller
+    (main (!0 1)))
 
