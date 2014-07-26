@@ -56,8 +56,17 @@
                     GHOST-PROXIMITY-THRESHOLD)))))
 (def nearest-food
     (fun [ws]
-        ; doesn't work ATM, obviously
-        (lm-loc (ws-lmst ws))))
+        (let* (
+            [wmap (ws-map ws)]
+            [loc (lm-loc (ws-lmst ws))]
+            [h (length wmap)]
+            [w (length (car wmap))]
+            [ps (cart w h)]
+            [fs (filter (fun [p] (> (cell-score (m-ix wmap p)) 0)) ps)]
+            [ffs (map-map (fun [p] (- 0 (vec-l1-dist loc p))) fs)]
+            )
+            ;(lm-loc (ws-lmst ws)))))
+            (car (pick-best ffs)))))
 (def pick-best
     (fun [xs]
         (pick-best-acc (car xs) (cdr xs))))
@@ -68,6 +77,14 @@
             (if [> (cdr (car xs)) (cdr acc)]
                 (pick-best-acc (car xs) (cdr xs))
                 (pick-best-acc acc (cdr xs))))))
+(def cart (fun [x y] (cart-acc 0 0 0 x y)))
+(def cart-acc
+    (fun [acc x y w h]
+        (if [= x w]
+            (if [= y h]
+                acc
+                (recur acc 0 (+ y 1) w h))
+            (recur (cons (cons x y) acc) (+ x 1) y w h))))
 (def foldl
     (fun [f init xs]
         (if [atom? xs]
