@@ -2,9 +2,12 @@
 
 ; [0 - 3] direction scores
 ; [4 - 5] pos. considered
+; [6 - 7] repeated moves (dir, num)
+; [8] scratch for cons. dir
 ; d - direction
 ; e - best dir
 ; f - num of valid dirs, then best score
+; g - banned dir
 ; h - opp. dir
 
             mov     d, 0    ; first direction to try
@@ -34,6 +37,7 @@ st_pos:     mov     [4], a
 not_wall:   add     f, 1
 
 ; find distance for this pos
+; TODO? handle large maps - will overflow
             get_lm_1_pos
             mov     g, [4]
             mov     h, [5]
@@ -48,6 +52,8 @@ ag_done:    jlt     $hb, b, h
 hb:         sub     h, b
             mov     b, h
 bh_done:    add     a, b
+
+; TODO: run away if frightened
 
 ; write distance
             mov     [d], a
@@ -70,9 +76,18 @@ sc_loop_x:  add     d, 1
             jlt     $pc_loop, h, 4
             sub     h, 4
 
+            mov     g, 4
+            jlt     $pc_loop, [7], 4
+            mov     g, [6]
+
 ; main loop for picking best distance
+; TODO: add shift by ghost index
 pc_loop:    jeq     $pc_loop_x, [d], 255
-            jeq     $pc_loop_x, d, h ; cannot go in the opposite direction
+            jeq     $pc_loop_x, d, h    ; cannot go in the opposite direction
+            mov     [8], d
+            jlt     $check_rd, [8], 2
+            sub     [8], 2
+check_rd:   jeq     $pc_loop_x, g, [8]       ; check for many repeated moves in the same direction
             jgt     $pc_loop_x, [d], f
             mov     e, d
             mov     f, [d]
@@ -82,6 +97,22 @@ pc_loop_x:  add     d, 1
 
             mov     a, e
             set_dir
+
+            jlt     $check_dir, a, 2
+            sub     a, 2
+check_dir:  jeq     $inc_cnt, a, [6]
+            mov     [6], a
+            mov     [7], 1
+            jeq     $inc_done, 0, 0
+inc_cnt:    inc     [7]
+inc_done:   mov     a, a        ; nop
+
+; DEBUG
+;            mov     a, [6]
+;            mov     b, [7]
+;            mov     c, 0
+;            mov     d, 0
+;            debug
 
 ; DEBUG
 ;            mov     a, [0]

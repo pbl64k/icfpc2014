@@ -1,7 +1,8 @@
-; precompute dot positions? need !0 support
+; precompute dot positions? need (!0) support
 ; efficient queues?
 ; BFS? all-sources shortest paths in main?
 ; with-matrix or somesuch would help? -- prolly not a good idea, no way to index sanely
+; try to eat the friggin' fruit?
 (def main
     (fun [arg]
         (cons arg (fun-abi [a b] (step a b)))))
@@ -211,7 +212,8 @@
 (def DIR-RT 1)
 (def DIR-DN 2)
 (def DIR-LT 3)
-(def GHOST-PROXIMITY-THRESHOLD 8)
+; also tried 5 and 8 -- seems to be too fidgety at 8
+(def GHOST-PROXIMITY-THRESHOLD 6)
 (def ai-rct (fun [ai] (ith 0 ai)))
 (def ws-map (fun [ws] (ith 0 ws)))
 (def ws-lmst (fun [ws] (ith 1 ws)))
