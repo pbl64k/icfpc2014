@@ -6,7 +6,7 @@
         (let* (
             [wmap (ws-map world-state)]
             [loc (lm-loc (ws-lmst world-state))]
-            [move-cells (map (fun [d] (vec-add d (cons 0 0))) neighbors)]
+            [move-cells (map (fun [d] (vec-add d loc)) neighbors)]
             [valid-cells (filter (fun [pos] (valid-cell? wmap pos)) move-cells)]
             [stupid-cell (do (debug loc) (debug move-cells) (debug valid-cells) (car valid-cells))]
             )
@@ -114,5 +114,7 @@
 (def test-lms (cons 0 (cons (cons 1 1) (cons 0 (cons 3 100)))))
 (def test-ghs (cons (cons 0 (cons (cons 1 2) 3)) 0))
 (def test-frs 0)
-(main (step 0 (cons test-map (cons test-lms (cons test-ghs test-frs)))))
+(do
+    (debug (step 0 (cons test-map (cons test-lms (cons test-ghs test-frs)))))
+    (main 0))
 
