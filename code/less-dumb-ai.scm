@@ -1,4 +1,3 @@
-; binary tree for fast map lookups?
 ; try to eat the friggin' fruit?
 ; efficient queues?
 ; BFS?
@@ -11,10 +10,11 @@
     (fun [ws]
         (let* (
             [wmap (ws-map ws)]
+            [bstmap (cons-bst-map wmap)]
             [h (length wmap)]
             [w (length (car wmap))]
             [ps (cart w h)]
-            [fs (filter (fun [p] (> (cell-score (m-ix wmap p)) 0)) ps)]
+            [fs (filter (fun [p] (> (cell-score (bstm-ix bstmap p)) 0)) ps)]
             )
             (cons (ai-cons 0 fs) (fun-abi [a b] (step a b))))))
 (def step
