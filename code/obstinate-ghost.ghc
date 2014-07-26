@@ -45,7 +45,7 @@
 	mov	[d], a
 	add	d, 1	; sc_loop_x:
 	jlt	2, d, 4
-	jlt	89, f, 3
+	jlt	90, f, 3
 	mov	e, 255
 	mov	f, 255
 	mov	c, 0
@@ -77,14 +77,15 @@
 	mov	f, [d]
 	add	c, 1	; pc_loop_x:
 	jlt	60, c, 4
+	jgt	90, e, 3
 	mov	a, e
 	int	0
-	jlt	83, a, 2
+	jlt	84, a, 2
 	sub	a, 2
-	jeq	87, a, [6]	; check_dir:
+	jeq	88, a, [6]	; check_dir:
 	mov	[6], a
 	mov	[7], 1
-	jeq	88, 0, 0
+	jeq	89, 0, 0
 	inc	[7]	; inc_cnt:
 	mov	a, a	; inc_done:
 	hlt		; halt:

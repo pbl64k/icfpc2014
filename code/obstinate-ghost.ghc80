@@ -111,6 +111,8 @@ check_rd:   jeq     $pc_loop_x, g, [8]      ; check for many repeated moves in t
 pc_loop_x:  add     c, 1
             jlt     $pc_loop, c, 4
 
+; TODO? Figure out how the heck does that happen?
+            jgt     $halt, e, 3     ; WHOA! that really shouldn't happen
             mov     a, e
             set_dir
 
