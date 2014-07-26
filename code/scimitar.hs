@@ -242,9 +242,13 @@ codegen (Prog defs expr) = "\n" `intercalate` ((out lbls) `map` flat_code)
         flat_code = reverse fc
 
 main = do
+    hPutStrLn stderr "Scimitar compiler v0.0"
     input <- getContents
     let ast = p_program `readP_to_S` input
     if length ast /= 1
         then hPutStrLn stderr $ "No parse or multiple parses -- " ++ show (length ast) ++ " found."
-        else putStrLn $ codegen (fst $ head ast)
+        else do
+            putStrLn $ codegen (fst $ head ast)
+            hPutStrLn stderr "Task complete."
+            hPutStrLn stderr ""
 
