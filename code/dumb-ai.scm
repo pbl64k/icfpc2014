@@ -45,7 +45,7 @@
 (def ghost-factor
     (fun [v]
         (if [= v GH-STD]
-            2
+            5
             (if [= v GH-FEAR]
                 -1
                 0))))
@@ -54,7 +54,7 @@
         (let (
             [d (vec-l1-dist lm gh)]
             )
-            (if [= d 0] ; DEATH IMMINENT
+            (if [<= d 1] ; DEATH IMMINENT
                 -9000
                 (if [< d GHOST-PROXIMITY-THRESHOLD]
                     d
@@ -70,7 +70,6 @@
             [fs (filter (fun [p] (> (cell-score (m-ix wmap p)) 0)) ps)]
             [ffs (map-map (fun [p] (- 0 (vec-l1-dist loc p))) fs)]
             )
-            ;(lm-loc (ws-lmst ws)))))
             (car (pick-best ffs)))))
 (def ai-cons
     (fun [recent-cells]
@@ -208,7 +207,7 @@
 (def DIR-RT 1)
 (def DIR-DN 2)
 (def DIR-LT 3)
-(def GHOST-PROXIMITY-THRESHOLD 5)
+(def GHOST-PROXIMITY-THRESHOLD 8)
 (def ai-rct (fun [ai] (ith 0 ai)))
 (def ws-map (fun [ws] (ith 0 ws)))
 (def ws-lmst (fun [ws] (ith 1 ws)))

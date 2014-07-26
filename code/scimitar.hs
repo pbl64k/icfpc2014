@@ -14,7 +14,7 @@ data Op = Cmt String | Label String | Op String [Arg] deriving (Show, Eq, Ord)
 
 keyws = ["def", "fun", "fun-abi", "let", "let*"]
 
-spec = ["+", "-", "*", "/", "=", ">", "<", ">=", "<=", "atom?", "cons", "car", "cdr", "if", "recur", "do", "debug"]
+spec = ["+", "-", "*", "/", "=", ">", "<", ">=", "<=", "atom?", "cons", "car", "cdr", "if", "recur", "do", "debug", "set!", "!0", "!1"]
 
 reserved = (`elem` (keyws ++ spec))
 
@@ -217,6 +217,10 @@ cg n env labels (Spec "do" (expr : rest)) = (code' ++ code'', labels')
 cg n env labels (Spec "debug" [expr]) = (code' ++ [Op "DBUG" []], labels')
     where
         (code', labels') = cg n env labels expr
+-- Remember: should read from frame no. 2 if implemented as functions
+-- Unsupported: !0
+-- Unsupported: !1
+-- Unsupported: set!
 cg n env labels expr = ([Cmt $ "WARNING!!! Unable to generate code for {" ++ show expr ++ "}"], labels)
 
 flatten acc [] = acc

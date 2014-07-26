@@ -68,7 +68,7 @@
 	LDC	1
 	LDC	2
 	LDC	3
-	LDC	5
+	LDC	8
 	LDF	1033
 	LDF	1039
 	LDF	1045
@@ -446,7 +446,7 @@
 	RAP	1
 	RTN	
 ; then_34:
-	LDC	2
+	LDC	5
 	RTN	
 ; then_35:
 	LDC	-1
@@ -482,9 +482,9 @@
 	TSEL	431 433
 	RTN	
 ; let_43:
+	LDC	1
 	LD	0 0
-	LDC	0
-	CEQ	
+	CGTE	
 	TSEL	429 435
 	RTN	
 ; lambda_44:
