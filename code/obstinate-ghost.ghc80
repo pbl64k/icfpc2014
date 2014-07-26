@@ -68,13 +68,13 @@ write_dist: mov     a, h
             mov     [d], a
 
 sc_loop_x:  add     d, 1
-            jlt     $sc_loop, d, 4     ; checked all immediate directions
+            jlt     $sc_loop, d, 4      ; checked all immediate directions
 
 ; pick the best direction
-            jlt     $halt, f, 3     ; no real choice here
+            jlt     $halt, f, 3         ; no real choice here
 
-            mov     e, 255      ; best so far
-            mov     f, 255      ; score of best so far
+            mov     e, 255              ; best so far
+            mov     f, 255              ; score of best so far
             mov     c, 0
 
             get_my_ix
@@ -96,11 +96,11 @@ pc_loop:    get_my_ix
             jlt     $d_is_ok, d, 4
             sub     d, 4
 d_is_ok:    jeq     $pc_loop_x, [d], 255
-            jeq     $pc_loop_x, d, h    ; cannot go in the opposite direction
+            jeq     $pc_loop_x, d, h        ; cannot go in the opposite direction
             mov     [8], d
             jlt     $check_rd, [8], 2
             sub     [8], 2
-check_rd:   jeq     $pc_loop_x, g, [8]       ; check for many repeated moves in the same direction
+check_rd:   jeq     $pc_loop_x, g, [8]      ; check for many repeated moves in the same direction
             jgt     $pc_loop_x, [d], f
             mov     e, d
             mov     f, [d]
@@ -120,14 +120,14 @@ check_dir:  jeq     $inc_cnt, a, [6]
 inc_cnt:    inc     [7]
 inc_done:   mov     a, a        ; nop
 
-; DEBUG
+;; DEBUG
 ;            mov     a, [6]
 ;            mov     b, [7]
 ;            mov     c, 0
 ;            mov     d, 0
 ;            debug
 
-; DEBUG
+;; DEBUG
 ;            mov     a, [0]
 ;            mov     b, [1]
 ;            mov     c, [2]
