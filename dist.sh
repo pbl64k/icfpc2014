@@ -1,7 +1,7 @@
 #!/bin/sh
 
 if [ -e solution/lambdaman.gcc ]; then
-    git archive --format=TAR HEAD | gzip >icfpc-2014-submision.tar.gz
+    git archive --format=tar HEAD | gzip >icfpc-2014-submision.tar.gz
     exit 0
 fi;
 
