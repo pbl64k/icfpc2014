@@ -80,8 +80,15 @@ pc_loop:    jeq     $pc_loop_x, [d], 255
 pc_loop_x:  add     d, 1
             jlt     $pc_loop, d, 4
 
-            mov     e, a
+            mov     a, e
             set_dir
+
+; DEBUG
+;            mov     a, [0]
+;            mov     b, [1]
+;            mov     c, [2]
+;            mov     d, [3]
+;            debug
 
 halt:       hlt
 

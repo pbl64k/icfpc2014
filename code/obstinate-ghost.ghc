@@ -53,6 +53,6 @@
 	mov	f, [d]
 	add	d, 1	; pc_loop_x:
 	jlt	48, d, 4
-	mov	e, a
+	mov	a, e
 	int	0
 	hlt		; halt:
