@@ -8,7 +8,7 @@
             [loc (lm-loc (ws-lmst world-state))]
             [move-cells (map (fun [d] (vec-+ d loc)) neighbors)]
             [valid-cells (filter (fun [pos] (valid-cell? wmap pos)) move-cells)]
-            [cell-costs (map-map (fun [x] (ai-score world-state x)) valid-cells)]
+            [cell-costs (map-map (fun [x] (ai-score ai-state world-state x)) valid-cells)]
             [best-cost (pick-best cell-costs)]
             [best-cell (car best-cost)]
             [nb-movs (nb-moves)]
@@ -16,10 +16,12 @@
             ;[best-move (do (debug cell-costs) (debug best-cost) (debug match) (car (car match)))]
             [best-move (car (car match))]
             )
-            (cons ai-state best-move))))
+            (cons (ai-add-cell ai-state best-cell) best-move))))
 (def ai-score
-    (fun [ws pos]
+    (fun [ai ws pos]
         (let* (
+            [rec-cells (ai-rct ai)]
+            [rec-sc (* -2 (rec-score rec-cells pos))]
             [wmap (ws-map ws)]
             [ghosts (ws-ghst ws)]
             [cell (m-ix wmap pos)]
@@ -28,7 +30,10 @@
             [tgt-food (nearest-food ws)]
             [fdsc (* -5 (vec-l1-dist tgt-food pos))]
             )
-            (+ fdsc (+ ghsc csc)))))
+            (+ rec-sc (+ fdsc (+ ghsc csc))))))
+(def rec-score
+    (fun [cells pos]
+        (length (filter (fun [x] (vec-=? x pos)) cells))))
 (def ghost-score
     (fun [ws gh pos]
         (let* (
@@ -67,6 +72,17 @@
             )
             ;(lm-loc (ws-lmst ws)))))
             (car (pick-best ffs)))))
+(def ai-cons
+    (fun [recent-cells]
+        (cons recent-cells 0)))
+(def ai-add-cell
+    (fun [ai cell]
+        (let* (
+            [cells (ai-rct ai)]
+            [trimmed (take 50 cells)]
+            [new-cells (cons cell trimmed)]
+            )
+            (ai-cons new-cells))))
 (def pick-best
     (fun [xs]
         (pick-best-acc (car xs) (cdr xs))))
@@ -119,6 +135,14 @@
         (if [atom? xs]
             acc
             (recur (cons (car xs) acc) (cdr xs)))))
+; non-tail recursive!
+(def take
+    (fun [n xs]
+        (if [= n 0]
+            0
+            (if [atom? xs]
+                0
+                (cons (car xs) (take (- n 1) (cdr xs)))))))
 (def ith
     (fun [ix xs]
         (if [atom? xs]
@@ -185,6 +209,7 @@
 (def DIR-DN 2)
 (def DIR-LT 3)
 (def GHOST-PROXIMITY-THRESHOLD 5)
+(def ai-rct (fun [ai] (ith 0 ai)))
 (def ws-map (fun [ws] (ith 0 ws)))
 (def ws-lmst (fun [ws] (ith 1 ws)))
 (def ws-ghst (fun [ws] (ith 2 ws)))
@@ -214,6 +239,6 @@
 (def test-ghs (cons (cons 0 (cons (cons 1 2) 3)) 0))
 (def test-frs 0)
 (do
-    ;(debug (step 0 (cons test-map (cons test-lms (cons test-ghs test-frs)))))
-    (main 0))
+    ;(debug (step (ai-cons 0) (cons test-map (cons test-lms (cons test-ghs test-frs)))))
+    (main (ai-cons 0)))
 
