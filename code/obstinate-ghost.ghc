@@ -1,0 +1,19 @@
+	mov	d, 0
+	mov	f, 0
+	int	3	; sc_loop:
+	int	5
+	jgt	7, d, 0
+	sub	b, 1
+	jeq	14, 0, 0
+	jgt	10, d, 1	; pos_1:
+	add	a, 1
+	jeq	14, 0, 0
+	jgt	13, d, 2	; pos_2:
+	add	b, 1
+	jeq	14, 0, 0
+	sub	a, 1	; pos_3:
+	mov	[4], a	; st_pos:
+	mov	[5], b
+	add	d, 1	; sc_loop_x:
+	jlt	2, d, 4
+	hlt	

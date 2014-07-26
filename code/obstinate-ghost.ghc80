@@ -1,0 +1,39 @@
+; tries to follow the player
+
+; [0 - 3] direction scores
+; [4 - 5] pos. considered
+; d - direction
+; f - dirs
+
+            mov     d, 0    ; first direction to try
+            mov     f, 0    ; number of valid directions
+
+; compute the pos for this direction
+sc_loop:    get_my_ix
+            get_gh_cur_pos
+            jgt     $pos_1, d, 0
+            sub     b, 1
+            jeq     $st_pos, 0, 0
+pos_1:      jgt     $pos_2, d, 1
+            add     a, 1
+            jeq     $st_pos, 0, 0
+pos_2:      jgt     $pos_3, d, 2
+            add     b, 1
+            jeq     $st_pos, 0, 0
+pos_3:      sub     a, 1
+st_pos:     mov     [4], a
+            mov     [5], b
+
+; check if map square is not a wall
+
+; find distance for this pos
+
+; write distance
+
+sc_loop_x:  add     d, 1
+            jlt     $sc_loop, d, 4     ; checked all immediate directions
+
+; pick the best direction
+
+            hlt
+
