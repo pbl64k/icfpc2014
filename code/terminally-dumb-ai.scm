@@ -6,11 +6,14 @@
         (let* (
             [wmap (ws-map world-state)]
             [loc (lm-loc (ws-lmst world-state))]
-            [move-cells (map (fun [d] (vec-add d loc)) neighbors)]
+            [move-cells (map (fun [d] (vec-+ d loc)) neighbors)]
             [valid-cells (filter (fun [pos] (valid-cell? wmap pos)) move-cells)]
-            [stupid-cell (do (debug loc) (debug move-cells) (debug valid-cells) (car valid-cells))]
+            [stupid-cell (do (debug (map (fun [pos] (m-ix wmap pos)) move-cells)) (debug loc) (debug move-cells) (debug valid-cells) (car valid-cells))]
+            [nb-movs (nb-moves)]
+            [match (filter (fun [mv] (vec-=? (vec-+ (cdr mv) loc) stupid-cell)) nb-movs)]
+            [best-move (do (debug match) (car (car match)))]
             )
-            (cons ai-state 3))))
+            (cons ai-state best-move))))
 (def map (fun [f xs] (reverse (map-rev NIL f xs))))
 (def map-rev
     (fun [acc f xs]
@@ -46,7 +49,7 @@
             (if ix
                 (recur (- ix 1) (cdr xs))
                 (car xs)))))
-(def vec-add
+(def vec-+
     (fun [a b]
         (cons (+ (car a) (car b)) (+ (cdr a) (cdr b)))))
 (def vec-=?
@@ -62,7 +65,7 @@
             0
             (if [< (cdr pos) 0]
                 0
-                (ith (cdr pos) (ith (car pos) wmap))))))
+                (ith (car pos) (ith (cdr pos) wmap))))))
 (def valid-cell?
     (fun [wmap pos]
         (let (
@@ -71,7 +74,7 @@
             (> st M-WALL))))
 (def NIL 0)
 (def neighbors (cons (cons 1 0) (cons (cons -1 0) (cons (cons 0 1) (cons (cons 0 -1) 0)))))
-(def nb-moves (fun [] (zip (cons DIR-DN (cons DIR-UP (cons DIR-RT (cons DIR-LT NIL)))) neighbors)))
+(def nb-moves (fun [] (zip (cons DIR-RT (cons DIR-LT (cons DIR-DN (cons DIR-UP NIL)))) neighbors)))
 (def M-WALL 0)
 (def M-EMPTY 1)
 (def M-PILL 2)
