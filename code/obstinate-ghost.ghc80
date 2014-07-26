@@ -91,7 +91,10 @@ sc_loop_x:  add     d, 1
 
 ; main loop for picking best distance
 pc_loop:    get_my_ix
-            mov     d, a
+check_ix:   jlt     $norm_ix, a, 4
+            sub     a, 4
+            jeq     $check_ix, 0, 0
+norm_ix:    mov     d, a
             add     d, c
             jlt     $d_is_ok, d, 4
             sub     d, 4

@@ -45,7 +45,7 @@
 	mov	[d], a
 	add	d, 1	; sc_loop_x:
 	jlt	2, d, 4
-	jlt	86, f, 3
+	jlt	89, f, 3
 	mov	e, 255
 	mov	f, 255
 	mov	c, 0
@@ -59,29 +59,32 @@
 	jlt	60, [7], 4
 	mov	g, [6]
 	int	3	; pc_loop:
-	mov	d, a
+	jlt	64, a, 4	; check_ix:
+	sub	a, 4
+	jeq	61, 0, 0
+	mov	d, a	; norm_ix:
 	add	d, c
-	jlt	65, d, 4
+	jlt	68, d, 4
 	sub	d, 4
-	jeq	74, [d], 255	; d_is_ok:
-	jeq	74, d, h
+	jeq	77, [d], 255	; d_is_ok:
+	jeq	77, d, h
 	mov	[8], d
-	jlt	70, [8], 2
+	jlt	73, [8], 2
 	sub	[8], 2
-	jeq	74, g, [8]	; check_rd:
-	jgt	74, [d], f
+	jeq	77, g, [8]	; check_rd:
+	jgt	77, [d], f
 	mov	e, d
 	mov	f, [d]
 	add	c, 1	; pc_loop_x:
 	jlt	60, c, 4
 	mov	a, e
 	int	0
-	jlt	80, a, 2
+	jlt	83, a, 2
 	sub	a, 2
-	jeq	84, a, [6]	; check_dir:
+	jeq	87, a, [6]	; check_dir:
 	mov	[6], a
 	mov	[7], 1
-	jeq	85, 0, 0
+	jeq	88, 0, 0
 	inc	[7]	; inc_cnt:
 	mov	a, a	; inc_done:
 	hlt		; halt:
