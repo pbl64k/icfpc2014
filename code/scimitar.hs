@@ -1,6 +1,7 @@
 import Data.List
 import qualified Data.Map as M
 import Data.Maybe
+import System.IO
 import Text.ParserCombinators.ReadP
 
 import System.IO.Unsafe
@@ -144,7 +145,7 @@ p_program = do
 
 var_lookup name (n, env) = [Num $ n - frame, Num ix]
     where
-        (frame, ix) = (unsafePerformIO $ if name `M.member` env then return () else putStrLn $ "Cannot find: " ++ name) `seq` (fromJust $ name `M.lookup` env)
+        (frame, ix) = (unsafePerformIO $ if name `M.member` env then return () else hPutStrLn stderr $ "Cannot find: " ++ name) `seq` (fromJust $ name `M.lookup` env)
 
 cg_1 n env labels op a = (c_a ++ [Op op []], l)
     where
@@ -224,7 +225,7 @@ flatten (line, labels, acc) ((Label lbl) : ops) = flatten (line, M.insert lbl li
 flatten (line, labels, acc) (op : ops) = flatten (line, labels, op : acc) ops
 
 outarg _ (Num x) = show x
-outarg lbls (Lbl lbl) = (unsafePerformIO $ if lbl `M.member` lbls then return () else putStrLn $ "Cannot find: " ++ lbl) `seq` ((show . fromJust) $ lbl `M.lookup` lbls)
+outarg lbls (Lbl lbl) = (unsafePerformIO $ if lbl `M.member` lbls then return () else hPutStrLn stderr $ "Cannot find: " ++ lbl) `seq` ((show . fromJust) $ lbl `M.lookup` lbls)
 
 out _ (Cmt str) = "; " ++ str
 out _ (Label lbl) = lbl ++ ":"
@@ -240,6 +241,6 @@ main = do
     input <- getContents
     let ast = p_program `readP_to_S` input
     if length ast /= 1
-        then putStrLn $ "No parse or multiple parses -- " ++ show (length ast) ++ " found."
+        then hPutStrLn stderr $ "No parse or multiple parses -- " ++ show (length ast) ++ " found."
         else putStrLn $ codegen (fst $ head ast)
 

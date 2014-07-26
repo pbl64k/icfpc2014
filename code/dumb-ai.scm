@@ -13,7 +13,8 @@
             [best-cell (car best-cost)]
             [nb-movs (nb-moves)]
             [match (filter (fun [mv] (vec-=? (vec-+ (cdr mv) loc) best-cell)) nb-movs)]
-            [best-move (do (debug cell-costs) (debug best-cost) (debug match) (car (car match)))]
+            ;[best-move (do (debug cell-costs) (debug best-cost) (debug match) (car (car match)))]
+            [best-move (car (car match))]
             )
             (cons ai-state best-move))))
 (def ai-score
@@ -23,13 +24,16 @@
             [ghosts (ws-ghst ws)]
             [cell (m-ix wmap pos)]
             [csc (cell-score cell)]
+            [ghsc (sum (map (fun [ghost] (ghost-score ws ghost pos)) ghosts))]
+            [tgt-food (nearest-food ws)]
+            [fdsc (* -5 (vec-l1-dist tgt-food pos))]
             )
-            (+ (sum (map (fun [ghost] (ghost-score ws ghost pos)) ghosts)) csc))))
+            (+ fdsc (+ ghsc csc)))))
 (def ghost-score
     (fun [ws gh pos]
         (let* (
             [gloc (gh-loc gh)]
-            [dist (vec-l1-dist pos gloc)]
+            [dist (ghost-dist pos gloc)]
             [factor (ghost-factor (gh-vit gh))]
             )
             (* factor dist))))
@@ -40,6 +44,20 @@
             (if [= v GH-FEAR]
                 -1
                 0))))
+(def ghost-dist
+    (fun [lm gh]
+        (let (
+            [d (vec-l1-dist lm gh)]
+            )
+            (if [= d 0] ; DEATH IMMINENT
+                -9000
+                (if [< d GHOST-PROXIMITY-THRESHOLD]
+                    d
+                    GHOST-PROXIMITY-THRESHOLD)))))
+(def nearest-food
+    (fun [ws]
+        ; doesn't work ATM, obviously
+        (lm-loc (ws-lmst ws))))
 (def pick-best
     (fun [xs]
         (pick-best-acc (car xs) (cdr xs))))
@@ -91,6 +109,7 @@
             (if ix
                 (recur (- ix 1) (cdr xs))
                 (car xs)))))
+(def length (fun [xs] (foldl (fun [a x] (+ a 1)) 0 xs)))
 (def sum (fun [xs] (foldl (fun [a b] (+ a b)) 0 xs)))
 (def prod (fun [xs] (foldl (fun [a b] (* a b)) 0 xs)))
 (def vec-+
@@ -127,9 +146,9 @@
 (def cell-score
     (fun [cell]
         (if [= cell M-PILL]
-            100
+            10
             (if [= cell M-PPILL]
-                500
+                50
                 0))))
 (def NIL 0)
 (def neighbors (cons (cons 1 0) (cons (cons -1 0) (cons (cons 0 1) (cons (cons 0 -1) 0)))))
@@ -148,6 +167,7 @@
 (def DIR-RT 1)
 (def DIR-DN 2)
 (def DIR-LT 3)
+(def GHOST-PROXIMITY-THRESHOLD 5)
 (def ws-map (fun [ws] (ith 0 ws)))
 (def ws-lmst (fun [ws] (ith 1 ws)))
 (def ws-ghst (fun [ws] (ith 2 ws)))
