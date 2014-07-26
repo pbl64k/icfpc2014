@@ -1,12 +1,12 @@
+; binary tree for fast map lookups?
+; try to eat the friggin' fruit?
 ; efficient queues?
 ; BFS?
 ; all-sources shortest paths in main?
-; with-matrix or somesuch would help? -- prolly not a good idea, no way to index sanely
-; try to eat the friggin' fruit?
-; binary tree for fast map lookups?
 ; take into account the number of ghosts on the field when scoring
 ; use the information about ghosts' direction somehow?
 ; reinforcement learning? (yeah, right.)
+; with-matrix or somesuch would help? -- prolly not a good idea, no way to index sanely
 (def main
     (fun [ws]
         (let* (
@@ -83,6 +83,37 @@
             [ffs (map-map (fun [p] (- 0 (vec-l1-dist loc p))) fs)]
             )
             (car (pick-best ffs)))))
+(def cons-bst-map
+    (fun [wmap]
+        (let* (
+            [h (length wmap)]
+            [w (length (car wmap))]
+            [sz (* h w)]
+            [fmap (concat wmap)]
+            )
+            (cons (cons-bst fmap sz) (cons w (cons h 0))))))
+(def cons-bst
+    (fun [xs n]
+        (if [= n 1]
+            (cons 1 (car xs))
+            (let* (
+                [midp (/ n 2)]
+                [sp (span midp xs)]
+                )
+                (cons 0 (cons midp (cons (cons-bst (car sp) midp) (cons (cons-bst (cdr sp) (- n midp)) 0))))))))
+(def bstm-map (fun [bst] (ith 0 bst)))
+(def bstm-w (fun [bst] (ith 1 bst)))
+(def bstm-h (fun [bst] (ith 2 bst)))
+(def bstm-ix
+    (fun [wmap pos]
+        (bstm-fix (bstm-map wmap) (+ (car pos) (* (cdr pos) (bstm-w wmap))))))
+(def bstm-fix
+    (fun [fmap n]
+        (if [car fmap]
+            (cdr fmap)
+            (if [< n (car (cdr fmap))]
+                (recur (car (cdr (cdr fmap))) n)
+                (recur (car (cdr (cdr (cdr fmap)))) (- n (car (cdr fmap))))))))
 (def ai-cons
     (fun [recent-cells food]
         (cons recent-cells (cons food 0))))
@@ -147,12 +178,31 @@
             (if [atom? b]
                 acc
                 (recur (cons (cons (car a) (car b)) acc) (cdr a) (cdr b))))))
+(def span
+    (fun [n xs]
+        (let (
+            [acc (span-acc n (cons NIL NIL) xs)]
+            )
+            (cons (reverse (car acc)) (cdr acc)))))
+(def span-acc
+    (fun [n acc xs]
+        (if [= n 0]
+            (cons (car acc) xs)
+            (recur (- n 1) (cons (cons (car xs) (car acc)) (cdr acc)) (cdr xs)))))
 (def reverse (fun [xs] (rev-acc NIL xs)))
 (def rev-acc
     (fun [acc xs]
         (if [atom? xs]
             acc
             (recur (cons (car xs) acc) (cdr xs)))))
+(def concat (fun [xs] (reverse (concat-acc NIL xs))))
+(def concat-acc
+    (fun [acc xs]
+        (if [atom? xs]
+            acc
+            (if [atom? (car xs)]
+                (recur acc (cdr xs))
+                (recur (cons (car (car xs)) acc) (cons (cdr (car xs)) (cdr xs)))))))
 ; non-tail recursive!
 (def take
     (fun [n xs]
@@ -161,6 +211,7 @@
             (if [atom? xs]
                 0
                 (cons (car xs) (take (- n 1) (cdr xs)))))))
+; TODO? I'm not sure this makes sense if the last element of a "tuple" is a cons cell itself
 (def ith
     (fun [ix xs]
         (if [atom? xs]
@@ -227,8 +278,8 @@
 (def DIR-RT 1)
 (def DIR-DN 2)
 (def DIR-LT 3)
-; also tried 5 and 8 -- seems to be too fidgety at 8
-(def GHOST-PROXIMITY-THRESHOLD 6)
+; tried 5, 6 and 8
+(def GHOST-PROXIMITY-THRESHOLD 8)
 (def ai-rct (fun [ai] (ith 0 ai)))
 (def ai-food (fun [ai] (ith 1 ai)))
 (def ws-map (fun [ws] (ith 0 ws)))
