@@ -1,6 +1,6 @@
 #!/bin/sh
 
-if [ -e solution/lambdaman.gcc ]; then
+if [ -e solution/lambdaman.gcc ] && [ -e solution/ghost0.ghc ]; then
     git archive --format=tar HEAD | gzip >icfpc-2014-submission.tar.gz
     exit 0
 fi;
