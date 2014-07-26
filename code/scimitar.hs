@@ -21,7 +21,14 @@ p_oneof = choice . (char `map`)
 
 p_whitespace = p_oneof [' ', '\t', '\r', '\n']
 
-p_ws = many1 p_whitespace
+p_comment = do
+    char ';'
+    many $ satisfy (/= '\n')
+    return ' '
+
+p_wsc = choice [p_whitespace, p_comment]
+
+p_ws = many1 p_wsc
 
 p_ows = optional p_ws
 
