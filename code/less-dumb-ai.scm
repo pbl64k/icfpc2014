@@ -5,9 +5,19 @@
 ; with-matrix or somesuch would help? -- prolly not a good idea, no way to index sanely
 ; try to eat the friggin' fruit?
 ; binary tree for fast map lookups?
+; take into account the number of ghosts on the field when scoring
+; use the information about ghosts' direction somehow?
+; reinforcement learning? (yeah, right.)
 (def main
-    (fun [world-state]
-        (cons (ai-cons 0) (fun-abi [a b] (step a b)))))
+    (fun [ws]
+        (let* (
+            [wmap (ws-map ws)]
+            [h (length wmap)]
+            [w (length (car wmap))]
+            [ps (cart w h)]
+            [fs (filter (fun [p] (> (cell-score (m-ix wmap p)) 0)) ps)]
+            )
+            (cons (ai-cons 0 fs) (fun-abi [a b] (step a b))))))
 (def step
     (fun [ai-state world-state]
         (let* (
@@ -23,7 +33,7 @@
             ;[best-move (do (debug cell-costs) (debug best-cost) (debug match) (car (car match)))]
             [best-move (car (car match))]
             )
-            (cons (ai-add-cell ai-state best-cell) best-move))))
+            (cons (ai-drop-food (ai-add-cell ai-state best-cell) best-cell) best-move))))
 (def ai-score
     (fun [ai ws pos]
         (let* (
@@ -34,7 +44,7 @@
             [cell (m-ix wmap pos)]
             [csc (cell-score cell)]
             [ghsc (sum (map (fun [ghost] (ghost-score ws ghost pos)) ghosts))]
-            [tgt-food (nearest-food ws)]
+            [tgt-food (nearest-food ai ws)]
             [fdsc (* -5 (vec-l1-dist tgt-food pos))]
             )
             (+ rec-sc (+ fdsc (+ ghsc csc))))))
@@ -67,20 +77,16 @@
                     d
                     GHOST-PROXIMITY-THRESHOLD)))))
 (def nearest-food
-    (fun [ws]
+    (fun [ai ws]
         (let* (
-            [wmap (ws-map ws)]
             [loc (lm-loc (ws-lmst ws))]
-            [h (length wmap)]
-            [w (length (car wmap))]
-            [ps (cart w h)]
-            [fs (filter (fun [p] (> (cell-score (m-ix wmap p)) 0)) ps)]
+            [fs (ai-food ai)]
             [ffs (map-map (fun [p] (- 0 (vec-l1-dist loc p))) fs)]
             )
             (car (pick-best ffs)))))
 (def ai-cons
-    (fun [recent-cells]
-        (cons recent-cells 0)))
+    (fun [recent-cells food]
+        (cons recent-cells (cons food 0))))
 (def ai-add-cell
     (fun [ai cell]
         (let* (
@@ -88,7 +94,14 @@
             [trimmed (take 50 cells)]
             [new-cells (cons cell trimmed)]
             )
-            (ai-cons new-cells))))
+            (ai-cons new-cells (ai-food ai)))))
+(def ai-drop-food
+    (fun [ai cell]
+        (let* (
+            [food (ai-food ai)]
+            [new-food (filter (fun [x] (not (vec-=? x cell))) food)]
+            )
+            (ai-cons (ai-rct ai) new-food))))
 (def pick-best
     (fun [xs]
         (pick-best-acc (car xs) (cdr xs))))
@@ -169,6 +182,7 @@
                 1
                 0)
             0)))
+(def not (fun [x] (- 1 x)))
 (def abs
     (fun [x]
         (if [< x 0]
@@ -217,6 +231,7 @@
 ; also tried 5 and 8 -- seems to be too fidgety at 8
 (def GHOST-PROXIMITY-THRESHOLD 6)
 (def ai-rct (fun [ai] (ith 0 ai)))
+(def ai-food (fun [ai] (ith 1 ai)))
 (def ws-map (fun [ws] (ith 0 ws)))
 (def ws-lmst (fun [ws] (ith 1 ws)))
 (def ws-ghst (fun [ws] (ith 2 ws)))
