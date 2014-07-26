@@ -20,10 +20,26 @@
     (fun [ws pos]
         (let* (
             [wmap (ws-map ws)]
+            [ghosts (ws-ghst ws)]
             [cell (m-ix wmap pos)]
             [csc (cell-score cell)]
             )
-            (+ 0 csc))))
+            (+ (sum (map (fun [ghost] (ghost-score ws ghost pos)) ghosts)) csc))))
+(def ghost-score
+    (fun [ws gh pos]
+        (let* (
+            [gloc (gh-loc gh)]
+            [dist (vec-l1-dist pos gloc)]
+            [factor (ghost-factor (gh-vit gh))]
+            )
+            (* factor dist))))
+(def ghost-factor
+    (fun [v]
+        (if [= v GH-STD]
+            2
+            (if [= v GH-FEAR]
+                -1
+                0))))
 (def pick-best
     (fun [xs]
         (pick-best-acc (car xs) (cdr xs))))
@@ -87,6 +103,14 @@
                 1
                 0)
             0)))
+(def abs
+    (fun [x]
+        (if [< x 0]
+            (- 0 x)
+            x)))
+(def vec-l1-dist
+    (fun [a b]
+        (+ (abs (- (car a) (car b))) (abs (- (cdr a) (cdr b))))))
 (def m-ix
     (fun [wmap pos]
         (if [< (car pos) 0]
@@ -103,9 +127,9 @@
 (def cell-score
     (fun [cell]
         (if [= cell M-PILL]
-            10
+            100
             (if [= cell M-PPILL]
-                50
+                500
                 0))))
 (def NIL 0)
 (def neighbors (cons (cons 1 0) (cons (cons -1 0) (cons (cons 0 1) (cons (cons 0 -1) 0)))))
@@ -119,11 +143,11 @@
 (def M-GHSP 6)
 (def GH-STD 0)
 (def GH-FEAR 1)
+(def GH-INV 2)
 (def DIR-UP 0)
 (def DIR-RT 1)
 (def DIR-DN 2)
 (def DIR-LT 3)
-(def GH-INV 2)
 (def ws-map (fun [ws] (ith 0 ws)))
 (def ws-lmst (fun [ws] (ith 1 ws)))
 (def ws-ghst (fun [ws] (ith 2 ws)))
