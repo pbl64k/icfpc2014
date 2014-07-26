@@ -1,0 +1,10 @@
+scimitar.hs is compiler for a simple Scheme-like language
+targetting Lambda-Man CPU.
+
+m.sh will compile scimitar.hs -- this requires GHC reasonably
+similar to mine, which most current GHCs should be.
+
+buildall.pl will build the compiler, then compile all *.scm
+files in the code/ directory to corresponding *.gcc -- this
+one requires Perl 5 reasonably similar to mine, which most
+current Perls should also be.
