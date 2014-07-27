@@ -22,7 +22,7 @@
             [ps (cart w h)]
             [fs (filter (fun [p] (> (cell-score (bstm-ix bstmap p)) 0)) ps)]
             )
-            (cons (ai-cons NIL fs) (fun-abi [a b] (step a b))))))
+            (cons (ai-cons NIL fs) (fun-abi [a b] (bfs-ai a b))))))
 
 ; implements the logic of standard `step' -- but `main` must ensure it's converted to fun-abi
 (def step
@@ -55,10 +55,10 @@
             [init-frontier (foldl q-snoc q-empty init-moves)]
             [init-visited (set-ins set-empty my-floc)]
             [best-move (bfs wmap f-neighbors (fun [p] (> (cell-score (bstm-ix wmap p)) 0)) init-frontier init-visited)]
-            [best-cell (cdr best-move)]
+            ;[best-move FALSE]
             )
             (if best-move
-                (cons (ai-drop-food (ai-add-cell ai-state best-cell) best-cell) (car best-move))
+                (cons (ai-drop-food (ai-add-cell ai-state (cdr best-move)) (cdr best-move)) (car best-move))
                 (step ai-state ws)))))
 
 ;;; SCORING AND AI
@@ -78,7 +78,7 @@
     (fun [wmap ws]
         (fun [pos]
             (if [> (bstm-ix wmap pos) M-WALL]
-                (not (any? (fun [gh-loc] (vec-=? pos gh-loc)) (map gh-loc (filter (fun [gh] (not (gh-fear? gh))) (ws-ghst ws)))))
+                (not (any? (fun [gh-loc] (vec-=? pos gh-loc)) (map gh-loc (filter (fun [gh] (not (gh-fear? (gh-vit gh)))) (ws-ghst ws)))))
                 FALSE))))
 
 (def bfs
