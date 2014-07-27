@@ -1,4 +1,4 @@
-; ! Move *copies* of (active) ghosts to the nearest intersection!!!
+; ! Move *copies* of (active) ghosts to the nearest intersection!!! -- BFS will need alterations
 ; ! Consider ALL moves -- and pick the best one that finds something edible.
 ; ! (Fall back) Alternately -- limit the number of steps and score by distance to nearest if too far away?
 ; ! Optimize heavy-duty stuff? (bfs)
@@ -50,7 +50,7 @@
             (do
                 ;(debug 0)
                 (let (
-                    [new-ai (ai-update ai-state best-move)]
+                    [new-ai (ai-update ai-state best-cell)]
                     )
                     (do
                         ;(debug 1)
@@ -66,10 +66,10 @@
             [my-floc (bstm-flatten-ix wmap my-loc)]
             [f-neighbors (lm-neighbors-gen (lm-valid-cell?-gen wmap ws))]
             [f-cell-score (lm-cell-score-gen wmap ws ai-state)]
-            [init-moves (f-neighbors my-loc -1)]
+            [init-moves (f-neighbors -1 my-loc 1 NIL)]
             [init-frontier (foldl q-snoc q-empty init-moves)]
             [init-visited (set-ins set-empty my-floc)]
-            [best-move (bfs wmap f-neighbors (fun [p] (> (f-cell-score p) 0)) init-frontier init-visited)]
+            [best-move (bfs wmap f-neighbors (fun [p extra-bad-ghosties] (> (f-cell-score p extra-bad-ghosties) 0)) init-frontier init-visited)]
             ;[best-move (bfs wmap f-neighbors (fun [p] (> (cell-score (bstm-ix wmap p)) 0)) init-frontier init-visited)]
             ;[best-move FALSE]
             )
@@ -82,15 +82,27 @@
                 ;(debug (car best-move))
                 ;(cons ai-state (car best-move))))))
                 (if [not (atom? best-move)]
-                    (cons (ai-update ai-state best-move) (car best-move))
+                    (cons (ai-update ai-state (bfsx-pos best-move)) (bfsx-dir best-move))
                     (step ai-state ws))))))
 
 ;;; SCORING AND AI
 
 (def lm-neighbors-gen
     (fun [f-valid-cell?]
-        (fun [pos preset-dir]
-                (filter (fun [mov] (f-valid-cell? (cdr mov))) (map (fun [mov] (if [< preset-dir 0] mov (cons preset-dir (cdr mov)))) (map (fun [mov] (cons (car mov) (vec-+ pos (cdr mov)))) nb-moves))))))
+        (fun [preset-dir pos dist ghs]
+            (filter
+                ; update the pockin' ghosts! (and leave the old ones, too)
+                (fun [mov] (f-valid-cell? (bfsx-pos mov)))
+                (map
+                    (fun [mov]
+                        (if [< preset-dir 0]
+                            mov
+                            (bfsx-ch-dir mov preset-dir)))
+                    (map
+                        (fun [mov]
+                            ; right now the score is always 0 - this is for future extension
+                            (bfsx-cons (car mov) (vec-+ pos (cdr mov)) dist ghs 0))
+                        nb-moves))))))
 
 (def lm-valid-cell?-gen
     (fun [wmap ws]
@@ -98,6 +110,7 @@
             ; I'm not sure ignoring invisible ghosts is a good idea
             [ghosties (map gh-loc (filter (fun [gh] (gh-std? (gh-vit gh))) (ws-ghst ws)))]
             )
+            ; USE MORE GHOSTS!
             (fun [pos]
                 (if [> (bstm-ix wmap pos) M-WALL]
                     (not (any? (fun [gh-loc] (<= (vec-l1-dist pos gh-loc) 1)) ghosties))
@@ -132,8 +145,9 @@
                                     -100
                                     0)))))]
             [lm-ghost-score
-                (fun [pos]
-                    (+ (sum (map (fun [gh] (lm-bad-ghost-score gh pos)) bad-ghosties)) (sum (map (fun [gh] (lm-good-ghost-score gh pos)) good-ghosties))))]
+                (fun [pos extra-bad-ghosties]
+                    ; !!! optimize - gen rid of append here
+                    (+ (sum (map (fun [gh] (lm-bad-ghost-score gh pos)) (append bad-ghosties extra-bad-ghosties))) (sum (map (fun [gh] (lm-good-ghost-score gh pos)) good-ghosties))))]
             [lm-fruit-score
                 (fun [pos]
                     (if [> fruit 0]
@@ -142,40 +156,92 @@
                             0)
                         0))]
             )
-            (fun [pos]
-                (+ (cell-score (bstm-ix wmap pos)) (+ (lm-ghost-score pos) (lm-fruit-score pos)))))))
+            (fun [pos extra-bad-ghosties]
+                (+ (cell-score (bstm-ix wmap pos)) (+ (lm-ghost-score pos extra-bad-ghosties) (lm-fruit-score pos)))))))
                 ;(cell-score (bstm-ix wmap pos))))))
 
 (def bfs
     (fun [bstm-w f-neighbors f-tgt? q-frontier set-visited]
         ; dodgy stuff here! will if's and let's work like that?
         (do
-            ;(debug q-frontier)
-            ;(debug set-visited)
+            ;;(debug q-frontier)
+            ;;(debug set-visited)
             (if [q-isempty? q-frontier]
                 FALSE
                 ; !!! optimization
                 (let* (
                     [state-1 (q-pop q-frontier)]
+                    ;[mov (do (debug (car state-1)) (car state-1))]
                     [mov (car state-1)]
                     [q-frontier-1 (cdr state-1)]
-                    [m-dir (car mov)]
-                    [m-pos (cdr mov)]
+                    [m-dir (bfsx-dir mov)]
+                    [m-pos (bfsx-pos mov)]
+                    [m-dist (bfsx-dist mov)]
+                    [m-ghs (bfsx-ghs mov)]
+                    ;;[faux (do
+                    ;;    (debug m-dir)
+                    ;;    (debug m-pos)
+                    ;;    (debug m-dist)
+                    ;;    (debug m-ghs)
+                    ;;    0)]
                     [m-fpos (bstm-flatten-ix bstm-w m-pos)]
                     )
                     (if [set-has? set-visited m-fpos]
                         (recur bstm-w f-neighbors f-tgt? q-frontier-1 set-visited)
-                        (if [f-tgt? m-pos]
+                        (if [f-tgt? m-pos m-ghs]
+                            ;;(do (debug 21)
                             mov
+                            ;;)
                             ; !!! optimization
                             (let* (
+                    ;;[faux-0 (do (debug 42) 0)]
                                 [set-visited-2 (set-ins set-visited m-fpos)]
-                                [new-moves (filter (fun [x] (not (set-has? set-visited-2 (bstm-flatten-ix bstm-w (cdr x))))) (f-neighbors m-pos m-dir))]
+                    ;;[faux-0 (do (debug 84) 0)]
+                    ;;[faux (do
+                    ;;    (debug m-dir)
+                    ;;    (debug m-pos)
+                    ;;    (debug m-dist)
+                    ;;    (debug m-ghs)
+                    ;;    0)]
+                    ;;[faux-0 (do (debug 168) 0)]
+                                [m-neighbors (f-neighbors m-dir m-pos (+ 1 m-dist) m-ghs)]
+                    ;;[faux-0 (do (debug 336) 0)]
+                                ;;[new-moves (do (debug m-neighbors) (filter (fun [x] (not (set-has? set-visited-2 (bstm-flatten-ix bstm-w (bfsx-pos x))))) m-neighbors))]
+                                [new-moves (filter (fun [x] (not (set-has? set-visited-2 (bstm-flatten-ix bstm-w (bfsx-pos x))))) m-neighbors)]
                                 [q-frontier-2 (foldl q-snoc q-frontier-1 new-moves)]
                                 )
                                 (recur bstm-w f-neighbors f-tgt? q-frontier-2 set-visited-2)))))))))
 
-; helpers for old AI (`step') follow
+(def bfsx-cons
+    (fun [dir pos dist ghs sc]
+        (cons dir (cons pos (cons dist (cons ghs sc))))))
+(def bfsx-ch-dir (fun [x dir] (bfsx-cons dir (bfsx-pos x) (bfsx-dist x) (bfsx-ghs x) (bfsx-sc x))))
+(def bfsx-dir (fun [x] (car x)))
+(def bfsx-pos (fun [x] (car (cdr x))))
+(def bfsx-dist (fun [x] (car (cdr (cdr x)))))
+(def bfsx-ghs (fun [x] (car (cdr (cdr (cdr x))))))
+(def bfsx-sc (fun [x] (cdr (cdr (cdr (cdr x))))))
+
+;;; GHOST PSEUDO-AI
+
+; accepts ghost as a LIST (direction, loc) -- (COINCIDENTALLY, this will work with gh-loc, as needed by lm-bad-ghost-score)
+(def move-ghost
+    (fun [wmap gh]
+        ; !!! optimize
+        (let* (
+            [gh-dir (car gh)]
+            [gh-pos (gh-loc gh)]
+            [valid-cells (map (fun [mov] (cons (car mov) (cons (vec-+ (cdr mov) gh-pos) NIL))) nb-moves)]
+            [valid-cells-len (length valid-cells)]
+            )
+            (if [= valid-cells-len 1]
+                (car valid-cells)
+                (if [= valid-cells-len 2]
+                    (car (filter (fun [cell] (if [= (car cell) (- gh-dir 2)] FALSE (if [= (car cell) (+ gh-dir 2)] FALSE TRUE))) valid-cells))
+                    gh)))))
+
+;;; helpers for old AI (`step') follow
+;;; (some of them may be used in the "new" AI)
 
 (def ai-score
     (fun [ai ws pos]
@@ -264,8 +330,8 @@
     (fun [ai cell]
         (ai-cons (ai-rct ai) (ai-food ai) (ai-fruit ai) (filter (fun [x] (not (vec-=? x cell))) (ai-ppills ai)))))
 (def ai-update
-    (fun [ai move]
-        (ai-drop-ppill (ai-drop-food (ai-add-cell ai (cdr move)) (cdr move)) (cdr move))))
+    (fun [ai cell]
+        (ai-drop-ppill (ai-drop-food (ai-add-cell ai cell) cell) cell)))
 (def ai-rct (fun [ai] (car ai)))
 (def ai-food (fun [ai] (car (cdr ai))))
 (def ai-fruit (fun [ai] (car (cdr (cdr ai)))))
@@ -429,6 +495,11 @@
         (if [atom? xs]
             acc
             (recur (cons (car xs) acc) (cdr xs)))))
+(def append
+    (fun [xs ys]
+        (if [atom? xs]
+            ys
+            (cons (car xs) (append (cdr xs) ys)))))
 (def concat (fun [xs] (reverse (concat-acc NIL xs))))
 (def concat-acc
     (fun [acc xs]
