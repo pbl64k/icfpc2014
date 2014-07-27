@@ -1,4 +1,3 @@
-; ! Move *copies* of (active) ghosts to the nearest intersection!!! -- BFS will need alterations
 ; ! Consider ALL moves -- and pick the best one that finds something edible.
 ; ! (Fall back) Alternately -- limit the number of steps and score by distance to nearest if too far away?
 ; ! Optimize heavy-duty stuff? (bfs)
@@ -44,7 +43,6 @@
             [best-cost (pick-best cell-costs)]
             [best-cell (car best-cost)]
             [match (filter (fun [mv] (vec-=? (vec-+ (cdr mv) loc) best-cell)) nb-moves)]
-            ;[best-move (do (debug cell-costs) (debug best-cost) (debug match) (car (car match)))]
             [best-move (car (car match))]
             )
             (do
@@ -64,9 +62,13 @@
             [wmap (bstm-cons (ws-map ws))]
             [my-loc (lm-loc (ws-lmst ws))]
             [my-floc (bstm-flatten-ix wmap my-loc)]
-            [f-neighbors (lm-neighbors-gen (lm-valid-cell?-gen wmap ws))]
+            [f-neighbors (lm-neighbors-gen wmap (lm-valid-cell?-gen wmap ws))]
             [f-cell-score (lm-cell-score-gen wmap ws ai-state)]
-            [init-moves (f-neighbors -1 my-loc 1 NIL)]
+            [ghosties (ws-ghst ws)]
+            [bad-ghosties (filter (fun [gh] (gh-std? (gh-vit gh))) ghosties)]
+            [gh-pairs (map (fun [gh] (cons (gh-dir gh) (cons (gh-loc gh) NIL))) bad-ghosties)]
+            [init-moves (f-neighbors -1 my-loc 1 gh-pairs)]
+            ;[init-moves (f-neighbors -1 my-loc 1 NIL)]
             [init-frontier (foldl q-snoc q-empty init-moves)]
             [init-visited (set-ins set-empty my-floc)]
             [best-move (bfs wmap f-neighbors (fun [p extra-bad-ghosties] (> (f-cell-score p extra-bad-ghosties) 0)) init-frontier init-visited)]
@@ -74,13 +76,6 @@
             ;[best-move FALSE]
             )
             (do
-                ;(debug my-loc)
-                ;(debug init-moves)
-                ;(debug best-move)
-                ;(debug (atom? best-move))
-                ;(debug (not (atom? best-move)))
-                ;(debug (car best-move))
-                ;(cons ai-state (car best-move))))))
                 (if [not (atom? best-move)]
                     (cons (ai-update ai-state (bfsx-pos best-move)) (bfsx-dir best-move))
                     (step ai-state ws))))))
@@ -88,21 +83,23 @@
 ;;; SCORING AND AI
 
 (def lm-neighbors-gen
-    (fun [f-valid-cell?]
+    (fun [wmap f-valid-cell?]
         (fun [preset-dir pos dist ghs]
-            (filter
-                ; update the pockin' ghosts! (and leave the old ones, too)
-                (fun [mov] (f-valid-cell? (bfsx-pos mov)))
-                (map
-                    (fun [mov]
-                        (if [< preset-dir 0]
-                            mov
-                            (bfsx-ch-dir mov preset-dir)))
+            (let* (
+                [new-ghosts (map (fun [gh] (move-ghost wmap gh)) ghs)]
+                )
+                (filter
+                    (fun [mov] (f-valid-cell? (bfsx-pos mov) (append ghs new-ghosts)))
                     (map
                         (fun [mov]
-                            ; right now the score is always 0 - this is for future extension
-                            (bfsx-cons (car mov) (vec-+ pos (cdr mov)) dist ghs 0))
-                        nb-moves))))))
+                            (if [< preset-dir 0]
+                                mov
+                                (bfsx-ch-dir mov preset-dir)))
+                        (map
+                            (fun [mov]
+                                ; right now the score is always 0 - this is for future extension
+                                (bfsx-cons (car mov) (vec-+ pos (cdr mov)) dist new-ghosts 0))
+                            nb-moves)))))))
 
 (def lm-valid-cell?-gen
     (fun [wmap ws]
@@ -110,15 +107,14 @@
             ; I'm not sure ignoring invisible ghosts is a good idea
             [ghosties (map gh-loc (filter (fun [gh] (gh-std? (gh-vit gh))) (ws-ghst ws)))]
             )
-            ; USE MORE GHOSTS!
-            (fun [pos]
+            (fun [pos extra-bad-ghosties]
                 (if [> (bstm-ix wmap pos) M-WALL]
-                    (not (any? (fun [gh-loc] (<= (vec-l1-dist pos gh-loc) 1)) ghosties))
+                    (not (any? (fun [gh-loc] (<= (vec-l1-dist pos gh-loc) 1)) (append ghosties (map gh-loc extra-bad-ghosties))))
                     FALSE)))))
 
 (def lm-cell-score-gen
     (fun [wmap ws ai]
-        ; well wnough optimized - note that the precomputed stuff is used by inner functions
+        ; well enough optimized - note that the precomputed stuff is used by inner functions
         (let* (
             [ghosties (ws-ghst ws)]
             ; I'm not sure ignoring invisible ghosts is a good idea
@@ -158,55 +154,31 @@
             )
             (fun [pos extra-bad-ghosties]
                 (+ (cell-score (bstm-ix wmap pos)) (+ (lm-ghost-score pos extra-bad-ghosties) (lm-fruit-score pos)))))))
-                ;(cell-score (bstm-ix wmap pos))))))
 
 (def bfs
     (fun [bstm-w f-neighbors f-tgt? q-frontier set-visited]
-        ; dodgy stuff here! will if's and let's work like that?
         (do
-            ;;(debug q-frontier)
-            ;;(debug set-visited)
             (if [q-isempty? q-frontier]
                 FALSE
                 ; !!! optimization
                 (let* (
                     [state-1 (q-pop q-frontier)]
-                    ;[mov (do (debug (car state-1)) (car state-1))]
                     [mov (car state-1)]
                     [q-frontier-1 (cdr state-1)]
                     [m-dir (bfsx-dir mov)]
                     [m-pos (bfsx-pos mov)]
                     [m-dist (bfsx-dist mov)]
                     [m-ghs (bfsx-ghs mov)]
-                    ;;[faux (do
-                    ;;    (debug m-dir)
-                    ;;    (debug m-pos)
-                    ;;    (debug m-dist)
-                    ;;    (debug m-ghs)
-                    ;;    0)]
                     [m-fpos (bstm-flatten-ix bstm-w m-pos)]
                     )
                     (if [set-has? set-visited m-fpos]
                         (recur bstm-w f-neighbors f-tgt? q-frontier-1 set-visited)
                         (if [f-tgt? m-pos m-ghs]
-                            ;;(do (debug 21)
                             mov
-                            ;;)
                             ; !!! optimization
                             (let* (
-                    ;;[faux-0 (do (debug 42) 0)]
                                 [set-visited-2 (set-ins set-visited m-fpos)]
-                    ;;[faux-0 (do (debug 84) 0)]
-                    ;;[faux (do
-                    ;;    (debug m-dir)
-                    ;;    (debug m-pos)
-                    ;;    (debug m-dist)
-                    ;;    (debug m-ghs)
-                    ;;    0)]
-                    ;;[faux-0 (do (debug 168) 0)]
                                 [m-neighbors (f-neighbors m-dir m-pos (+ 1 m-dist) m-ghs)]
-                    ;;[faux-0 (do (debug 336) 0)]
-                                ;;[new-moves (do (debug m-neighbors) (filter (fun [x] (not (set-has? set-visited-2 (bstm-flatten-ix bstm-w (bfsx-pos x))))) m-neighbors))]
                                 [new-moves (filter (fun [x] (not (set-has? set-visited-2 (bstm-flatten-ix bstm-w (bfsx-pos x))))) m-neighbors)]
                                 [q-frontier-2 (foldl q-snoc q-frontier-1 new-moves)]
                                 )
@@ -229,10 +201,13 @@
     (fun [wmap gh]
         ; !!! optimize
         (let* (
+            ;[faux (do (debug gh) 0)]
             [gh-dir (car gh)]
             [gh-pos (gh-loc gh)]
-            [valid-cells (map (fun [mov] (cons (car mov) (cons (vec-+ (cdr mov) gh-pos) NIL))) nb-moves)]
+            [nb-cells (map (fun [mov] (cons (car mov) (cons (vec-+ (cdr mov) gh-pos) NIL))) nb-moves)]
+            [valid-cells (filter (fun [mov] (> (bstm-ix wmap (gh-loc mov)) M-WALL)) nb-cells)]
             [valid-cells-len (length valid-cells)]
+            ;[faux (do (debug valid-cells) (debug 1) 0)]
             )
             (if [= valid-cells-len 1]
                 (car valid-cells)
