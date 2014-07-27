@@ -1,4 +1,7 @@
 ; BFS?
+; exclusion zones around ghosts?
+; connectivity?
+; go for pills if ghosts nearby? (check that there ARE pills)
 ; use the information about ghosts' direction somehow?
 ; take into account the number of ghosts on the field when scoring
 ; try to eat the friggin' fruit?
@@ -39,7 +42,70 @@
             )
             (cons (ai-drop-food (ai-add-cell ai-state best-cell) best-cell) best-move))))
 
-;;; SCORING
+; alternate `step'
+; heh heh! fall back to old step if this fails.
+(def bfs-ai
+    (fun [ai-state ws]
+        (let* (
+            [wmap (bstm-cons (ws-map ws))]
+            [my-loc (lm-loc (ws-lmst ws))]
+            [my-floc (bstm-flatten-ix wmap my-loc)]
+            [f-neighbors (lm-neighbors-gen wmap (lm-valid-cell?-gen wmap ws))]
+            [init-moves (f-neighbors my-loc -1)]
+            [init-frontier (foldl q-snoc q-empty init-moves)]
+            [init-visited (set-ins set-empty my-floc)]
+            [best-move (bfs wmap f-neighbors (fun [p] (> (cell-score (bstm-ix wmap p)) 0)) init-frontier init-visited)]
+            [best-cell (cdr best-move)]
+            )
+            (if best-move
+                (cons (ai-drop-food (ai-add-cell ai-state best-cell) best-cell) (car best-move))
+                (step ai-state ws)))))
+
+;;; SCORING AND AI
+
+(def lm-neighbors-gen
+    (fun [wmap f-valid-cell?] ; doesn't really need `wmap' as is
+        (fun [pos preset-dir]
+            (let* (
+                [nb-movs (nb-moves)]
+                [nb-ps (map (fun [mov] (cons (car mov) (vec-+ pos (cdr mov)))) nb-movs)]
+                [nb-dps (map (fun [mov] (if [< preset-dir 0] mov (cons preset-dir (cdr mov)))) nb-ps)]
+                ; now we have originating directions and actual positions...
+                )
+                (filter (fun [mov] (f-valid-cell? (cdr mov))) nb-dps)))))
+
+(def lm-valid-cell?-gen
+    (fun [wmap ws]
+        (fun [pos]
+            (if [> (bstm-ix wmap pos) M-WALL]
+                (not (any? (fun [gh-loc] (vec-=? pos gh-loc)) (map gh-loc (filter (fun [gh] (not (gh-fear? gh))) (ws-ghst ws)))))
+                FALSE))))
+
+(def bfs
+    (fun [bstm-w f-neighbors f-tgt? q-frontier set-visited]
+        ; dodgy stuff here! will if's and let's work like that?
+        (if [q-isempty? q-frontier]
+            FALSE
+            (let* (
+                [state-1 (q-pop q-frontier)]
+                [mov (car state-1)]
+                [q-frontier-1 (cdr state-1)]
+                [m-dir (car mov)]
+                [m-pos (cdr mov)]
+                [m-fpos (bstm-flatten-ix bstm-w m-pos)]
+                )
+                (if [set-has? set-visited m-fpos]
+                    (recur bstm-w f-neighbors f-tgt? q-frontier-1 set-visited)
+                    (if [f-tgt? m-pos]
+                        mov
+                        (let* (
+                            [set-visited-2 (set-ins set-visited m-fpos)]
+                            [new-moves (filter (fun [x] (not (set-has? set-visited-2 (bstm-flatten-ix bstm-w (cdr x))))) (f-neighbors m-pos m-dir))]
+                            [q-frontier-2 (foldl q-snoc q-frontier-1 new-moves)]
+                            )
+                            (recur bstm-w f-neighbors f-tgt? q-frontier-2 set-visited-2))))))))
+
+; helpers for old AI (`step') follow
 
 (def ai-score
     (fun [ai ws pos]
@@ -74,13 +140,14 @@
                 -1
                 0))))
 ; tried 5, 6 and 8
+; 8 looks best after all, but the whole threshold thing is unsatisfactory
 (def GHOST-PROXIMITY-THRESHOLD 8)
 (def ghost-dist
     (fun [lm gh]
         (let (
             [d (vec-l1-dist lm gh)]
             )
-            (if [<= d 1] ; DEATH IMMINENT
+            (if [<= d 2] ; DEATH IMMINENT (note that death may still be imminent at 2 -- but weird behavior results)
                 -9000
                 (if [< d GHOST-PROXIMITY-THRESHOLD]
                     d
@@ -265,6 +332,13 @@
             (if [f (car xs)]
                 (recur (cons (car xs) acc) f (cdr xs))
                 (recur acc f (cdr xs))))))
+(def any?
+    (fun [f xs]
+        (if [atom? xs]
+            FALSE
+            (if [f (car xs)]
+                TRUE
+                (recur f (cdr xs))))))
 (def zip (fun [a b] (reverse (zip-rev NIL a b))))
 (def zip-rev
     (fun [acc a b]
