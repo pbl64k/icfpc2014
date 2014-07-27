@@ -1,4 +1,4 @@
-; BFS?
+; Consider ALL moves -- and pick the best one that finds something edible.
 ; exclusion zones around ghosts?
 ; connectivity?
 ; go for pills if ghosts nearby? (check that there ARE pills)
