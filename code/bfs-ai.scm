@@ -6,8 +6,6 @@
 ; + go for pills if ghosts nearby? (check that there ARE pills)
 ; ? use the information about ghosts' direction somehow?
 ; - only relevant for the idiotic AI -- take into account the number of ghosts on the field when scoring
-; ! try to eat the friggin' fruit?
-; ! try to eat the friggin' ghosts?
 ; ? optimize list functions? -- not necessarily such a good idea
 ; - all-sources shortest paths in main? (meeh.)
 ; - reinforcement learning? (yeah, right.)
