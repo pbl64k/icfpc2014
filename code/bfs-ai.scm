@@ -57,9 +57,11 @@
             [best-move (bfs wmap f-neighbors (fun [p] (> (cell-score (bstm-ix wmap p)) 0)) init-frontier init-visited)]
             ;[best-move FALSE]
             )
-            (if best-move
-                (cons (ai-drop-food (ai-add-cell ai-state (cdr best-move)) (cdr best-move)) (car best-move))
-                (step ai-state ws)))))
+            (do
+                (debug best-move)
+                (if best-move
+                    (cons (ai-drop-food (ai-add-cell ai-state (cdr best-move)) (cdr best-move)) (car best-move))
+                    (step ai-state ws))))))
 
 ;;; SCORING AND AI
 

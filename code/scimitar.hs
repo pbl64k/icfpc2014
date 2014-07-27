@@ -210,7 +210,7 @@ cg n env labels (Spec "recur" args) = ([Op "LD" [Num 0, Num 0]] ++ code' ++ [Op 
     where
         (code', labels') = foldl (\(c, l) expr -> let (c', l') = cg n env l expr in (c ++ c', l')) ([], labels) args
 cg n env labels (Spec "do" []) = ([], labels)
-cg n env labels (Spec "do" (expr : rest)) = (code' ++ code'', labels')
+cg n env labels (Spec "do" (expr : rest)) = (code' ++ code'', labels'')
     where
         (code', labels') = cg n env labels expr
         (code'', labels'') = cg n env labels' (Spec "do" rest)
