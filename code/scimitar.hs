@@ -220,7 +220,7 @@ cg n env labels (Spec "debug" [expr]) = (code' ++ [Op "DBUG" []], labels')
 cg n env labels (Spec "!0" [Lit x]) = ([Op "LD" [Num x, Num 0]], labels)
 cg n env labels (Spec "!1" [Lit x]) = ([Op "LD" [Num x, Num 1]], labels)
 -- Unsupported: set!
-cg n env labels expr = ([Cmt $ "WARNING!!! Unable to generate code for {" ++ show expr ++ "}"], labels)
+cg n env labels expr = (unsafePerformIO $ hPutStrLn stderr $ "WARNING!!! Unable to generate code for {" ++ show expr ++ "}") `seq` ([Cmt $ "WARNING!!! Unable to generate code for {" ++ show expr ++ "}"], labels)
 
 flatten acc [] = acc
 flatten (line, labels, acc) (op@(Op _ _) : ops) = flatten (succ line, labels, op : acc) ops
