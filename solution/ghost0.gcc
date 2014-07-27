@@ -1,0 +1,91 @@
+	mov	d, 0
+	mov	f, 0
+	int	3	; sc_loop:
+	int	5
+	jgt	7, d, 0
+	sub	b, 1
+	jeq	14, 0, 0
+	jgt	10, d, 1	; pos_1:
+	add	a, 1
+	jeq	14, 0, 0
+	jgt	13, d, 2	; pos_2:
+	add	b, 1
+	jeq	14, 0, 0
+	sub	a, 1	; pos_3:
+	mov	[4], a	; st_pos:
+	mov	[5], b
+	int	7
+	jgt	20, a, 0
+	mov	[d], 255
+	jeq	45, 0, 0
+	add	f, 1	; not_wall:
+	int	1
+	mov	g, [4]
+	mov	h, [5]
+	jlt	27, a, g
+	sub	a, g
+	jeq	29, 0, 0
+	sub	g, a	; ga:
+	mov	a, g
+	jlt	32, b, h	; ag_done:
+	sub	b, h
+	jeq	34, 0, 0
+	sub	h, b	; hb:
+	mov	b, h
+	add	a, b	; bh_done:
+	mov	h, a
+	int	3
+	int	6
+	jeq	40, a, 1
+	jeq	43, 0, 0
+	mov	g, 255	; frightened:
+	sub	g, h
+	mov	h, g
+	mov	a, h	; write_dist:
+	mov	[d], a
+	add	d, 1	; sc_loop_x:
+	jlt	2, d, 4
+	jlt	90, f, 3
+	mov	e, 255
+	mov	f, 255
+	mov	c, 0
+	int	3
+	int	6
+	mov	h, b
+	add	h, 2
+	jlt	60, h, 4
+	sub	h, 4
+	mov	g, 4
+	jlt	60, [7], 4
+	mov	g, [6]
+	int	3	; pc_loop:
+	jlt	64, a, 4	; check_ix:
+	sub	a, 4
+	jeq	61, 0, 0
+	mov	d, a	; norm_ix:
+	add	d, c
+	jlt	68, d, 4
+	sub	d, 4
+	jeq	77, [d], 255	; d_is_ok:
+	jeq	77, d, h
+	mov	[8], d
+	jlt	73, [8], 2
+	sub	[8], 2
+	jeq	77, g, [8]	; check_rd:
+	jgt	77, [d], f
+	mov	e, d
+	mov	f, [d]
+	add	c, 1	; pc_loop_x:
+	jlt	60, c, 4
+	jgt	90, e, 3
+	mov	a, e
+	int	0
+	jlt	84, a, 2
+	sub	a, 2
+	jeq	88, a, [6]	; check_dir:
+	mov	[6], a
+	mov	[7], 1
+	jeq	89, 0, 0
+	inc	[7]	; inc_cnt:
+	mov	a, a	; inc_done:
+	hlt		; halt:
