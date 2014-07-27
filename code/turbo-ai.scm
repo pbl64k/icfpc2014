@@ -44,6 +44,7 @@
             [best-move (car (car match))]
             )
             (do
+                ; !!! REMOVE THIS
                 (debug 0)
                 (let (
                     [new-ai (ai-update ai-state best-cell)]
@@ -66,14 +67,12 @@
             [bad-ghosties (filter (fun [gh] (gh-std? (gh-vit gh))) ghosties)]
             [gh-pairs (map (fun [gh] (cons (gh-dir gh) (cons (gh-loc gh) NIL))) bad-ghosties)]
             [init-moves (f-neighbors -1 my-loc 1 gh-pairs 0)]
-            ;[init-moves (f-neighbors -1 my-loc 1 NIL)]
             [init-frontier (q-append q-empty init-moves)]
             [init-visited (set-ins set-empty my-floc)]
             [nrst-food (nearest-food ai-state ws)]
             [nrst-ppill (nearest-ppill ai-state ws)]
-            [best-moves (turbo-bfs NIL wmap f-neighbors (fun [p extra-bad-ghosties] (> (f-cell-score p extra-bad-ghosties) 0)) init-frontier init-visited nrst-food nrst-ppill)]
-            ;[best-move (bfs wmap f-neighbors (fun [p] (> (cell-score (bstm-ix wmap p)) 0)) init-frontier init-visited)]
-            ;[best-move FALSE]
+            ;[best-moves (turbo-bfs NIL wmap f-neighbors (fun [p extra-bad-ghosties] (> (f-cell-score p extra-bad-ghosties) 0)) init-frontier init-visited nrst-food nrst-ppill)]
+            [best-moves (turbo-bfs NIL wmap f-neighbors f-cell-score init-frontier init-visited nrst-food nrst-ppill)]
             )
             (do
                 (if [not (atom? best-moves)]
@@ -100,7 +99,6 @@
                                 (bfsx-ch-dir mov preset-dir)))
                         (map
                             (fun [mov]
-                                ; right now the score is always 0 - this is for future extension
                                 (bfsx-cons (car mov) (vec-+ pos (cdr mov)) dist new-ghosts sc))
                             nb-moves)))))))
 
@@ -162,40 +160,42 @@
 ; nothing particularly fast about it
 ; it's just meant to be TURBO.
 (def turbo-bfs
-    ; !!! change f-tgt? to value function
-    (fun [acc bstm-w f-neighbors f-tgt? q-frontier set-visited nrst-food nrst-ppill]
+    (fun [acc bstm-w f-neighbors f-val q-frontier set-visited nrst-food nrst-ppill]
         (do
             (if [q-isempty? q-frontier]
                 acc
                 ; !!! optimization
                 (let* (
                     [state-1 (q-pop q-frontier)]
-                    [mov (car state-1)]
+                    [mov-0 (car state-1)]
                     [q-frontier-1 (cdr state-1)]
-                    [m-dir (bfsx-dir mov)]
-                    [m-pos (bfsx-pos mov)]
-                    [m-dist (bfsx-dist mov)]
-                    [m-ghs (bfsx-ghs mov)]
+                    [m-dir (bfsx-dir mov-0)]
+                    [m-pos (bfsx-pos mov-0)]
+                    [m-dist (bfsx-dist mov-0)]
+                    [m-ghs (bfsx-ghs mov-0)]
                     [m-fpos (bstm-flatten-ix bstm-w m-pos)]
                     )
                     (if [set-has? set-visited m-fpos]
-                        (recur acc bstm-w f-neighbors f-tgt? q-frontier-1 set-visited nrst-food nrst-ppill)
-                        ; !!! recompute the score HERE -- need m-sc (NEW)
+                        (recur acc bstm-w f-neighbors f-val q-frontier-1 set-visited nrst-food nrst-ppill)
                         ; !!! optimization
                         (let* (
+                            [cell-sc (f-val m-pos m-ghs)]
+                            [mov (bfsx-add-sc mov-0 cell-sc)]
                             [m-sc (bfsx-sc mov)]
                             )
-                            (if [f-tgt? m-pos m-ghs]
-                                (recur (bfs-ins-move acc mov) bstm-w f-neighbors f-tgt? q-frontier-1 (set-ins set-visited m-fpos) nrst-food nrst-ppill)
-                                ; !!! add a branch for expired moves
-                                ; !!! optimization
-                                (let* (
-                                    [set-visited-2 (set-ins set-visited m-fpos)]
-                                    [m-neighbors (f-neighbors m-dir m-pos (+ 1 m-dist) m-ghs m-sc)]
-                                    [new-moves (filter (fun [x] (not (set-has? set-visited-2 (bstm-flatten-ix bstm-w (bfsx-pos x))))) m-neighbors)]
-                                    [q-frontier-2 (q-append q-frontier-1 new-moves)]
-                                    )
-                                    (recur acc bstm-w f-neighbors f-tgt? q-frontier-2 set-visited-2 nrst-food nrst-ppill))))))))))
+                            (if [> cell-sc 0]
+                                (recur (bfs-ins-move acc mov) bstm-w f-neighbors f-val q-frontier-1 (set-ins set-visited m-fpos) nrst-food nrst-ppill)
+                                (if [> m-dist TURBO-THRESH]
+                                    ; !!! compute additional score
+                                    (recur (bfs-ins-move acc mov) bstm-w f-neighbors f-val q-frontier-1 (set-ins set-visited m-fpos) nrst-food nrst-ppill)
+                                    ; !!! optimization
+                                    (let* (
+                                        [set-visited-2 (set-ins set-visited m-fpos)]
+                                        [m-neighbors (f-neighbors m-dir m-pos (+ 1 m-dist) m-ghs m-sc)]
+                                        [new-moves (filter (fun [x] (not (set-has? set-visited-2 (bstm-flatten-ix bstm-w (bfsx-pos x))))) m-neighbors)]
+                                        [q-frontier-2 (q-append q-frontier-1 new-moves)]
+                                        )
+                                        (recur acc bstm-w f-neighbors f-val q-frontier-2 set-visited-2 nrst-food nrst-ppill)))))))))))
 
 (def bfs-ins-move
     (fun [acc mov]
@@ -214,38 +214,6 @@
             (if [> (bfsx-sc (car xs)) (bfsx-sc acc)]
                 (recur (car xs) (cdr xs))
                 (recur acc (cdr xs))))))
-
-; !!! remove it later
-(def non-turbo-bfs
-    (fun [bstm-w f-neighbors f-tgt? q-frontier set-visited nrst-food nrst-ppill]
-        (do
-            (if [q-isempty? q-frontier]
-                FALSE
-                ; !!! optimization
-                (let* (
-                    [state-1 (q-pop q-frontier)]
-                    [mov (car state-1)]
-                    [q-frontier-1 (cdr state-1)]
-                    [m-dir (bfsx-dir mov)]
-                    [m-pos (bfsx-pos mov)]
-                    [m-dist (bfsx-dist mov)]
-                    [m-ghs (bfsx-ghs mov)]
-                    [m-sc (bfsx-sc mov)]
-                    [m-fpos (bstm-flatten-ix bstm-w m-pos)]
-                    )
-                    (if [set-has? set-visited m-fpos]
-                        (recur bstm-w f-neighbors f-tgt? q-frontier-1 set-visited nrst-food nrst-ppill)
-                        (if [f-tgt? m-pos m-ghs]
-                            mov
-                            ; !!! optimization
-                            (let* (
-                                ; !!! recompute the score
-                                [set-visited-2 (set-ins set-visited m-fpos)]
-                                [m-neighbors (f-neighbors m-dir m-pos (+ 1 m-dist) m-ghs m-sc)]
-                                [new-moves (filter (fun [x] (not (set-has? set-visited-2 (bstm-flatten-ix bstm-w (bfsx-pos x))))) m-neighbors)]
-                                [q-frontier-2 (q-append q-frontier-1 new-moves)]
-                                )
-                                (recur bstm-w f-neighbors f-tgt? q-frontier-2 set-visited-2 nrst-food nrst-ppill)))))))))
 
 (def bfsx-cons
     (fun [dir pos dist ghs sc]
