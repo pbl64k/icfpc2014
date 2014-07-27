@@ -1,0 +1,222 @@
+	DUM	8
+	LDC	0
+	LDF	14
+	LDF	32
+	LDC	0
+	LDC	0
+	CONS	
+	LDF	36
+	LDF	40
+	LDF	54
+	LDF	75
+	LDF	191
+	RAP	8
+	RTN	
+; lambda_0: (addr: 14)
+	LD	1 2
+	LD	1 0
+	LD	0 1
+	LD	1 2
+	AP	3
+	RTN	
+; then_1: (addr: 20)
+	LD	0 1
+	RTN	
+; else_2: (addr: 22)
+	LD	0 0
+	LD	0 2
+	CAR	
+	LD	0 1
+	CONS	
+	LD	0 2
+	CDR	
+	LD	0 0
+	TAP	3
+	RTN	
+; lambda_3: (addr: 32)
+	LD	0 2
+	ATOM	
+	TSEL	20 22
+	RTN	
+; lambda_4: (addr: 36)
+	LD	0 1
+	CAR	
+	ATOM	
+	RTN	
+; lambda_5: (addr: 40)
+	LD	0 1
+	CAR	
+	CAR	
+	LD	1 7
+	LD	0 1
+	CAR	
+	CDR	
+	LD	0 1
+	CDR	
+	CONS	
+	LD	1 7
+	AP	2
+	CONS	
+	RTN	
+; lambda_6: (addr: 54)
+	LD	1 7
+	LD	0 1
+	CAR	
+	LD	0 2
+	LD	0 1
+	CDR	
+	CONS	
+	CONS	
+	LD	1 7
+	AP	2
+	RTN	
+; then_7: (addr: 65)
+	LD	1 1
+	LD	0 1
+	CDR	
+	LD	1 1
+	AP	2
+	LD	1 0
+	CONS	
+	RTN	
+; else_8: (addr: 73)
+	LD	0 1
+	RTN	
+; lambda_9: (addr: 75)
+	LD	0 1
+	CAR	
+	ATOM	
+	TSEL	65 73
+	RTN	
+; let_10: (addr: 80)
+	LD	10 0
+	DBUG	
+	LD	9 0
+	DBUG	
+	LD	8 0
+	DBUG	
+	LD	7 0
+	DBUG	
+	LD	6 0
+	DBUG	
+	LD	5 0
+	DBUG	
+	LD	4 0
+	DBUG	
+	LD	3 0
+	DBUG	
+	LD	2 0
+	DBUG	
+	LD	1 0
+	DBUG	
+	LD	0 0
+	DBUG	
+	LDC	0
+	RTN	
+; let_11: (addr: 104)
+	DUM	1
+	LD	11 5
+	LD	1 0
+	CDR	
+	LD	11 5
+	AP	2
+	LDF	80
+	RAP	1
+	RTN	
+; let_12: (addr: 113)
+	DUM	1
+	LD	10 5
+	LD	1 0
+	CDR	
+	LD	10 5
+	AP	2
+	LDF	104
+	RAP	1
+	RTN	
+; let_13: (addr: 122)
+	DUM	1
+	LD	9 5
+	LD	3 0
+	LD	9 5
+	AP	2
+	LDF	113
+	RAP	1
+	RTN	
+; let_14: (addr: 130)
+	DUM	1
+	LD	8 5
+	LD	6 0
+	LD	8 5
+	AP	2
+	LDF	122
+	RAP	1
+	RTN	
+; let_15: (addr: 138)
+	DUM	1
+	LD	7 5
+	LD	6 0
+	LD	7 5
+	AP	2
+	LDF	130
+	RAP	1
+	RTN	
+; let_16: (addr: 146)
+	DUM	1
+	LD	6 6
+	LD	1 0
+	LDC	5
+	LD	6 6
+	AP	3
+	LDF	138
+	RAP	1
+	RTN	
+; let_17: (addr: 155)
+	DUM	1
+	LD	5 6
+	LD	1 0
+	CDR	
+	LDC	4
+	LD	5 6
+	AP	3
+	LDF	146
+	RAP	1
+	RTN	
+; let_18: (addr: 165)
+	DUM	1
+	LD	4 5
+	LD	1 0
+	LD	4 5
+	AP	2
+	LDF	155
+	RAP	1
+	RTN	
+; let_19: (addr: 173)
+	DUM	1
+	LD	3 6
+	LD	1 0
+	LDC	3
+	LD	3 6
+	AP	3
+	LDF	165
+	RAP	1
+	RTN	
+; let_20: (addr: 182)
+	DUM	1
+	LD	2 6
+	LD	1 0
+	LDC	2
+	LD	2 6
+	AP	3
+	LDF	173
+	RAP	1
+	RTN	
+; let_21: (addr: 191)
+	DUM	1
+	LD	1 6
+	LD	1 3
+	LDC	1
+	LD	1 6
+	AP	3
+	LDF	182
+	RAP	1
+	RTN	

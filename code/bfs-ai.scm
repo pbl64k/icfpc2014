@@ -250,20 +250,19 @@
 
 ;;; SIMPLE PURELY FUNCTIONAL QUEUES
 
-(def q-empty (cons 0 (cons 0 0)))
+(def q-empty (cons 0 0))
 (def q-isempty?
     (fun [q] (atom? (car q))))
 (def q-pop
     (fun [q]
-        (cons (car (car q)) (q-norm (cons (cdr (car q)) (cons (car (cdr q)) NIL))))))
+        (cons (car (car q)) (q-norm (cons (cdr (car q)) (cdr q))))))
 (def q-snoc
     (fun [q x]
-        (q-norm (cons (car q) (cons (cons x (car (cdr q))) NIL)))))
+        (q-norm (cons (car q) (cons x (cdr q))))))
 (def q-norm
     (fun [q]
-        ; semantically different from `q-isempty?' -- it just LOOKS like it's empty
         (if [atom? (car q)]
-            (cons (reverse (car (cdr q))) (cons NIL NIL))
+            (cons (reverse (cdr q)) NIL)
             q)))
 
 ;;; INTEGER TREESETS
