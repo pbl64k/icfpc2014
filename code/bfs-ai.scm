@@ -61,7 +61,11 @@
                 ;(debug my-loc)
                 ;(debug init-moves)
                 ;(debug best-move)
-                (if best-move
+                ;(debug (atom? best-move))
+                ;(debug (not (atom? best-move)))
+                ;(debug (car best-move))
+                ;(cons ai-state (car best-move))))))
+                (if [not (atom? best-move)]
                     (cons (ai-drop-food (ai-add-cell ai-state (cdr best-move)) (cdr best-move)) (car best-move))
                     (step ai-state ws))))))
 
@@ -105,15 +109,16 @@
                         (recur bstm-w f-neighbors f-tgt? q-frontier-1 set-visited)
                         (if [f-tgt? m-pos]
                             mov
-                            (let* (
-                                [faux 0]
-                                ;[set-visited-2 (set-ins set-visited m-fpos)]
-                                ;[new-moves (filter (fun [x] (not (set-has? set-visited-2 (bstm-flatten-ix bstm-w (cdr x))))) (f-neighbors m-pos m-dir))]
-                                ;[q-frontier-2 (foldl q-snoc q-frontier-1 new-moves)]
-                                )
-                                FALSE))))))))
-                                ;(recur bstm-w f-neighbors f-tgt? q-frontier-2 set-visited-2)))))))))
-                                ;(recur bstm-w f-neighbors f-tgt? q-frontier-1 set-visited)))))))))
+                            FALSE)))))))
+                            ;(let* (
+                            ;    [faux 0]
+                            ;    ;[set-visited-2 (set-ins set-visited m-fpos)]
+                            ;    ;[new-moves (filter (fun [x] (not (set-has? set-visited-2 (bstm-flatten-ix bstm-w (cdr x))))) (f-neighbors m-pos m-dir))]
+                            ;    ;[q-frontier-2 (foldl q-snoc q-frontier-1 new-moves)]
+                            ;    )
+                            ;    FALSE))))))))
+                            ;    ;(recur bstm-w f-neighbors f-tgt? q-frontier-2 set-visited-2)))))))))
+                            ;    ;(recur bstm-w f-neighbors f-tgt? q-frontier-1 set-visited)))))))))
 
 ; helpers for old AI (`step') follow
 

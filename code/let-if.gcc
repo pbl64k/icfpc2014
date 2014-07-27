@@ -1,0 +1,42 @@
+	DUM	1
+	LDF	26
+	LDF	31
+	RAP	1
+	RTN	
+; then_0: (addr: 5)
+	LDC	1
+	RTN	
+; else_1: (addr: 7)
+	LDC	0
+	RTN	
+; let_2: (addr: 9)
+	LD	0 0
+	LDC	2
+	CGT	
+	TSEL	5 7
+	RTN	
+; let_3: (addr: 14)
+	DUM	1
+	LD	2 0
+	LD	1 0
+	ADD	
+	LDF	9
+	RAP	1
+	RTN	
+; let_4: (addr: 21)
+	DUM	1
+	LDC	2
+	LDF	14
+	RAP	1
+	RTN	
+; lambda_5: (addr: 26)
+	DUM	1
+	LDC	1
+	LDF	21
+	RAP	1
+	RTN	
+; let_6: (addr: 31)
+	LD	0 0
+	LD	0 0
+	AP	1
+	RTN	
