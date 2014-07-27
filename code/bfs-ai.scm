@@ -19,7 +19,7 @@
             [ps (cart w h)]
             [fs (filter (fun [p] (> (cell-score (bstm-ix bstmap p)) 0)) ps)]
             )
-            (cons (ai-cons 0 fs) (fun-abi [a b] (step a b))))))
+            (cons (ai-cons NIL fs) (fun-abi [a b] (step a b))))))
 
 ; implements the logic of standard `step' -- but `main` must ensure it's converted to fun-abi
 (def step
@@ -97,9 +97,9 @@
 (def m-ix
     (fun [wmap pos]
         (if [< (car pos) 0]
-            0
+            M-WALL
             (if [< (cdr pos) 0]
-                0
+                M-WALL
                 (ith (car pos) (ith (cdr pos) wmap))))))
 (def valid-cell?
     (fun [wmap pos]
@@ -119,7 +119,7 @@
 
 (def ai-cons
     (fun [recent-cells food]
-        (cons recent-cells (cons food 0))))
+        (cons recent-cells (cons food NIL))))
 (def ai-add-cell
     (fun [ai cell]
         (let* (
@@ -148,7 +148,7 @@
             [sz (* h w)]
             [fmap (concat wmap)]
             )
-            (cons (bst-cons fmap sz) (cons w (cons h 0))))))
+            (cons (bst-cons fmap sz) (cons w (cons h NIL))))))
 (def bst-cons
     (fun [xs n]
         (if [= n 1]
@@ -157,7 +157,7 @@
                 [midp (/ n 2)]
                 [sp (span midp xs)]
                 )
-                (cons 0 (cons midp (cons (bst-cons (car sp) midp) (cons (bst-cons (cdr sp) (- n midp)) 0))))))))
+                (cons 0 (cons midp (cons (bst-cons (car sp) midp) (cons (bst-cons (cdr sp) (- n midp)) NIL))))))))
 (def bstm-map (fun [bst] (ith 0 bst)))
 (def bstm-w (fun [bst] (ith 1 bst)))
 (def bstm-h (fun [bst] (ith 2 bst)))
@@ -182,18 +182,38 @@
     (fun [q] (atom? (car q))))
 (def q-pop
     (fun [q]
-        (cons (car (car q)) (q-norm (cons (cdr (car q)) (cons (cdr q) 0))))))
+        (cons (car (car q)) (q-norm (cons (cdr (car q)) (cons (cdr q) NIL))))))
 (def q-snoc
     (fun [q x]
-        (cons (car q) (cons (cons x (cdr q)) 0))))
+        (cons (car q) (cons (cons x (cdr q)) NIL))))
 (def q-norm
     (fun [q]
         ; semantically different from `q-isempty?' -- it just LOOKS like it's empty
         (if [atom? (car q)]
-            (cons (reverse (cdr q)) (cons 0 0))
+            (cons (reverse (cdr q)) (cons NIL NIL))
             q)))
 
 ;;; INTEGER TREESETS
+
+(def set-empty 0)
+(def set-ins
+    (fun [s x]
+        (if [atom? s]
+            (cons x (cons NIL (cons NIL NIL)))
+            (if [= x (car s)]
+                s
+                (if [< x (car s)]
+                    (cons (car s) (cons (set-ins (car (cdr s)) x) (cons (car (cdr (cdr s))) NIL)))
+                    (cons (car s) (cons (car (cdr s)) (cons (set-ins (car (cdr (cdr s))) x) NIL))))))))
+(def set-has?
+    (fun [s x]
+        (if [atom? s]
+            FALSE
+            (if [= x (car s)]
+                TRUE
+                (if [< x (car s)]
+                    (recur (car (cdr s)) x)
+                    (recur (car (cdr (cdr s))) x))))))
 
 ;;; MISC
 
@@ -281,9 +301,9 @@
 (def take
     (fun [n xs]
         (if [= n 0]
-            0
+            NIL
             (if [atom? xs]
-                0
+                NIL
                 (cons (car xs) (take (- n 1) (cdr xs)))))))
 ; TODO? I'm not sure this makes sense if the last element of a "tuple" is a cons cell itself
 (def ith
@@ -308,9 +328,9 @@
     (fun [a b]
         (if [= (car a) (car b)]
             (if [= (cdr a) (cdr b)]
-                1
-                0)
-            0)))
+                TRUE
+                FALSE)
+            FALSE)))
 (def vec-l1-dist
     (fun [a b]
         (+ (abs (- (car a) (car b))) (abs (- (cdr a) (cdr b))))))
@@ -330,6 +350,8 @@
 ;;; but limits the use of constants in the outer frame
 
 (def NIL 0)
+(def TRUE 1)
+(def FALSE 0)
 (def neighbors (cons (cons 1 0) (cons (cons -1 0) (cons (cons 0 1) (cons (cons 0 -1) 0)))))
 (def nb-moves (fun [] (zip (cons DIR-RT (cons DIR-LT (cons DIR-DN (cons DIR-UP NIL)))) neighbors)))
 (def M-WALL 0)
