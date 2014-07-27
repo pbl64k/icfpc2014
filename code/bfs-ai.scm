@@ -1,13 +1,15 @@
-; Consider ALL moves -- and pick the best one that finds something edible.
-; exclusion zones around ghosts?
-; connectivity?
-; go for pills if ghosts nearby? (check that there ARE pills)
-; use the information about ghosts' direction somehow?
-; take into account the number of ghosts on the field when scoring
-; try to eat the friggin' fruit?
-; all-sources shortest paths in main?
-; reinforcement learning? (yeah, right.)
-; with-matrix or somesuch would help? -- prolly not a good idea, no way to index sanely
+; ! Consider ALL moves -- and pick the best one that finds something edible.
+; + Fall back to idiotic AI if nearest dot is too far away?
+; ! Alternately -- limit the number of steps and score by distance to nearest if too far away?
+; ? connectivity?
+; + go for pills if ghosts nearby? (check that there ARE pills)
+; ? use the information about ghosts' direction somehow?
+; - only relevant for the idiotic AI -- take into account the number of ghosts on the field when scoring
+; ! try to eat the friggin' fruit?
+; ! try to eat the friggin' ghosts?
+; - all-sources shortest paths in main? (meeh.)
+; - reinforcement learning? (yeah, right.)
+; - with-matrix or somesuch would help? -- prolly not a good idea, no way to index sanely
 
 ;;; EXTERNAL INTERFACE
 
@@ -86,7 +88,8 @@
     (fun [wmap ws]
         (fun [pos]
             (if [> (bstm-ix wmap pos) M-WALL]
-                (not (any? (fun [gh-loc] (vec-=? pos gh-loc)) (map gh-loc (filter (fun [gh] (not (gh-fear? (gh-vit gh)))) (ws-ghst ws)))))
+                ;(not (any? (fun [gh-loc] (vec-=? pos gh-loc)) (map gh-loc (filter (fun [gh] (not (gh-fear? (gh-vit gh)))) (ws-ghst ws)))))
+                (not (any? (fun [gh-loc] (<= (vec-l1-dist pos gh-loc) 1)) (map gh-loc (filter (fun [gh] (not (gh-fear? (gh-vit gh)))) (ws-ghst ws)))))
                 FALSE))))
 
 (def bfs
