@@ -112,40 +112,40 @@
 	LDF	594
 	RAP	60
 	RTN	
-; lambda_0:
+; lambda_0: (addr: 114)
 	LD	2 1
 	LD	0 0
 	LD	0 1
 	LD	2 1
 	AP	3
 	RTN	
-; lambda_1:
+; lambda_1: (addr: 120)
 	LD	0 1
 	LDF	114
 	CONS	
 	RTN	
-; lambda_2:
+; lambda_2: (addr: 124)
 	LD	5 11
 	LD	0 1
 	LD	2 0
 	LD	5 11
 	AP	3
 	RTN	
-; lambda_3:
+; lambda_3: (addr: 130)
 	LD	6 14
 	LD	4 0
 	LD	0 1
 	LD	6 14
 	AP	3
 	RTN	
-; lambda_4:
+; lambda_4: (addr: 136)
 	LD	7 13
 	LD	5 0
 	LD	0 1
 	LD	7 13
 	AP	3
 	RTN	
-; lambda_5:
+; lambda_5: (addr: 142)
 	LD	9 12
 	LD	9 11
 	LD	0 1
@@ -157,12 +157,12 @@
 	LD	9 12
 	AP	3
 	RTN	
-; let_6:
+; let_6: (addr: 153)
 	LD	8 1
 	LD	0 0
 	CONS	
 	RTN	
-; let_7:
+; let_7: (addr: 157)
 	DUM	1
 	LD	1 0
 	DBUG	
@@ -172,7 +172,7 @@
 	LDF	153
 	RAP	1
 	RTN	
-; let_8:
+; let_8: (addr: 166)
 	DUM	1
 	LD	8 4
 	LDF	142
@@ -182,7 +182,7 @@
 	LDF	157
 	RAP	1
 	RTN	
-; let_9:
+; let_9: (addr: 175)
 	DUM	1
 	LD	7 17
 	LD	7 17
@@ -190,7 +190,7 @@
 	LDF	166
 	RAP	1
 	RTN	
-; let_10:
+; let_10: (addr: 182)
 	DUM	1
 	LD	6 2
 	LDF	136
@@ -209,7 +209,7 @@
 	LDF	175
 	RAP	1
 	RTN	
-; let_11:
+; let_11: (addr: 200)
 	DUM	1
 	LD	5 4
 	LDF	130
@@ -219,7 +219,7 @@
 	LDF	182
 	RAP	1
 	RTN	
-; let_12:
+; let_12: (addr: 209)
 	DUM	1
 	LD	4 2
 	LDF	124
@@ -229,7 +229,7 @@
 	LDF	200
 	RAP	1
 	RTN	
-; let_13:
+; let_13: (addr: 218)
 	DUM	1
 	LD	3 44
 	LD	3 33
@@ -241,7 +241,7 @@
 	LDF	209
 	RAP	1
 	RTN	
-; lambda_14:
+; lambda_14: (addr: 229)
 	DUM	1
 	LD	2 32
 	LD	1 2
@@ -250,7 +250,7 @@
 	LDF	218
 	RAP	1
 	RTN	
-; lambda_15:
+; lambda_15: (addr: 237)
 	LD	1 8
 	LD	1 3
 	LD	1 15
@@ -261,10 +261,10 @@
 	LD	1 8
 	AP	2
 	RTN	
-; then_16:
+; then_16: (addr: 247)
 	LD	0 1
 	RTN	
-; else_17:
+; else_17: (addr: 249)
 	LD	0 0
 	LD	0 2
 	LD	0 3
@@ -279,12 +279,12 @@
 	LD	0 0
 	TAP	4
 	RTN	
-; lambda_18:
+; lambda_18: (addr: 263)
 	LD	0 3
 	ATOM	
 	TSEL	247 249
 	RTN	
-; lambda_19:
+; lambda_19: (addr: 267)
 	LD	1 8
 	LD	1 5
 	LD	1 15
@@ -295,10 +295,10 @@
 	LD	1 8
 	AP	2
 	RTN	
-; then_20:
+; then_20: (addr: 277)
 	LD	0 1
 	RTN	
-; then_21:
+; then_21: (addr: 279)
 	LD	0 0
 	LD	0 3
 	CAR	
@@ -310,7 +310,7 @@
 	LD	0 0
 	TAP	4
 	RTN	
-; else_22:
+; else_22: (addr: 290)
 	LD	0 0
 	LD	0 1
 	LD	0 2
@@ -319,7 +319,7 @@
 	LD	0 0
 	TAP	4
 	RTN	
-; else_23:
+; else_23: (addr: 298)
 	LD	0 2
 	LD	0 3
 	CAR	
@@ -327,12 +327,12 @@
 	AP	2
 	TSEL	279 290
 	RTN	
-; lambda_24:
+; lambda_24: (addr: 305)
 	LD	0 3
 	ATOM	
 	TSEL	277 298
 	RTN	
-; lambda_25:
+; lambda_25: (addr: 309)
 	LD	1 8
 	LD	1 7
 	LD	1 15
@@ -343,13 +343,13 @@
 	LD	1 8
 	AP	2
 	RTN	
-; then_26:
+; then_26: (addr: 319)
 	LD	0 1
 	RTN	
-; then_27:
+; then_27: (addr: 321)
 	LD	0 1
 	RTN	
-; else_28:
+; else_28: (addr: 323)
 	LD	0 0
 	LD	0 2
 	CAR	
@@ -365,27 +365,27 @@
 	LD	0 0
 	TAP	4
 	RTN	
-; else_29:
+; else_29: (addr: 338)
 	LD	0 3
 	ATOM	
 	TSEL	321 323
 	RTN	
-; lambda_30:
+; lambda_30: (addr: 342)
 	LD	0 2
 	ATOM	
 	TSEL	319 338
 	RTN	
-; lambda_31:
+; lambda_31: (addr: 346)
 	LD	1 9
 	LD	1 15
 	LD	0 1
 	LD	1 9
 	AP	3
 	RTN	
-; then_32:
+; then_32: (addr: 352)
 	LD	0 1
 	RTN	
-; else_33:
+; else_33: (addr: 354)
 	LD	0 0
 	LD	0 2
 	CAR	
@@ -396,15 +396,15 @@
 	LD	0 0
 	TAP	3
 	RTN	
-; lambda_34:
+; lambda_34: (addr: 364)
 	LD	0 2
 	ATOM	
 	TSEL	352 354
 	RTN	
-; then_35:
+; then_35: (addr: 368)
 	LD	0 2
 	RTN	
-; then_36:
+; then_36: (addr: 370)
 	LD	0 0
 	LD	0 1
 	LDC	1
@@ -414,20 +414,20 @@
 	LD	0 0
 	TAP	3
 	RTN	
-; else_37:
+; else_37: (addr: 379)
 	LD	0 2
 	CAR	
 	RTN	
-; else_38:
+; else_38: (addr: 382)
 	LD	0 1
 	TSEL	370 379
 	RTN	
-; lambda_39:
+; lambda_39: (addr: 385)
 	LD	0 2
 	ATOM	
 	TSEL	368 382
 	RTN	
-; lambda_40:
+; lambda_40: (addr: 389)
 	LD	0 1
 	CAR	
 	LD	0 2
@@ -440,13 +440,13 @@
 	ADD	
 	CONS	
 	RTN	
-; then_41:
+; then_41: (addr: 401)
 	LDC	1
 	RTN	
-; else_42:
+; else_42: (addr: 403)
 	LDC	0
 	RTN	
-; then_43:
+; then_43: (addr: 405)
 	LD	0 1
 	CDR	
 	LD	0 2
@@ -454,10 +454,10 @@
 	CEQ	
 	TSEL	401 403
 	RTN	
-; else_44:
+; else_44: (addr: 412)
 	LDC	0
 	RTN	
-; lambda_45:
+; lambda_45: (addr: 414)
 	LD	0 1
 	CAR	
 	LD	0 2
@@ -465,13 +465,13 @@
 	CEQ	
 	TSEL	405 412
 	RTN	
-; then_46:
+; then_46: (addr: 421)
 	LDC	0
 	RTN	
-; then_47:
+; then_47: (addr: 423)
 	LDC	0
 	RTN	
-; else_48:
+; else_48: (addr: 425)
 	LD	1 10
 	LD	0 2
 	CAR	
@@ -484,26 +484,26 @@
 	LD	1 10
 	AP	3
 	RTN	
-; else_49:
+; else_49: (addr: 437)
 	LDC	0
 	LD	0 2
 	CDR	
 	CGT	
 	TSEL	423 425
 	RTN	
-; lambda_50:
+; lambda_50: (addr: 443)
 	LDC	0
 	LD	0 2
 	CAR	
 	CGT	
 	TSEL	421 437
 	RTN	
-; let_51:
+; let_51: (addr: 449)
 	LD	0 0
 	LD	2 18
 	CGT	
 	RTN	
-; lambda_52:
+; lambda_52: (addr: 453)
 	DUM	1
 	LD	2 13
 	LD	1 1
@@ -513,7 +513,7 @@
 	LDF	449
 	RAP	1
 	RTN	
-; lambda_53:
+; lambda_53: (addr: 462)
 	LD	1 6
 	LD	1 28
 	LD	1 30
@@ -528,149 +528,149 @@
 	LD	1 6
 	AP	3
 	RTN	
-; lambda_54:
+; lambda_54: (addr: 476)
 	LD	1 10
 	LDC	0
 	LD	0 1
 	LD	1 10
 	AP	3
 	RTN	
-; lambda_55:
+; lambda_55: (addr: 482)
 	LD	1 10
 	LDC	1
 	LD	0 1
 	LD	1 10
 	AP	3
 	RTN	
-; lambda_56:
+; lambda_56: (addr: 488)
 	LD	1 10
 	LDC	2
 	LD	0 1
 	LD	1 10
 	AP	3
 	RTN	
-; lambda_57:
+; lambda_57: (addr: 494)
 	LD	1 10
 	LDC	3
 	LD	0 1
 	LD	1 10
 	AP	3
 	RTN	
-; lambda_58:
+; lambda_58: (addr: 500)
 	LD	0 1
 	LD	1 18
 	CEQ	
 	RTN	
-; lambda_59:
+; lambda_59: (addr: 504)
 	LD	0 1
 	LD	1 19
 	CEQ	
 	RTN	
-; lambda_60:
+; lambda_60: (addr: 508)
 	LD	0 1
 	LD	1 20
 	CEQ	
 	RTN	
-; lambda_61:
+; lambda_61: (addr: 512)
 	LD	0 1
 	LD	1 21
 	CEQ	
 	RTN	
-; lambda_62:
+; lambda_62: (addr: 516)
 	LD	0 1
 	LD	1 22
 	CEQ	
 	RTN	
-; lambda_63:
+; lambda_63: (addr: 520)
 	LD	0 1
 	LD	1 23
 	CEQ	
 	RTN	
-; lambda_64:
+; lambda_64: (addr: 524)
 	LD	0 1
 	LD	1 24
 	CEQ	
 	RTN	
-; lambda_65:
+; lambda_65: (addr: 528)
 	LD	1 10
 	LDC	0
 	LD	0 1
 	LD	1 10
 	AP	3
 	RTN	
-; lambda_66:
+; lambda_66: (addr: 534)
 	LD	1 10
 	LDC	1
 	LD	0 1
 	LD	1 10
 	AP	3
 	RTN	
-; lambda_67:
+; lambda_67: (addr: 540)
 	LD	1 10
 	LDC	2
 	LD	0 1
 	LD	1 10
 	AP	3
 	RTN	
-; lambda_68:
+; lambda_68: (addr: 546)
 	LD	1 10
 	LDC	3
 	LD	0 1
 	LD	1 10
 	AP	3
 	RTN	
-; lambda_69:
+; lambda_69: (addr: 552)
 	LD	1 10
 	LDC	4
 	LD	0 1
 	LD	1 10
 	AP	3
 	RTN	
-; lambda_70:
+; lambda_70: (addr: 558)
 	LD	1 10
 	LDC	0
 	LD	0 1
 	LD	1 10
 	AP	3
 	RTN	
-; lambda_71:
+; lambda_71: (addr: 564)
 	LD	1 10
 	LDC	1
 	LD	0 1
 	LD	1 10
 	AP	3
 	RTN	
-; lambda_72:
+; lambda_72: (addr: 570)
 	LD	1 10
 	LDC	2
 	LD	0 1
 	LD	1 10
 	AP	3
 	RTN	
-; lambda_73:
+; lambda_73: (addr: 576)
 	LD	0 1
 	LD	1 25
 	CEQ	
 	RTN	
-; lambda_74:
+; lambda_74: (addr: 580)
 	LD	0 1
 	LD	1 26
 	CEQ	
 	RTN	
-; lambda_75:
+; lambda_75: (addr: 584)
 	LD	0 1
 	LD	1 31
 	CEQ	
 	RTN	
-; lambda_76:
+; lambda_76: (addr: 588)
 	LD	0 1
 	CAR	
 	RTN	
-; lambda_77:
+; lambda_77: (addr: 591)
 	LD	0 1
 	CDR	
 	RTN	
-; let_78:
+; let_78: (addr: 594)
 	LD	0 1
 	LDC	0
 	LD	0 56

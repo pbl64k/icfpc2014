@@ -224,7 +224,7 @@ cg n env labels expr = ([Cmt $ "WARNING!!! Unable to generate code for {" ++ sho
 
 flatten acc [] = acc
 flatten (line, labels, acc) (op@(Op _ _) : ops) = flatten (succ line, labels, op : acc) ops
-flatten (line, labels, acc) ((Label lbl) : ops) = flatten (line, M.insert lbl line labels, (Cmt $ lbl ++ ":") : acc) ops
+flatten (line, labels, acc) ((Label lbl) : ops) = flatten (line, M.insert lbl line labels, (Cmt $ lbl ++ ": (addr: " ++ show line ++ ")") : acc) ops
 flatten (line, labels, acc) (op : ops) = flatten (line, labels, op : acc) ops
 
 outarg _ (Num x) = show x

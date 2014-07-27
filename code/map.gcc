@@ -13,7 +13,7 @@
 	LDF	187
 	RAP	11
 	RTN	
-; lambda_0:
+; lambda_0: (addr: 15)
 	LD	1 7
 	LD	1 2
 	LD	1 0
@@ -24,10 +24,10 @@
 	LD	1 7
 	AP	2
 	RTN	
-; then_1:
+; then_1: (addr: 25)
 	LD	0 1
 	RTN	
-; else_2:
+; else_2: (addr: 27)
 	LD	0 0
 	LD	0 2
 	LD	0 3
@@ -42,12 +42,12 @@
 	LD	0 0
 	TAP	4
 	RTN	
-; lambda_3:
+; lambda_3: (addr: 41)
 	LD	0 3
 	ATOM	
 	TSEL	25 27
 	RTN	
-; lambda_4:
+; lambda_4: (addr: 45)
 	LD	1 7
 	LD	1 4
 	LD	1 0
@@ -58,10 +58,10 @@
 	LD	1 7
 	AP	2
 	RTN	
-; then_5:
+; then_5: (addr: 55)
 	LD	0 1
 	RTN	
-; then_6:
+; then_6: (addr: 57)
 	LD	0 0
 	LD	0 3
 	CAR	
@@ -73,7 +73,7 @@
 	LD	0 0
 	TAP	4
 	RTN	
-; else_7:
+; else_7: (addr: 68)
 	LD	0 0
 	LD	0 1
 	LD	0 2
@@ -82,7 +82,7 @@
 	LD	0 0
 	TAP	4
 	RTN	
-; else_8:
+; else_8: (addr: 76)
 	LD	0 2
 	LD	0 3
 	CAR	
@@ -90,12 +90,12 @@
 	AP	2
 	TSEL	57 68
 	RTN	
-; lambda_9:
+; lambda_9: (addr: 83)
 	LD	0 3
 	ATOM	
 	TSEL	55 76
 	RTN	
-; lambda_10:
+; lambda_10: (addr: 87)
 	LD	1 7
 	LD	1 6
 	LD	1 0
@@ -106,13 +106,13 @@
 	LD	1 7
 	AP	2
 	RTN	
-; then_11:
+; then_11: (addr: 97)
 	LD	0 1
 	RTN	
-; then_12:
+; then_12: (addr: 99)
 	LD	0 1
 	RTN	
-; else_13:
+; else_13: (addr: 101)
 	LD	0 0
 	LD	0 2
 	CAR	
@@ -128,27 +128,27 @@
 	LD	0 0
 	TAP	4
 	RTN	
-; else_14:
+; else_14: (addr: 116)
 	LD	0 3
 	ATOM	
 	TSEL	99 101
 	RTN	
-; lambda_15:
+; lambda_15: (addr: 120)
 	LD	0 2
 	ATOM	
 	TSEL	97 116
 	RTN	
-; lambda_16:
+; lambda_16: (addr: 124)
 	LD	1 8
 	LD	1 0
 	LD	0 1
 	LD	1 8
 	AP	3
 	RTN	
-; then_17:
+; then_17: (addr: 130)
 	LD	0 1
 	RTN	
-; else_18:
+; else_18: (addr: 132)
 	LD	0 0
 	LD	0 2
 	CAR	
@@ -159,15 +159,15 @@
 	LD	0 0
 	TAP	3
 	RTN	
-; lambda_19:
+; lambda_19: (addr: 142)
 	LD	0 2
 	ATOM	
 	TSEL	130 132
 	RTN	
-; then_20:
+; then_20: (addr: 146)
 	LD	0 2
 	RTN	
-; then_21:
+; then_21: (addr: 148)
 	LD	0 0
 	LD	0 1
 	LDC	1
@@ -177,20 +177,20 @@
 	LD	0 0
 	TAP	3
 	RTN	
-; else_22:
+; else_22: (addr: 157)
 	LD	0 2
 	CAR	
 	RTN	
-; else_23:
+; else_23: (addr: 160)
 	LD	0 1
 	TSEL	148 157
 	RTN	
-; lambda_24:
+; lambda_24: (addr: 163)
 	LD	0 2
 	ATOM	
 	TSEL	146 160
 	RTN	
-; lambda_25:
+; lambda_25: (addr: 167)
 	LD	0 1
 	CAR	
 	LD	0 2
@@ -203,7 +203,7 @@
 	ADD	
 	CONS	
 	RTN	
-; lambda_26:
+; lambda_26: (addr: 179)
 	LD	1 10
 	LD	0 1
 	LDC	5
@@ -212,7 +212,7 @@
 	LD	1 10
 	AP	3
 	RTN	
-; let_27:
+; let_27: (addr: 187)
 	LD	0 1
 	LDF	179
 	LDC	1

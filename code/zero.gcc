@@ -3,10 +3,10 @@
 	LDF	7
 	RAP	1
 	RTN	
-; lambda_0:
+; lambda_0: (addr: 5)
 	LDC	1
 	RTN	
-; let_1:
+; let_1: (addr: 7)
 	LD	0 0
 	LD	0 0
 	AP	1

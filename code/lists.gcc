@@ -4,10 +4,10 @@
 	LDF	29
 	RAP	2
 	RTN	
-; then_0:
+; then_0: (addr: 6)
 	LD	0 2
 	RTN	
-; else_1:
+; else_1: (addr: 8)
 	LD	0 0
 	LD	0 1
 	LD	0 1
@@ -21,17 +21,17 @@
 	LD	0 0
 	TAP	4
 	RTN	
-; lambda_2:
+; lambda_2: (addr: 21)
 	LD	0 3
 	ATOM	
 	TSEL	6 8
 	RTN	
-; lambda_3:
+; lambda_3: (addr: 25)
 	LD	0 1
 	LD	0 2
 	ADD	
 	RTN	
-; let_4:
+; let_4: (addr: 29)
 	LD	0 0
 	LD	0 1
 	LDC	0

@@ -1,9 +1,9 @@
-; try to eat the friggin' fruit?
 ; efficient queues?
 ; BFS?
-; all-sources shortest paths in main?
-; take into account the number of ghosts on the field when scoring
 ; use the information about ghosts' direction somehow?
+; take into account the number of ghosts on the field when scoring
+; try to eat the friggin' fruit?
+; all-sources shortest paths in main?
 ; reinforcement learning? (yeah, right.)
 ; with-matrix or somesuch would help? -- prolly not a good idea, no way to index sanely
 (def main
@@ -203,7 +203,6 @@
             (if [atom? (car xs)]
                 (recur acc (cdr xs))
                 (recur (cons (car (car xs)) acc) (cons (cdr (car xs)) (cdr xs)))))))
-; non-tail recursive!
 (def take
     (fun [n xs]
         (if [= n 0]

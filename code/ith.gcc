@@ -3,10 +3,10 @@
 	LDF	26
 	RAP	1
 	RTN	
-; then_0:
+; then_0: (addr: 5)
 	LD	0 2
 	RTN	
-; then_1:
+; then_1: (addr: 7)
 	LD	0 0
 	LD	0 1
 	LDC	1
@@ -16,20 +16,20 @@
 	LD	0 0
 	TAP	3
 	RTN	
-; else_2:
+; else_2: (addr: 16)
 	LD	0 2
 	CAR	
 	RTN	
-; else_3:
+; else_3: (addr: 19)
 	LD	0 1
 	TSEL	7 16
 	RTN	
-; lambda_4:
+; lambda_4: (addr: 22)
 	LD	0 2
 	ATOM	
 	TSEL	5 19
 	RTN	
-; let_5:
+; let_5: (addr: 26)
 	LD	0 0
 	LDC	5
 	LDC	3

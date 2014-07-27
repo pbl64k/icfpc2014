@@ -4,10 +4,10 @@
 	LDF	34
 	RAP	2
 	RTN	
-; then_0:
+; then_0: (addr: 6)
 	LD	0 2
 	RTN	
-; else_1:
+; else_1: (addr: 8)
 	LD	0 0
 	LDC	1
 	LD	0 1
@@ -18,26 +18,26 @@
 	LD	0 0
 	TAP	3
 	RTN	
-; lambda_2:
+; lambda_2: (addr: 18)
 	LD	0 1
 	LD	2 1
 	CGT	
 	TSEL	6 8
 	RTN	
-; let_3:
+; let_3: (addr: 23)
 	LD	0 0
 	LDC	1
 	LD	2 1
 	LD	0 0
 	AP	3
 	RTN	
-; lambda_4:
+; lambda_4: (addr: 29)
 	DUM	1
 	LDF	18
 	LDF	23
 	RAP	1
 	RTN	
-; let_5:
+; let_5: (addr: 34)
 	LD	0 0
 	LDC	2
 	LDC	3
