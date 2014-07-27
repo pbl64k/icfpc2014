@@ -3,6 +3,7 @@
 ; ! Alternately -- limit the number of steps and score by distance to nearest if too far away?
 ; ! Optimize heavy-duty stuff?
 ; ? connectivity?
+; ! add pills to the ai state
 ; + go for pills if ghosts nearby? (check that there ARE pills)
 ; ? use the information about ghosts' direction somehow?
 ; - only relevant for the idiotic AI -- take into account the number of ghosts on the field when scoring
@@ -53,7 +54,7 @@
             [wmap (bstm-cons (ws-map ws))]
             [my-loc (lm-loc (ws-lmst ws))]
             [my-floc (bstm-flatten-ix wmap my-loc)]
-            [f-neighbors (lm-neighbors-gen wmap (lm-valid-cell?-gen wmap ws))]
+            [f-neighbors (lm-neighbors-gen (lm-valid-cell?-gen wmap ws))]
             [f-cell-score (lm-cell-score-gen wmap ws ai-state)]
             [init-moves (f-neighbors my-loc -1)]
             [init-frontier (foldl q-snoc q-empty init-moves)]
@@ -77,15 +78,9 @@
 ;;; SCORING AND AI
 
 (def lm-neighbors-gen
-    (fun [wmap f-valid-cell?] ; doesn't really need `wmap' as is
+    (fun [f-valid-cell?]
         (fun [pos preset-dir]
-            (let* (
-                ; !!! optimization
-                [nb-ps (map (fun [mov] (cons (car mov) (vec-+ pos (cdr mov)))) nb-moves)]
-                [nb-dps (map (fun [mov] (if [< preset-dir 0] mov (cons preset-dir (cdr mov)))) nb-ps)]
-                ; now we have originating directions and actual positions...
-                )
-                (filter (fun [mov] (f-valid-cell? (cdr mov))) nb-dps)))))
+                (filter (fun [mov] (f-valid-cell? (cdr mov))) (map (fun [mov] (if [< preset-dir 0] mov (cons preset-dir (cdr mov)))) (map (fun [mov] (cons (car mov) (vec-+ pos (cdr mov)))) nb-moves))))))
 
 (def lm-valid-cell?-gen
     (fun [wmap ws]
@@ -217,13 +212,10 @@
                     GHOST-PROXIMITY-THRESHOLD)))))
 (def nearest-food
     (fun [ai ws]
-        ; !!! optimization
         (let* (
             [loc (lm-loc (ws-lmst ws))]
-            [fs (ai-food ai)]
-            [ffs (map-map (fun [p] (- 0 (vec-l1-dist loc p))) fs)]
             )
-            (car (pick-best ffs)))))
+            (car (pick-best (map-map (fun [p] (- 0 (vec-l1-dist loc p))) (ai-food ai)))))))
 ; map access (in standard crummy representation)
 (def m-ix
     (fun [wmap pos]
@@ -234,11 +226,7 @@
                 (ith (car pos) (ith (cdr pos) wmap))))))
 (def valid-cell?
     (fun [wmap pos]
-        ; !!! optimization
-        (let (
-            [st (m-ix wmap pos)]
-            )
-            (> st M-WALL))))
+        (> (m-ix wmap pos) M-WALL)))
 (def cell-score
     (fun [cell]
         (if [= cell M-PILL]
@@ -254,21 +242,10 @@
         (cons recent-cells (cons food fruit-loc))))
 (def ai-add-cell
     (fun [ai cell]
-        ; !!! optimization
-        (let* (
-            [cells (ai-rct ai)]
-            [trimmed (take 50 cells)]
-            [new-cells (cons cell trimmed)]
-            )
-            (ai-cons new-cells (ai-food ai) (ai-fruit ai)))))
+        (ai-cons (cons cell (take 50 (ai-rct ai))) (ai-food ai) (ai-fruit ai))))
 (def ai-drop-food
     (fun [ai cell]
-        ; !!! optimization
-        (let* (
-            [food (ai-food ai)]
-            [new-food (filter (fun [x] (not (vec-=? x cell))) food)]
-            )
-            (ai-cons (ai-rct ai) new-food (ai-fruit ai)))))
+        (ai-cons (ai-rct ai) (filter (fun [x] (not (vec-=? x cell))) (ai-food ai)) (ai-fruit ai))))
 (def ai-rct (fun [ai] (car ai)))
 (def ai-food (fun [ai] (car (cdr ai))))
 (def ai-fruit (fun [ai] (cdr (cdr ai))))
@@ -277,14 +254,11 @@
 
 (def bstm-cons
     (fun [wmap]
-        ; !!! optimization
         (let* (
             [h (length wmap)]
             [w (length (car wmap))]
-            [sz (* h w)]
-            [fmap (concat wmap)]
             )
-            (cons (bst-cons fmap sz) (cons w h)))))
+            (cons (bst-cons (concat wmap) (* h w)) (cons w h)))))
 (def bst-cons
     (fun [xs n]
         (if [= n 1]
