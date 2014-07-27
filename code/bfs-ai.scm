@@ -1,13 +1,14 @@
 ; ! Consider ALL moves -- and pick the best one that finds something edible.
-; + Fall back to idiotic AI if nearest dot is too far away?
-; ! Alternately -- limit the number of steps and score by distance to nearest if too far away?
-; ! Optimize heavy-duty stuff?
-; ? connectivity?
+; ! Move *copies* of (active) ghosts to the nearest intersection!!!
+; ! (Fall back) Alternately -- limit the number of steps and score by distance to nearest if too far away?
+; ! Optimize heavy-duty stuff? (bfs)
 ; ! add pills to the ai state
+; + (see above) Fall back to idiotic AI if nearest dot is too far away?
 ; + go for pills if ghosts nearby? (check that there ARE pills)
+; ? connectivity?
 ; ? use the information about ghosts' direction somehow?
-; - only relevant for the idiotic AI -- take into account the number of ghosts on the field when scoring
 ; ? optimize list functions? -- not necessarily such a good idea
+; - only relevant for the idiotic AI -- take into account the number of ghosts on the field when scoring
 ; - all-sources shortest paths in main? (meeh.)
 ; - reinforcement learning? (yeah, right.)
 ; - with-matrix or somesuch would help? -- prolly not a good idea, no way to index sanely
@@ -95,17 +96,19 @@
 
 (def lm-cell-score-gen
     (fun [wmap ws ai]
+        ; well wnough optimized - note that the precomputed stuff is used by inner functions
         (let* (
             [ghosties (ws-ghst ws)]
             ; I'm not sure ignoring invisible ghosts is a good idea
-            [bad-ghosties (filter (fun [gh] (gh-std? (gh-vit gh))) (ws-ghst ws))]
-            [good-ghosties (filter (fun [gh] (gh-fear? (gh-vit gh))) (ws-ghst ws))]
+            [bad-ghosties (filter (fun [gh] (gh-std? (gh-vit gh))) ghosties)]
+            [good-ghosties (filter (fun [gh] (gh-fear? (gh-vit gh))) ghosties)]
+            [lm-vit-score (lm-vit (ws-lmst ws))]
             [fruit (ws-fruit ws)]
             [fruit-loc (ai-fruit ai)]
             [lm-good-ghost-score
                 (fun [gh pos]
                     (if [vec-=? (gh-loc gh) pos]
-                        (* 5 (lm-vit (ws-lmst ws)))
+                        (* 5 lm-vit-score)
                         0))]
             [lm-bad-ghost-score
                 (fun [gh pos]
