@@ -67,7 +67,7 @@
             [gh-pairs (map (fun [gh] (cons (gh-dir gh) (cons (gh-loc gh) NIL))) bad-ghosties)]
             [init-moves (f-neighbors -1 my-loc 1 gh-pairs)]
             ;[init-moves (f-neighbors -1 my-loc 1 NIL)]
-            [init-frontier (foldl q-snoc q-empty init-moves)]
+            [init-frontier (q-append q-empty init-moves)]
             [init-visited (set-ins set-empty my-floc)]
             [best-move (turbo-bfs wmap f-neighbors (fun [p extra-bad-ghosties] (> (f-cell-score p extra-bad-ghosties) 0)) init-frontier init-visited)]
             ;[best-move (bfs wmap f-neighbors (fun [p] (> (cell-score (bstm-ix wmap p)) 0)) init-frontier init-visited)]
@@ -140,8 +140,7 @@
                                     0)))))]
             [lm-ghost-score
                 (fun [pos extra-bad-ghosties]
-                    ; !!! optimize - gen rid of append here
-                    (+ (sum (map (fun [gh] (lm-bad-ghost-score gh pos)) (append bad-ghosties extra-bad-ghosties))) (sum (map (fun [gh] (lm-good-ghost-score gh pos)) good-ghosties))))]
+                    (+ (sum (map (fun [gh] (lm-bad-ghost-score gh pos)) bad-ghosties)) (+ (sum (map (fun [gh] (lm-bad-ghost-score gh pos)) extra-bad-ghosties)) (sum (map (fun [gh] (lm-good-ghost-score gh pos)) good-ghosties)))))]
             [lm-fruit-score
                 (fun [pos]
                     (if [> fruit 0]
@@ -180,7 +179,7 @@
                                 [set-visited-2 (set-ins set-visited m-fpos)]
                                 [m-neighbors (f-neighbors m-dir m-pos (+ 1 m-dist) m-ghs)]
                                 [new-moves (filter (fun [x] (not (set-has? set-visited-2 (bstm-flatten-ix bstm-w (bfsx-pos x))))) m-neighbors)]
-                                [q-frontier-2 (foldl q-snoc q-frontier-1 new-moves)]
+                                [q-frontier-2 (q-append q-frontier-1 new-moves)]
                                 )
                                 (recur bstm-w f-neighbors f-tgt? q-frontier-2 set-visited-2)))))))))
 
@@ -199,20 +198,15 @@
 ; accepts ghost as a LIST (direction, loc) -- (COINCIDENTALLY, this will work with gh-loc, as needed by lm-bad-ghost-score)
 (def move-ghost
     (fun [wmap gh]
-        ; !!! optimize
         (let* (
-            ;[faux (do (debug gh) 0)]
-            [gh-dir (car gh)]
             [gh-pos (gh-loc gh)]
-            [nb-cells (map (fun [mov] (cons (car mov) (cons (vec-+ (cdr mov) gh-pos) NIL))) nb-moves)]
-            [valid-cells (filter (fun [mov] (> (bstm-ix wmap (gh-loc mov)) M-WALL)) nb-cells)]
+            [valid-cells (filter (fun [mov] (> (bstm-ix wmap (gh-loc mov)) M-WALL)) (map (fun [mov] (cons (car mov) (cons (vec-+ (cdr mov) gh-pos) NIL))) nb-moves))]
             [valid-cells-len (length valid-cells)]
-            ;[faux (do (debug valid-cells) (debug 1) 0)]
             )
             (if [= valid-cells-len 1]
                 (car valid-cells)
                 (if [= valid-cells-len 2]
-                    (car (filter (fun [cell] (if [= (car cell) (- gh-dir 2)] FALSE (if [= (car cell) (+ gh-dir 2)] FALSE TRUE))) valid-cells))
+                    (car (filter (fun [cell] (if [= (car cell) (- (car gh) 2)] FALSE (if [= (car cell) (+ (car gh) 2)] FALSE TRUE))) valid-cells))
                     gh)))))
 
 ;;; helpers for old AI (`step') follow
@@ -358,6 +352,10 @@
 (def q-snoc
     (fun [q x]
         (q-norm (cons (car q) (cons x (cdr q))))))
+; this assumes that order doesn't matter
+(def q-append
+    (fun [q xs]
+        (q-norm (cons (car q) (foldl (fun [r x] (cons x r)) (cdr q) xs)))))
 (def q-norm
     (fun [q]
         (if [atom? (car q)]
