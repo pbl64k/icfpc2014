@@ -25,12 +25,10 @@
             [w (length (car wmap))]
             [ps (cart w h)]
             [fs (filter (fun [p] (> (cell-score (bstm-ix bstmap p)) 0)) ps)]
-            ;[fff (fun [x] (if [atom? x] (cons -1 -1) (car x)))]
-            ;[fruit-loc (fff (filter (fun [p] (m-floc? (bstm-ix bstmap p))) ps))]
+            [fff (fun [x] (if [atom? x] (cons -1 -1) (car x)))]
+            [fruit-loc (fff (filter (fun [p] (m-floc? (bstm-ix bstmap p))) ps))]
             )
-            ;(cons (ai-cons NIL fs fruit-loc) (fun-abi [a b] (bfs-ai a b))))))
-            ;(cons (ai-cons NIL fs NIL) (fun-abi [a b] (bfs-ai a b))))))
-            (cons (ai-cons NIL fs) (fun-abi [a b] (bfs-ai a b))))))
+            (cons (ai-cons NIL fs fruit-loc) (fun-abi [a b] (bfs-ai a b))))))
 
 ; implements the logic of standard `step' -- but `main` must ensure it's converted to fun-abi
 (def step
@@ -58,13 +56,13 @@
             [my-loc (lm-loc (ws-lmst ws))]
             [my-floc (bstm-flatten-ix wmap my-loc)]
             [f-neighbors (lm-neighbors-gen wmap (lm-valid-cell?-gen wmap ws))]
-            ;[f-cell-score (lm-cell-score-gen wmap ws ai-state)]
+            [f-cell-score (lm-cell-score-gen wmap ws ai-state)]
             [init-moves (f-neighbors my-loc -1)]
-            ;[init-frontier (foldl q-snoc q-empty init-moves)]
-            ;[init-visited (set-ins set-empty my-floc)]
-            ;[best-move (bfs wmap f-neighbors (fun [p] (> (f-cell-score p) 0)) init-frontier init-visited)]
+            [init-frontier (foldl q-snoc q-empty init-moves)]
+            [init-visited (set-ins set-empty my-floc)]
+            [best-move (bfs wmap f-neighbors (fun [p] (> (f-cell-score p) 0)) init-frontier init-visited)]
             ;[best-move (bfs wmap f-neighbors (fun [p] (> (cell-score (bstm-ix wmap p)) 0)) init-frontier init-visited)]
-            [best-move FALSE]
+            ;[best-move FALSE]
             )
             (do
                 ;(debug my-loc)
@@ -102,46 +100,46 @@
                     (not (any? (fun [gh-loc] (<= (vec-l1-dist pos gh-loc) 1)) ghosties))
                     FALSE)))))
 
-;(def lm-cell-score-gen
-;    (fun [wmap ws ai]
-;        (let* (
-;            [ghosties (ws-ghst ws)]
-;            ; I'm not sure ignoring invisible ghosts is a good idea
-;            [bad-ghosties (filter (fun [gh] (gh-std? (gh-vit gh))) (ws-ghst ws))]
-;            [good-ghosties (filter (fun [gh] (gh-fear? (gh-vit gh))) (ws-ghst ws))]
-;            [fruit (ws-fruit ws)]
-;            [fruit-loc (ai-fruit ai)]
-;            [lm-good-ghost-score
-;                (fun [gh pos]
-;                    (if [vec-=? (gh-loc gh) pos]
-;                        (* 5 (lm-vit (ws-lmst ws)))
-;                        0))]
-;            [lm-bad-ghost-score
-;                (fun [gh pos]
-;                    (let (
-;                        [d (vec-l1-dist (gh-loc gh) pos)]
-;                        )
-;                        (if [= d 0]
-;                            -9000
-;                            (if [= d 1]
-;                                -1000
-;                                (if [= d 2]
-;                                    -100
-;                                    0)))))]
-;            [lm-ghost-score
-;                (fun [pos]
-;                    (+ (sum (map (fun [gh] (lm-bad-ghost-score gh pos)) bad-ghosties)) (sum (map (fun [gh] (lm-good-ghost-score gh pos)) good-ghosties))))]
-;            [lm-fruit-score
-;                (fun [pos]
-;                    (if [> fruit 0]
-;                        (if [vec-=? pos fruit-loc]
-;                            (* fruit 10)
-;                            0)
-;                        0))]
-;            )
-;            (fun [pos]
-;                ;(+ (cell-score (bstm-ix wmap pos)) (+ (lm-ghost-score pos) (lm-fruit-score pos)))))))
-;                (cell-score (bstm-ix wmap pos))))))
+(def lm-cell-score-gen
+    (fun [wmap ws ai]
+        (let* (
+            [ghosties (ws-ghst ws)]
+            ; I'm not sure ignoring invisible ghosts is a good idea
+            [bad-ghosties (filter (fun [gh] (gh-std? (gh-vit gh))) (ws-ghst ws))]
+            [good-ghosties (filter (fun [gh] (gh-fear? (gh-vit gh))) (ws-ghst ws))]
+            [fruit (ws-fruit ws)]
+            [fruit-loc (ai-fruit ai)]
+            [lm-good-ghost-score
+                (fun [gh pos]
+                    (if [vec-=? (gh-loc gh) pos]
+                        (* 5 (lm-vit (ws-lmst ws)))
+                        0))]
+            [lm-bad-ghost-score
+                (fun [gh pos]
+                    (let (
+                        [d (vec-l1-dist (gh-loc gh) pos)]
+                        )
+                        (if [= d 0]
+                            -9000
+                            (if [= d 1]
+                                -1000
+                                (if [= d 2]
+                                    -100
+                                    0)))))]
+            [lm-ghost-score
+                (fun [pos]
+                    (+ (sum (map (fun [gh] (lm-bad-ghost-score gh pos)) bad-ghosties)) (sum (map (fun [gh] (lm-good-ghost-score gh pos)) good-ghosties))))]
+            [lm-fruit-score
+                (fun [pos]
+                    (if [> fruit 0]
+                        (if [vec-=? pos fruit-loc]
+                            (* fruit 10)
+                            0)
+                        0))]
+            )
+            (fun [pos]
+                (+ (cell-score (bstm-ix wmap pos)) (+ (lm-ghost-score pos) (lm-fruit-score pos)))))))
+                ;(cell-score (bstm-ix wmap pos))))))
 
 (def bfs
     (fun [bstm-w f-neighbors f-tgt? q-frontier set-visited]
@@ -253,33 +251,9 @@
 
 ;;; functions for operating on the ai state
 
-;(def ai-cons
-;    (fun [recent-cells food fruit-loc]
-;        (cons recent-cells (cons food fruit-loc))))
-;(def ai-add-cell
-;    (fun [ai cell]
-;        ; !!! optimization
-;        (let* (
-;            [cells (ai-rct ai)]
-;            [trimmed (take 50 cells)]
-;            [new-cells (cons cell trimmed)]
-;            )
-;            (ai-cons new-cells (ai-food ai) (ai-fruit ai)))))
-;(def ai-drop-food
-;    (fun [ai cell]
-;        ; !!! optimization
-;        (let* (
-;            [food (ai-food ai)]
-;            [new-food (filter (fun [x] (not (vec-=? x cell))) food)]
-;            )
-;            (ai-cons (ai-rct ai) new-food (ai-fruit ai)))))
-;(def ai-rct (fun [ai] (car ai)))
-;(def ai-food (fun [ai] (car (cdr ai))))
-;(def ai-fruit (fun [ai] (cdr (cdr ai))))
-
 (def ai-cons
-    (fun [recent-cells food]
-        (cons recent-cells food)))
+    (fun [recent-cells food fruit-loc]
+        (cons recent-cells (cons food fruit-loc))))
 (def ai-add-cell
     (fun [ai cell]
         ; !!! optimization
@@ -288,7 +262,7 @@
             [trimmed (take 50 cells)]
             [new-cells (cons cell trimmed)]
             )
-            (ai-cons new-cells (ai-food ai)))))
+            (ai-cons new-cells (ai-food ai) (ai-fruit ai)))))
 (def ai-drop-food
     (fun [ai cell]
         ; !!! optimization
@@ -296,9 +270,10 @@
             [food (ai-food ai)]
             [new-food (filter (fun [x] (not (vec-=? x cell))) food)]
             )
-            (ai-cons (ai-rct ai) new-food))))
+            (ai-cons (ai-rct ai) new-food (ai-fruit ai)))))
 (def ai-rct (fun [ai] (car ai)))
-(def ai-food (fun [ai] (cdr ai)))
+(def ai-food (fun [ai] (car (cdr ai))))
+(def ai-fruit (fun [ai] (cdr (cdr ai))))
 
 ;;; BST-based representation of game map
 
