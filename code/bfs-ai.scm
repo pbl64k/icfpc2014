@@ -58,9 +58,9 @@
             ;[best-move FALSE]
             )
             (do
-                (debug my-loc)
-                (debug init-moves)
-                (debug best-move)
+                ;(debug my-loc)
+                ;(debug init-moves)
+                ;(debug best-move)
                 (if best-move
                     (cons (ai-drop-food (ai-add-cell ai-state (cdr best-move)) (cdr best-move)) (car best-move))
                     (step ai-state ws))))))
@@ -90,6 +90,7 @@
         ; dodgy stuff here! will if's and let's work like that?
         (do
             (debug q-frontier)
+            (debug set-visited)
             (if [q-isempty? q-frontier]
                 FALSE
                 (let* (
@@ -105,11 +106,14 @@
                         (if [f-tgt? m-pos]
                             mov
                             (let* (
-                                [set-visited-2 (set-ins set-visited m-fpos)]
-                                [new-moves (filter (fun [x] (not (set-has? set-visited-2 (bstm-flatten-ix bstm-w (cdr x))))) (f-neighbors m-pos m-dir))]
-                                [q-frontier-2 (foldl q-snoc q-frontier-1 new-moves)]
+                                [faux 0]
+                                ;[set-visited-2 (set-ins set-visited m-fpos)]
+                                ;[new-moves (filter (fun [x] (not (set-has? set-visited-2 (bstm-flatten-ix bstm-w (cdr x))))) (f-neighbors m-pos m-dir))]
+                                ;[q-frontier-2 (foldl q-snoc q-frontier-1 new-moves)]
                                 )
-                                (recur bstm-w f-neighbors f-tgt? q-frontier-2 set-visited-2)))))))))
+                                FALSE))))))))
+                                ;(recur bstm-w f-neighbors f-tgt? q-frontier-2 set-visited-2)))))))))
+                                ;(recur bstm-w f-neighbors f-tgt? q-frontier-1 set-visited)))))))))
 
 ; helpers for old AI (`step') follow
 
@@ -271,12 +275,12 @@
 (def set-ins
     (fun [s x]
         (if [atom? s]
-            (cons x (cons NIL (cons NIL NIL)))
+            (cons x (cons NIL NIL))
             (if [= x (car s)]
                 s
                 (if [< x (car s)]
-                    (cons (car s) (cons (set-ins (car (cdr s)) x) (cons (car (cdr (cdr s))) NIL)))
-                    (cons (car s) (cons (car (cdr s)) (cons (set-ins (car (cdr (cdr s))) x) NIL))))))))
+                    (cons (car s) (cons (set-ins (car (cdr s)) x) (cdr (cdr s))))
+                    (cons (car s) (cons (car (cdr s)) (set-ins (cdr (cdr s)) x))))))))
 (def set-has?
     (fun [s x]
         (if [atom? s]
@@ -285,7 +289,7 @@
                 TRUE
                 (if [< x (car s)]
                     (recur (car (cdr s)) x)
-                    (recur (car (cdr (cdr s))) x))))))
+                    (recur (cdr (cdr s)) x))))))
 
 ;;; MISC
 
