@@ -1,4 +1,3 @@
-; efficient queues?
 ; BFS?
 ; use the information about ghosts' direction somehow?
 ; take into account the number of ghosts on the field when scoring
@@ -14,7 +13,7 @@
     (fun [ws]
         (let* (
             [wmap (ws-map ws)]
-            [bstmap (cons-bst-map wmap)]
+            [bstmap (bstm-cons wmap)]
             [h (length wmap)]
             [w (length (car wmap))]
             [ps (cart w h)]
@@ -116,40 +115,6 @@
                 50
                 0))))
 
-;;; BST-based representation of game map
-
-(def cons-bst-map
-    (fun [wmap]
-        (let* (
-            [h (length wmap)]
-            [w (length (car wmap))]
-            [sz (* h w)]
-            [fmap (concat wmap)]
-            )
-            (cons (cons-bst fmap sz) (cons w (cons h 0))))))
-(def cons-bst
-    (fun [xs n]
-        (if [= n 1]
-            (cons 1 (car xs))
-            (let* (
-                [midp (/ n 2)]
-                [sp (span midp xs)]
-                )
-                (cons 0 (cons midp (cons (cons-bst (car sp) midp) (cons (cons-bst (cdr sp) (- n midp)) 0))))))))
-(def bstm-map (fun [bst] (ith 0 bst)))
-(def bstm-w (fun [bst] (ith 1 bst)))
-(def bstm-h (fun [bst] (ith 2 bst)))
-(def bstm-ix
-    (fun [wmap pos]
-        (bstm-fix (bstm-map wmap) (+ (car pos) (* (cdr pos) (bstm-w wmap))))))
-(def bstm-fix
-    (fun [fmap n]
-        (if [car fmap]
-            (cdr fmap)
-            (if [< n (car (cdr fmap))]
-                (recur (car (cdr (cdr fmap))) n)
-                (recur (car (cdr (cdr (cdr fmap)))) (- n (car (cdr fmap))))))))
-
 ;;; functions for operating on the ai state
 
 (def ai-cons
@@ -172,6 +137,63 @@
             (ai-cons (ai-rct ai) new-food))))
 (def ai-rct (fun [ai] (ith 0 ai)))
 (def ai-food (fun [ai] (ith 1 ai)))
+
+;;; BST-based representation of game map
+
+(def bstm-cons
+    (fun [wmap]
+        (let* (
+            [h (length wmap)]
+            [w (length (car wmap))]
+            [sz (* h w)]
+            [fmap (concat wmap)]
+            )
+            (cons (bst-cons fmap sz) (cons w (cons h 0))))))
+(def bst-cons
+    (fun [xs n]
+        (if [= n 1]
+            (cons 1 (car xs))
+            (let* (
+                [midp (/ n 2)]
+                [sp (span midp xs)]
+                )
+                (cons 0 (cons midp (cons (bst-cons (car sp) midp) (cons (bst-cons (cdr sp) (- n midp)) 0))))))))
+(def bstm-map (fun [bst] (ith 0 bst)))
+(def bstm-w (fun [bst] (ith 1 bst)))
+(def bstm-h (fun [bst] (ith 2 bst)))
+(def bstm-flatten-ix
+    (fun [wmap pos]
+        (+ (car pos) (* (cdr pos) (bstm-w wmap)))))
+(def bstm-ix
+    (fun [wmap pos]
+        (bstm-fix (bstm-map wmap) (bstm-flatten-ix wmap pos))))
+(def bstm-fix
+    (fun [fmap n]
+        (if [car fmap]
+            (cdr fmap)
+            (if [< n (car (cdr fmap))]
+                (recur (car (cdr (cdr fmap))) n)
+                (recur (car (cdr (cdr (cdr fmap)))) (- n (car (cdr fmap))))))))
+
+;;; SIMPLE PURELY FUNCTIONAL QUEUES
+
+(def q-empty (cons 0 (cons 0 0)))
+(def q-isempty?
+    (fun [q] (atom? (car q))))
+(def q-pop
+    (fun [q]
+        (cons (car (car q)) (q-norm (cons (cdr (car q)) (cons (cdr q) 0))))))
+(def q-snoc
+    (fun [q x]
+        (cons (car q) (cons (cons x (cdr q)) 0))))
+(def q-norm
+    (fun [q]
+        ; semantically different from `q-isempty?' -- it just LOOKS like it's empty
+        (if [atom? (car q)]
+            (cons (reverse (cdr q)) (cons 0 0))
+            q)))
+
+;;; INTEGER TREESETS
 
 ;;; MISC
 
