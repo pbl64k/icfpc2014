@@ -1,10 +1,11 @@
-; ! Consider ALL moves -- and pick the best one that finds something edible.
 ; ! Move *copies* of (active) ghosts to the nearest intersection!!!
+; ! Consider ALL moves -- and pick the best one that finds something edible.
 ; ! (Fall back) Alternately -- limit the number of steps and score by distance to nearest if too far away?
 ; ! Optimize heavy-duty stuff? (bfs)
-; ! add pills to the ai state
+; ! figured it out: old AI may return no moves, too -- TagMismatch on classic when munching on tons of ghosts -- omg?
 ; + (see above) Fall back to idiotic AI if nearest dot is too far away?
 ; + go for pills if ghosts nearby? (check that there ARE pills)
+; ? dangerous being near ghost spawn points?
 ; ? connectivity?
 ; ? use the information about ghosts' direction somehow?
 ; ? optimize list functions? -- not necessarily such a good idea
@@ -27,8 +28,9 @@
             [fs (filter (fun [p] (> (cell-score (bstm-ix bstmap p)) 0)) ps)]
             [fff (fun [x] (if [atom? x] (cons -1 -1) (car x)))]
             [fruit-loc (fff (filter (fun [p] (m-floc? (bstm-ix bstmap p))) ps))]
+            [ppills (filter (fun [p] (m-ppill? (bstm-ix bstmap p))) ps)]
             )
-            (cons (ai-cons NIL fs fruit-loc) (fun-abi [a b] (bfs-ai a b))))))
+            (cons (ai-cons NIL fs fruit-loc ppills) (fun-abi [a b] (bfs-ai a b))))))
 
 ; implements the logic of standard `step' -- but `main` must ensure it's converted to fun-abi
 (def step
@@ -45,7 +47,14 @@
             ;[best-move (do (debug cell-costs) (debug best-cost) (debug match) (car (car match)))]
             [best-move (car (car match))]
             )
-            (cons (ai-drop-food (ai-add-cell ai-state best-cell) best-cell) best-move))))
+            (do
+                ;(debug 0)
+                (let (
+                    [new-ai (ai-update ai-state best-move)]
+                    )
+                    (do
+                        ;(debug 1)
+                        (cons new-ai best-move)))))))
 
 ; alternate `step'
 ; heh heh! fall back to old step if this fails.
@@ -73,7 +82,7 @@
                 ;(debug (car best-move))
                 ;(cons ai-state (car best-move))))))
                 (if [not (atom? best-move)]
-                    (cons (ai-drop-food (ai-add-cell ai-state (cdr best-move)) (cdr best-move)) (car best-move))
+                    (cons (ai-update ai-state best-move) (car best-move))
                     (step ai-state ws))))))
 
 ;;; SCORING AND AI
@@ -230,6 +239,8 @@
 (def valid-cell?
     (fun [wmap pos]
         (> (m-ix wmap pos) M-WALL)))
+; DON'T TOUCH THIS! may screw up detection of pills at the start-up (and "old AI")
+; reimplement if changes needed
 (def cell-score
     (fun [cell]
         (if [= cell M-PILL]
@@ -241,17 +252,24 @@
 ;;; functions for operating on the ai state
 
 (def ai-cons
-    (fun [recent-cells food fruit-loc]
-        (cons recent-cells (cons food fruit-loc))))
+    (fun [recent-cells food fruit-loc ppills]
+        (cons recent-cells (cons food (cons fruit-loc ppills)))))
 (def ai-add-cell
     (fun [ai cell]
-        (ai-cons (cons cell (take 50 (ai-rct ai))) (ai-food ai) (ai-fruit ai))))
+        (ai-cons (cons cell (take 50 (ai-rct ai))) (ai-food ai) (ai-fruit ai) (ai-ppills ai))))
 (def ai-drop-food
     (fun [ai cell]
-        (ai-cons (ai-rct ai) (filter (fun [x] (not (vec-=? x cell))) (ai-food ai)) (ai-fruit ai))))
+        (ai-cons (ai-rct ai) (filter (fun [x] (not (vec-=? x cell))) (ai-food ai)) (ai-fruit ai) (ai-ppills ai))))
+(def ai-drop-ppill
+    (fun [ai cell]
+        (ai-cons (ai-rct ai) (ai-food ai) (ai-fruit ai) (filter (fun [x] (not (vec-=? x cell))) (ai-ppills ai)))))
+(def ai-update
+    (fun [ai move]
+        (ai-drop-ppill (ai-drop-food (ai-add-cell ai (cdr move)) (cdr move)) (cdr move))))
 (def ai-rct (fun [ai] (car ai)))
 (def ai-food (fun [ai] (car (cdr ai))))
-(def ai-fruit (fun [ai] (cdr (cdr ai))))
+(def ai-fruit (fun [ai] (car (cdr (cdr ai)))))
+(def ai-ppills (fun [ai] (cdr (cdr (cdr ai)))))
 
 ;;; BST-based representation of game map
 
