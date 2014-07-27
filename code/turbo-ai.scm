@@ -44,7 +44,7 @@
             [best-move (car (car match))]
             )
             (do
-                ;(debug 0)
+                (debug 0)
                 (let (
                     [new-ai (ai-update ai-state best-cell)]
                     )
@@ -65,26 +65,29 @@
             [ghosties (ws-ghst ws)]
             [bad-ghosties (filter (fun [gh] (gh-std? (gh-vit gh))) ghosties)]
             [gh-pairs (map (fun [gh] (cons (gh-dir gh) (cons (gh-loc gh) NIL))) bad-ghosties)]
-            [init-moves (f-neighbors -1 my-loc 1 gh-pairs)]
+            [init-moves (f-neighbors -1 my-loc 1 gh-pairs 0)]
             ;[init-moves (f-neighbors -1 my-loc 1 NIL)]
             [init-frontier (q-append q-empty init-moves)]
             [init-visited (set-ins set-empty my-floc)]
             [nrst-food (nearest-food ai-state ws)]
             [nrst-ppill (nearest-ppill ai-state ws)]
-            [best-move (turbo-bfs wmap f-neighbors (fun [p extra-bad-ghosties] (> (f-cell-score p extra-bad-ghosties) 0)) init-frontier init-visited nrst-food nrst-ppill)]
+            [best-moves (turbo-bfs NIL wmap f-neighbors (fun [p extra-bad-ghosties] (> (f-cell-score p extra-bad-ghosties) 0)) init-frontier init-visited nrst-food nrst-ppill)]
             ;[best-move (bfs wmap f-neighbors (fun [p] (> (cell-score (bstm-ix wmap p)) 0)) init-frontier init-visited)]
             ;[best-move FALSE]
             )
             (do
-                (if [not (atom? best-move)]
-                    (cons (ai-update ai-state (bfsx-pos best-move)) (bfsx-dir best-move))
+                (if [not (atom? best-moves)]
+                    (let* (
+                        [best-move (bfs-best (car best-moves) (cdr best-moves))]
+                        )
+                        (cons (ai-update ai-state (bfsx-pos best-move)) (bfsx-dir best-move)))
                     (step ai-state ws))))))
 
 ;;; SCORING AND AI
 
 (def lm-neighbors-gen
     (fun [wmap f-valid-cell?]
-        (fun [preset-dir pos dist ghs]
+        (fun [preset-dir pos dist ghs sc]
             (let* (
                 [new-ghosts (map (fun [gh] (move-ghost wmap gh)) ghs)]
                 )
@@ -98,7 +101,7 @@
                         (map
                             (fun [mov]
                                 ; right now the score is always 0 - this is for future extension
-                                (bfsx-cons (car mov) (vec-+ pos (cdr mov)) dist new-ghosts 0))
+                                (bfsx-cons (car mov) (vec-+ pos (cdr mov)) dist new-ghosts sc))
                             nb-moves)))))))
 
 (def lm-valid-cell?-gen
@@ -125,8 +128,8 @@
             [fruit-loc (ai-fruit ai)]
             [lm-good-ghost-score
                 (fun [gh pos]
-                    (if [vec-=? (gh-loc gh) pos]
-                        (* 50 lm-vit-score) ; change this to account for the number of moves taken
+                    (if [vec-=? (gh-loc gh) pos] ; ignore the nonsense, we'll not account for expiring POWER
+                        (* 50 lm-vit-score) ; !!! change this to account for the number of moves taken
                         0))]
             [lm-bad-ghost-score
                 (fun [gh pos]
@@ -147,7 +150,7 @@
                 (fun [pos]
                     (if [> fruit 0]
                         (if [vec-=? pos fruit-loc]
-                            (* fruit 20) ; change this to accoutn for the number of moves taken
+                            (* fruit 20) ; !!! change this to account for the number of moves taken
                             0)
                         0))]
             )
@@ -159,6 +162,61 @@
 ; nothing particularly fast about it
 ; it's just meant to be TURBO.
 (def turbo-bfs
+    ; !!! change f-tgt? to value function
+    (fun [acc bstm-w f-neighbors f-tgt? q-frontier set-visited nrst-food nrst-ppill]
+        (do
+            (if [q-isempty? q-frontier]
+                acc
+                ; !!! optimization
+                (let* (
+                    [state-1 (q-pop q-frontier)]
+                    [mov (car state-1)]
+                    [q-frontier-1 (cdr state-1)]
+                    [m-dir (bfsx-dir mov)]
+                    [m-pos (bfsx-pos mov)]
+                    [m-dist (bfsx-dist mov)]
+                    [m-ghs (bfsx-ghs mov)]
+                    [m-fpos (bstm-flatten-ix bstm-w m-pos)]
+                    )
+                    (if [set-has? set-visited m-fpos]
+                        (recur acc bstm-w f-neighbors f-tgt? q-frontier-1 set-visited nrst-food nrst-ppill)
+                        ; !!! recompute the score HERE -- need m-sc (NEW)
+                        ; !!! optimization
+                        (let* (
+                            [m-sc (bfsx-sc mov)]
+                            )
+                            (if [f-tgt? m-pos m-ghs]
+                                (recur (bfs-ins-move acc mov) bstm-w f-neighbors f-tgt? q-frontier-1 (set-ins set-visited m-fpos) nrst-food nrst-ppill)
+                                ; !!! add a branch for expired moves
+                                ; !!! optimization
+                                (let* (
+                                    [set-visited-2 (set-ins set-visited m-fpos)]
+                                    [m-neighbors (f-neighbors m-dir m-pos (+ 1 m-dist) m-ghs m-sc)]
+                                    [new-moves (filter (fun [x] (not (set-has? set-visited-2 (bstm-flatten-ix bstm-w (bfsx-pos x))))) m-neighbors)]
+                                    [q-frontier-2 (q-append q-frontier-1 new-moves)]
+                                    )
+                                    (recur acc bstm-w f-neighbors f-tgt? q-frontier-2 set-visited-2 nrst-food nrst-ppill))))))))))
+
+(def bfs-ins-move
+    (fun [acc mov]
+        (if [atom? acc]
+            (cons mov NIL)
+            (if [= (bfsx-dir (car acc)) (bfsx-dir mov)]
+                (if [> (bfsx-sc mov) (bfsx-sc (car acc))]
+                    (cons mov (cdr acc))
+                    acc)
+                (cons (car acc) (bfs-ins-move (cdr acc) mov))))))
+
+(def bfs-best
+    (fun [acc xs]
+        (if [atom? xs]
+            acc
+            (if [> (bfsx-sc (car xs)) (bfsx-sc acc)]
+                (recur (car xs) (cdr xs))
+                (recur acc (cdr xs))))))
+
+; !!! remove it later
+(def non-turbo-bfs
     (fun [bstm-w f-neighbors f-tgt? q-frontier set-visited nrst-food nrst-ppill]
         (do
             (if [q-isempty? q-frontier]
@@ -172,6 +230,7 @@
                     [m-pos (bfsx-pos mov)]
                     [m-dist (bfsx-dist mov)]
                     [m-ghs (bfsx-ghs mov)]
+                    [m-sc (bfsx-sc mov)]
                     [m-fpos (bstm-flatten-ix bstm-w m-pos)]
                     )
                     (if [set-has? set-visited m-fpos]
@@ -180,8 +239,9 @@
                             mov
                             ; !!! optimization
                             (let* (
+                                ; !!! recompute the score
                                 [set-visited-2 (set-ins set-visited m-fpos)]
-                                [m-neighbors (f-neighbors m-dir m-pos (+ 1 m-dist) m-ghs)]
+                                [m-neighbors (f-neighbors m-dir m-pos (+ 1 m-dist) m-ghs m-sc)]
                                 [new-moves (filter (fun [x] (not (set-has? set-visited-2 (bstm-flatten-ix bstm-w (bfsx-pos x))))) m-neighbors)]
                                 [q-frontier-2 (q-append q-frontier-1 new-moves)]
                                 )
@@ -191,6 +251,7 @@
     (fun [dir pos dist ghs sc]
         (cons dir (cons pos (cons dist (cons ghs sc))))))
 (def bfsx-ch-dir (fun [x dir] (bfsx-cons dir (bfsx-pos x) (bfsx-dist x) (bfsx-ghs x) (bfsx-sc x))))
+(def bfsx-add-sc (fun [x sc] (bfsx-cons (bfsx-dir x) (bfsx-pos x) (bfsx-dist x) (bfsx-ghs x) (+ sc (bfsx-sc x)))))
 (def bfsx-dir (fun [x] (car x)))
 (def bfsx-pos (fun [x] (car (cdr x))))
 (def bfsx-dist (fun [x] (car (cdr (cdr x)))))
@@ -256,7 +317,7 @@
         (let (
             [d (vec-l1-dist lm gh)]
             )
-            (if [<= d 2] ; DEATH IMMINENT (note that death may still be imminent at 2 -- but weird behavior results)
+            (if [<= d 1] ; DEATH IMMINENT (note that death may still be imminent at 2 -- but weird behavior results)
                 -9000
                 (if [< d GHOST-PROXIMITY-THRESHOLD]
                     d
