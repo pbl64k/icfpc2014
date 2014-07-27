@@ -93,8 +93,8 @@
     (fun [bstm-w f-neighbors f-tgt? q-frontier set-visited]
         ; dodgy stuff here! will if's and let's work like that?
         (do
-            (debug q-frontier)
-            (debug set-visited)
+            ;(debug q-frontier)
+            ;(debug set-visited)
             (if [q-isempty? q-frontier]
                 FALSE
                 (let* (
@@ -109,16 +109,12 @@
                         (recur bstm-w f-neighbors f-tgt? q-frontier-1 set-visited)
                         (if [f-tgt? m-pos]
                             mov
-                            FALSE)))))))
-                            ;(let* (
-                            ;    [faux 0]
-                            ;    ;[set-visited-2 (set-ins set-visited m-fpos)]
-                            ;    ;[new-moves (filter (fun [x] (not (set-has? set-visited-2 (bstm-flatten-ix bstm-w (cdr x))))) (f-neighbors m-pos m-dir))]
-                            ;    ;[q-frontier-2 (foldl q-snoc q-frontier-1 new-moves)]
-                            ;    )
-                            ;    FALSE))))))))
-                            ;    ;(recur bstm-w f-neighbors f-tgt? q-frontier-2 set-visited-2)))))))))
-                            ;    ;(recur bstm-w f-neighbors f-tgt? q-frontier-1 set-visited)))))))))
+                            (let* (
+                                [set-visited-2 (set-ins set-visited m-fpos)]
+                                [new-moves (filter (fun [x] (not (set-has? set-visited-2 (bstm-flatten-ix bstm-w (cdr x))))) (f-neighbors m-pos m-dir))]
+                                [q-frontier-2 (foldl q-snoc q-frontier-1 new-moves)]
+                                )
+                                (recur bstm-w f-neighbors f-tgt? q-frontier-2 set-visited-2)))))))))
 
 ; helpers for old AI (`step') follow
 
