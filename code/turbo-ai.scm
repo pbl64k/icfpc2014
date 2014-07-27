@@ -1,5 +1,5 @@
 ; ! Consider ALL moves -- and pick the best one that finds something edible.
-; ! (Fall back) Alternately -- limit the number of steps and score by distance to nearest if too far away?
+; ! (Fall back) limit the number of steps and score by distance to nearest if too far away?
 ; ! Optimize heavy-duty stuff? (bfs)
 ; + go for pills if ghosts nearby? (check that there ARE pills)
 ; ? dangerous being near ghost spawn points?
@@ -69,7 +69,9 @@
             ;[init-moves (f-neighbors -1 my-loc 1 NIL)]
             [init-frontier (q-append q-empty init-moves)]
             [init-visited (set-ins set-empty my-floc)]
-            [best-move (turbo-bfs wmap f-neighbors (fun [p extra-bad-ghosties] (> (f-cell-score p extra-bad-ghosties) 0)) init-frontier init-visited)]
+            [nrst-food (nearest-food ai-state ws)]
+            [nrst-ppill (nearest-ppill ai-state ws)]
+            [best-move (turbo-bfs wmap f-neighbors (fun [p extra-bad-ghosties] (> (f-cell-score p extra-bad-ghosties) 0)) init-frontier init-visited nrst-food nrst-ppill)]
             ;[best-move (bfs wmap f-neighbors (fun [p] (> (cell-score (bstm-ix wmap p)) 0)) init-frontier init-visited)]
             ;[best-move FALSE]
             )
@@ -124,7 +126,7 @@
             [lm-good-ghost-score
                 (fun [gh pos]
                     (if [vec-=? (gh-loc gh) pos]
-                        (* 5 lm-vit-score)
+                        (* 50 lm-vit-score) ; change this to account for the number of moves taken
                         0))]
             [lm-bad-ghost-score
                 (fun [gh pos]
@@ -134,9 +136,9 @@
                         (if [= d 0]
                             -9000
                             (if [= d 1]
-                                -1000
+                                -9000
                                 (if [= d 2]
-                                    -100
+                                    -10
                                     0)))))]
             [lm-ghost-score
                 (fun [pos extra-bad-ghosties]
@@ -145,17 +147,19 @@
                 (fun [pos]
                     (if [> fruit 0]
                         (if [vec-=? pos fruit-loc]
-                            (* fruit 10)
+                            (* fruit 20) ; change this to accoutn for the number of moves taken
                             0)
                         0))]
             )
             (fun [pos extra-bad-ghosties]
-                (+ (cell-score (bstm-ix wmap pos)) (+ (lm-ghost-score pos extra-bad-ghosties) (lm-fruit-score pos)))))))
+                (+ (* 10 (cell-score (bstm-ix wmap pos))) (+ (lm-ghost-score pos extra-bad-ghosties) (lm-fruit-score pos)))))))
+
+(def TURBO-THRESH 20)
 
 ; nothing particularly fast about it
 ; it's just meant to be TURBO.
 (def turbo-bfs
-    (fun [bstm-w f-neighbors f-tgt? q-frontier set-visited]
+    (fun [bstm-w f-neighbors f-tgt? q-frontier set-visited nrst-food nrst-ppill]
         (do
             (if [q-isempty? q-frontier]
                 FALSE
@@ -171,7 +175,7 @@
                     [m-fpos (bstm-flatten-ix bstm-w m-pos)]
                     )
                     (if [set-has? set-visited m-fpos]
-                        (recur bstm-w f-neighbors f-tgt? q-frontier-1 set-visited)
+                        (recur bstm-w f-neighbors f-tgt? q-frontier-1 set-visited nrst-food nrst-ppill)
                         (if [f-tgt? m-pos m-ghs]
                             mov
                             ; !!! optimization
@@ -181,7 +185,7 @@
                                 [new-moves (filter (fun [x] (not (set-has? set-visited-2 (bstm-flatten-ix bstm-w (bfsx-pos x))))) m-neighbors)]
                                 [q-frontier-2 (q-append q-frontier-1 new-moves)]
                                 )
-                                (recur bstm-w f-neighbors f-tgt? q-frontier-2 set-visited-2)))))))))
+                                (recur bstm-w f-neighbors f-tgt? q-frontier-2 set-visited-2 nrst-food nrst-ppill)))))))))
 
 (def bfsx-cons
     (fun [dir pos dist ghs sc]
@@ -263,6 +267,15 @@
             [loc (lm-loc (ws-lmst ws))]
             )
             (car (pick-best (map-map (fun [p] (- 0 (vec-l1-dist loc p))) (ai-food ai)))))))
+(def nearest-ppill
+    (fun [ai ws]
+        (let* (
+            [loc (lm-loc (ws-lmst ws))]
+            [ppills (ai-ppills ai)]
+            )
+            (if [atom? ppills]
+                NIL
+                (car (pick-best (map-map (fun [p] (- 0 (vec-l1-dist loc p))) ppills)))))))
 ; map access (in standard crummy representation)
 (def m-ix
     (fun [wmap pos]
