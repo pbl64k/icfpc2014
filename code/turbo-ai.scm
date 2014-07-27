@@ -69,7 +69,7 @@
             ;[init-moves (f-neighbors -1 my-loc 1 NIL)]
             [init-frontier (foldl q-snoc q-empty init-moves)]
             [init-visited (set-ins set-empty my-floc)]
-            [best-move (bfs wmap f-neighbors (fun [p extra-bad-ghosties] (> (f-cell-score p extra-bad-ghosties) 0)) init-frontier init-visited)]
+            [best-move (turbo-bfs wmap f-neighbors (fun [p extra-bad-ghosties] (> (f-cell-score p extra-bad-ghosties) 0)) init-frontier init-visited)]
             ;[best-move (bfs wmap f-neighbors (fun [p] (> (cell-score (bstm-ix wmap p)) 0)) init-frontier init-visited)]
             ;[best-move FALSE]
             )
@@ -153,7 +153,9 @@
             (fun [pos extra-bad-ghosties]
                 (+ (cell-score (bstm-ix wmap pos)) (+ (lm-ghost-score pos extra-bad-ghosties) (lm-fruit-score pos)))))))
 
-(def bfs
+; nothing particularly fast about it
+; it's just meant to be TURBO.
+(def turbo-bfs
     (fun [bstm-w f-neighbors f-tgt? q-frontier set-visited]
         (do
             (if [q-isempty? q-frontier]
