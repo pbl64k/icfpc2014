@@ -206,7 +206,7 @@ cg n env labels (Spec "if" [cond, thn, els]) = (cond_code ++ [Op "TSEL" [Lbl t_l
         e_lbl = "else_" ++ (show $ length labels''')
 -- Note that `recur' MUST ONLY be used with NAMED functions
 -- In general, never apply to unnamed functions: might be expensive
-cg n env labels (Spec "recur" args) = ([Op "LD" [Num 0, Num 0]] ++ code' ++ [Op "LD" [Num 0, Num 0], Op "TAP" [Num $ succ $ length args]], labels')
+cg n env labels (Spec "recur" args) = ([Op "LD" ("$@recur" `var_lookup` (n, env))] ++ code' ++ [Op "LD" ("$@recur" `var_lookup` (n, env)), Op "TAP" [Num $ succ $ length args]], labels')
     where
         (code', labels') = foldl (\(c, l) expr -> let (c', l') = cg n env l expr in (c ++ c', l')) ([], labels) args
 cg n env labels (Spec "do" []) = ([], labels)
