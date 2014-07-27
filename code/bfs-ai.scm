@@ -58,6 +58,8 @@
             ;[best-move FALSE]
             )
             (do
+                (debug my-loc)
+                (debug init-moves)
                 (debug best-move)
                 (if best-move
                     (cons (ai-drop-food (ai-add-cell ai-state (cdr best-move)) (cdr best-move)) (car best-move))
@@ -86,26 +88,28 @@
 (def bfs
     (fun [bstm-w f-neighbors f-tgt? q-frontier set-visited]
         ; dodgy stuff here! will if's and let's work like that?
-        (if [q-isempty? q-frontier]
-            FALSE
-            (let* (
-                [state-1 (q-pop q-frontier)]
-                [mov (car state-1)]
-                [q-frontier-1 (cdr state-1)]
-                [m-dir (car mov)]
-                [m-pos (cdr mov)]
-                [m-fpos (bstm-flatten-ix bstm-w m-pos)]
-                )
-                (if [set-has? set-visited m-fpos]
-                    (recur bstm-w f-neighbors f-tgt? q-frontier-1 set-visited)
-                    (if [f-tgt? m-pos]
-                        mov
-                        (let* (
-                            [set-visited-2 (set-ins set-visited m-fpos)]
-                            [new-moves (filter (fun [x] (not (set-has? set-visited-2 (bstm-flatten-ix bstm-w (cdr x))))) (f-neighbors m-pos m-dir))]
-                            [q-frontier-2 (foldl q-snoc q-frontier-1 new-moves)]
-                            )
-                            (recur bstm-w f-neighbors f-tgt? q-frontier-2 set-visited-2))))))))
+        (do
+            (debug q-frontier)
+            (if [q-isempty? q-frontier]
+                FALSE
+                (let* (
+                    [state-1 (q-pop q-frontier)]
+                    [mov (car state-1)]
+                    [q-frontier-1 (cdr state-1)]
+                    [m-dir (car mov)]
+                    [m-pos (cdr mov)]
+                    [m-fpos (bstm-flatten-ix bstm-w m-pos)]
+                    )
+                    (if [set-has? set-visited m-fpos]
+                        (recur bstm-w f-neighbors f-tgt? q-frontier-1 set-visited)
+                        (if [f-tgt? m-pos]
+                            mov
+                            (let* (
+                                [set-visited-2 (set-ins set-visited m-fpos)]
+                                [new-moves (filter (fun [x] (not (set-has? set-visited-2 (bstm-flatten-ix bstm-w (cdr x))))) (f-neighbors m-pos m-dir))]
+                                [q-frontier-2 (foldl q-snoc q-frontier-1 new-moves)]
+                                )
+                                (recur bstm-w f-neighbors f-tgt? q-frontier-2 set-visited-2)))))))))
 
 ; helpers for old AI (`step') follow
 
@@ -251,15 +255,15 @@
     (fun [q] (atom? (car q))))
 (def q-pop
     (fun [q]
-        (cons (car (car q)) (q-norm (cons (cdr (car q)) (cons (cdr q) NIL))))))
+        (cons (car (car q)) (q-norm (cons (cdr (car q)) (cons (car (cdr q)) NIL))))))
 (def q-snoc
     (fun [q x]
-        (cons (car q) (cons (cons x (cdr q)) NIL))))
+        (q-norm (cons (car q) (cons (cons x (car (cdr q))) NIL)))))
 (def q-norm
     (fun [q]
         ; semantically different from `q-isempty?' -- it just LOOKS like it's empty
         (if [atom? (car q)]
-            (cons (reverse (cdr q)) (cons NIL NIL))
+            (cons (reverse (car (cdr q))) (cons NIL NIL))
             q)))
 
 ;;; INTEGER TREESETS
