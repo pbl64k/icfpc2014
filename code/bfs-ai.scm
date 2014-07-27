@@ -37,8 +37,7 @@
             [cell-costs (map-map (fun [x] (ai-score ai-state world-state x)) valid-cells)]
             [best-cost (pick-best cell-costs)]
             [best-cell (car best-cost)]
-            [nb-movs (nb-moves)]
-            [match (filter (fun [mv] (vec-=? (vec-+ (cdr mv) loc) best-cell)) nb-movs)]
+            [match (filter (fun [mv] (vec-=? (vec-+ (cdr mv) loc) best-cell)) nb-moves)]
             ;[best-move (do (debug cell-costs) (debug best-cost) (debug match) (car (car match)))]
             [best-move (car (car match))]
             )
@@ -77,8 +76,7 @@
     (fun [wmap f-valid-cell?] ; doesn't really need `wmap' as is
         (fun [pos preset-dir]
             (let* (
-                [nb-movs (nb-moves)]
-                [nb-ps (map (fun [mov] (cons (car mov) (vec-+ pos (cdr mov)))) nb-movs)]
+                [nb-ps (map (fun [mov] (cons (car mov) (vec-+ pos (cdr mov)))) nb-moves)]
                 [nb-dps (map (fun [mov] (if [< preset-dir 0] mov (cons preset-dir (cdr mov)))) nb-ps)]
                 ; now we have originating directions and actual positions...
                 )
@@ -200,7 +198,7 @@
 
 (def ai-cons
     (fun [recent-cells food]
-        (cons recent-cells (cons food NIL))))
+        (cons recent-cells food)))
 (def ai-add-cell
     (fun [ai cell]
         (let* (
@@ -216,8 +214,8 @@
             [new-food (filter (fun [x] (not (vec-=? x cell))) food)]
             )
             (ai-cons (ai-rct ai) new-food))))
-(def ai-rct (fun [ai] (ith 0 ai)))
-(def ai-food (fun [ai] (ith 1 ai)))
+(def ai-rct (fun [ai] (car ai)))
+(def ai-food (fun [ai] (cdr ai)))
 
 ;;; BST-based representation of game map
 
@@ -229,7 +227,7 @@
             [sz (* h w)]
             [fmap (concat wmap)]
             )
-            (cons (bst-cons fmap sz) (cons w (cons h NIL))))))
+            (cons (bst-cons fmap sz) (cons w h)))))
 (def bst-cons
     (fun [xs n]
         (if [= n 1]
@@ -238,10 +236,10 @@
                 [midp (/ n 2)]
                 [sp (span midp xs)]
                 )
-                (cons 0 (cons midp (cons (bst-cons (car sp) midp) (cons (bst-cons (cdr sp) (- n midp)) NIL))))))))
-(def bstm-map (fun [bst] (ith 0 bst)))
-(def bstm-w (fun [bst] (ith 1 bst)))
-(def bstm-h (fun [bst] (ith 2 bst)))
+                (cons 0 (cons midp (cons (bst-cons (car sp) midp) (bst-cons (cdr sp) (- n midp)))))))))
+(def bstm-map (fun [bst] (car bst)))
+(def bstm-w (fun [bst] (car (cdr bst))))
+(def bstm-h (fun [bst] (cdr (cdr bst))))
 (def bstm-flatten-ix
     (fun [wmap pos]
         (+ (car pos) (* (cdr pos) (bstm-w wmap)))))
@@ -254,7 +252,7 @@
             (cdr fmap)
             (if [< n (car (cdr fmap))]
                 (recur (car (cdr (cdr fmap))) n)
-                (recur (car (cdr (cdr (cdr fmap)))) (- n (car (cdr fmap))))))))
+                (recur (cdr (cdr (cdr fmap))) (- n (car (cdr fmap))))))))
 
 ;;; SIMPLE PURELY FUNCTIONAL QUEUES
 
@@ -440,7 +438,8 @@
 (def TRUE 1)
 (def FALSE 0)
 (def neighbors (cons (cons 1 0) (cons (cons -1 0) (cons (cons 0 1) (cons (cons 0 -1) 0)))))
-(def nb-moves (fun [] (zip (cons DIR-RT (cons DIR-LT (cons DIR-DN (cons DIR-UP NIL)))) neighbors)))
+;(def nb-moves (fun [] (zip (cons DIR-RT (cons DIR-LT (cons DIR-DN (cons DIR-UP NIL)))) neighbors)))
+(def nb-moves (cons (cons 1 (cons 1 0)) (cons (cons 3 (cons -1 0)) (cons (cons 2 (cons 0 1)) (cons (cons 0 (cons 0 -1)) 0)))))
 (def M-WALL 0)
 (def M-EMPTY 1)
 (def M-PILL 2)
@@ -458,10 +457,10 @@
 
 ;;; ACCESSORS AND INSPECTORS FOR STANDARD DATA STRUCTURES
 
-(def ws-map (fun [ws] (ith 0 ws)))
-(def ws-lmst (fun [ws] (ith 1 ws)))
-(def ws-ghst (fun [ws] (ith 2 ws)))
-(def ws-fruit (fun [ws] (ith 3 ws)))
+(def ws-map (fun [ws] (car ws)))
+(def ws-lmst (fun [ws] (car (cdr ws))))
+(def ws-ghst (fun [ws] (car (cdr (cdr ws)))))
+(def ws-fruit (fun [ws] (cdr (cdr (cdr ws)))))
 (def m-wall? (fun [x] (= x M-WALL)))
 (def m-empty? (fun [x] (= x M-EMPTY)))
 (def m-pill? (fun [x] (= x M-PILL)))
@@ -469,14 +468,14 @@
 (def m-floc? (fun [x] (= x M-FRUIT)))
 (def m-lmsp? (fun [x] (= x M-LMSP)))
 (def m-ghsp? (fun [x] (= x M-GHSP)))
-(def lm-vit (fun [lm] (ith 0 lm)))
-(def lm-loc (fun [lm] (ith 1 lm)))
-(def lm-dir (fun [lm] (ith 2 lm)))
-(def lm-lives (fun [lm] (ith 3 lm)))
-(def lm-score (fun [lm] (ith 4 lm)))
-(def gh-vit (fun [gh] (ith 0 gh)))
-(def gh-loc (fun [gh] (ith 1 gh)))
-(def gh-dir (fun [gh] (ith 2 gh)))
+(def lm-vit (fun [lm] (car lm)))
+(def lm-loc (fun [lm] (car (cdr lm))))
+(def lm-dir (fun [lm] (car (cdr (cdr lm)))))
+(def lm-lives (fun [lm] (car (cdr (cdr (cdr lm))))))
+(def lm-score (fun [lm] (cdr (cdr (cdr (cdr lm))))))
+(def gh-vit (fun [gh] (car gh)))
+(def gh-loc (fun [gh] (car (cdr gh))))
+(def gh-dir (fun [gh] (cdr (cdr gh))))
 (def gh-std? (fun [vit] (= vit GH-STD)))
 (def gh-fear? (fun [vit] (= vit GH-FEAR)))
 (def gh-inv? (fun [vit] (= vit GH-INV)))
@@ -486,10 +485,10 @@
 
 ;;; STUFF FOR TESTING
 
-(def test-map (cons (cons 0 (cons 1 (cons 0 0))) (cons (cons 0 (cons 1 (cons 2 0))) 0)))
-(def test-lms (cons 0 (cons (cons 1 1) (cons 0 (cons 3 100)))))
-(def test-ghs (cons (cons 0 (cons (cons 1 2) 3)) 0))
-(def test-frs 0)
+;(def test-map (cons (cons 0 (cons 1 (cons 0 0))) (cons (cons 0 (cons 1 (cons 2 0))) 0)))
+;(def test-lms (cons 0 (cons (cons 1 1) (cons 0 (cons 3 100)))))
+;(def test-ghs (cons (cons 0 (cons (cons 1 2) 3)) 0))
+;(def test-frs 0)
 
 ;;; ENTRY POINT
 ;;; grabs the arguments passed from the outside and calls the actual implementation
