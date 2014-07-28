@@ -1,92 +1,96 @@
-	DUM	129
-	LDF	300
-	LDF	421
-	LDF	619
-	LDF	700
-	LDF	748
-	LDF	985
+	DUM	133
+	LDF	304
+	LDF	423
+	LDF	645
+	LDF	726
+	LDF	774
+	LDF	1020
 	LDC	20
-	LDF	1220
-	LDF	1271
-	LDF	1304
-	LDF	1308
-	LDF	1318
-	LDF	1339
-	LDF	1365
-	LDF	1368
-	LDF	1372
-	LDF	1377
-	LDF	1383
-	LDF	1479
-	LDF	1578
-	LDF	1592
-	LDF	1625
+	LDF	1259
+	LDF	1265
+	LDF	1289
+	LDF	1337
+	LDF	1370
+	LDF	1374
+	LDF	1384
+	LDF	1405
+	LDF	1431
+	LDF	1434
+	LDF	1438
+	LDF	1443
+	LDF	1449
+	LDF	1545
 	LDF	1644
+	LDF	1658
+	LDF	1691
+	LDF	1710
 	LDC	8
-	LDF	1665
-	LDF	1695
-	LDF	1738
-	LDF	1771
-	LDF	1777
-	LDF	1796
-	LDF	1801
-	LDF	1809
-	LDF	1844
-	LDF	1877
-	LDF	1901
-	LDF	1915
-	LDF	1918
-	LDF	1922
-	LDF	1927
-	LDF	1956
-	LDF	2005
-	LDF	2010
-	LDF	2013
-	LDF	2017
-	LDF	2021
-	LDF	2032
-	LDF	2077
+	LDF	1731
+	LDF	1761
+	LDF	1804
+	LDF	1837
+	LDF	1843
+	LDF	1862
+	LDF	1867
+	LDF	1875
+	LDF	1910
+	LDF	1943
+	LDF	1967
+	LDF	1981
+	LDF	1984
+	LDF	1988
+	LDF	1993
+	LDF	2022
+	LDF	2071
+	LDF	2076
+	LDF	2079
+	LDF	2083
+	LDF	2087
+	LDF	2098
+	LDF	2143
 	LDC	0
 	LDC	0
 	CONS	
-	LDF	2081
-	LDF	2085
-	LDF	2099
-	LDF	2114
-	LDF	2138
+	LDF	2147
+	LDF	2151
+	LDF	2165
+	LDF	2180
+	LDF	2204
 	LDC	0
-	LDF	2193
-	LDF	2229
-	LDF	2233
-	LDF	2266
-	LDF	2270
-	LDF	2312
+	LDF	2259
+	LDF	2295
+	LDF	2299
 	LDF	2332
-	LDF	2343
-	LDF	2349
-	LDF	2375
-	LDF	2379
-	LDF	2417
-	LDF	2439
-	LDF	2443
-	LDF	2476
-	LDF	2489
-	LDF	2523
-	LDF	2528
-	LDF	2546
-	LDF	2562
-	LDF	2566
-	LDF	2604
-	LDF	2628
-	LDF	2650
-	LDF	2658
-	LDF	2669
-	LDF	2680
-	LDF	2687
-	LDF	2712
-	LDF	2719
-	LDF	2737
-	LDF	2747
+	LDF	2336
+	LDF	2378
+	LDF	2398
+	LDF	2409
+	LDF	2415
+	LDF	2441
+	LDF	2445
+	LDF	2483
+	LDF	2505
+	LDF	2509
+	LDF	2538
+	LDF	2542
+	LDF	2575
+	LDF	2588
+	LDF	2622
+	LDF	2627
+	LDF	2645
+	LDF	2661
+	LDF	2665
+	LDF	2703
+	LDF	2727
+	LDF	2749
+	LDF	2757
+	LDF	2768
+	LDF	2779
+	LDF	2786
+	LDF	2811
+	LDF	2818
+	LDF	2836
+	LDF	2846
 	LDC	0
 	LDC	1
 	LDC	0
@@ -146,482 +150,506 @@
 	LDC	1
 	LDC	2
 	LDC	3
-	LDF	2752
-	LDF	2755
-	LDF	2759
-	LDF	2764
-	LDF	2769
-	LDF	2773
-	LDF	2777
-	LDF	2781
-	LDF	2785
-	LDF	2789
-	LDF	2793
-	LDF	2797
-	LDF	2800
-	LDF	2804
-	LDF	2809
-	LDF	2815
-	LDF	2821
-	LDF	2824
-	LDF	2828
-	LDF	2832
-	LDF	2836
-	LDF	2840
-	LDF	2844
-	LDF	2847
-	LDF	2850
-	RAP	129
+	LDF	2851
+	LDF	2854
+	LDF	2858
+	LDF	2863
+	LDF	2868
+	LDF	2872
+	LDF	2876
+	LDF	2880
+	LDF	2884
+	LDF	2888
+	LDF	2892
+	LDF	2896
+	LDF	2899
+	LDF	2903
+	LDF	2908
+	LDF	2914
+	LDF	2920
+	LDF	2923
+	LDF	2927
+	LDF	2931
+	LDF	2935
+	LDF	2939
+	LDF	2943
+	LDF	2946
+	LDF	2949
+	RAP	133
 	RTN	
-; lambda_0: (addr: 175)
-	LD	8 29
-	LD	8 45
+; lambda_0: (addr: 179)
+	LD	8 31
+	LD	8 47
 	LD	5 0
 	LD	0 1
-	LD	8 45
+	LD	8 47
 	AP	3
-	LD	8 29
+	LD	8 31
 	AP	2
 	LDC	0
 	CGT	
 	RTN	
-; then_1: (addr: 186)
+; then_1: (addr: 190)
 	LDC	-1
 	LDC	-1
 	CONS	
 	RTN	
-; else_2: (addr: 190)
+; else_2: (addr: 194)
 	LD	0 1
 	CAR	
 	RTN	
-; lambda_3: (addr: 193)
+; lambda_3: (addr: 197)
 	LD	0 1
 	ATOM	
-	TSEL	186 190
+	TSEL	190 194
 	RTN	
-; lambda_4: (addr: 197)
-	LD	10 113
-	LD	10 45
+; lambda_4: (addr: 201)
+	LD	10 117
+	LD	10 47
 	LD	7 0
 	LD	0 1
-	LD	10 45
+	LD	10 47
 	AP	3
-	LD	10 113
+	LD	10 117
 	AP	2
 	RTN	
-; lambda_5: (addr: 206)
-	LD	11 112
-	LD	11 45
+; lambda_5: (addr: 210)
+	LD	11 116
+	LD	11 47
 	LD	8 0
 	LD	0 1
-	LD	11 45
+	LD	11 47
 	AP	3
-	LD	11 112
+	LD	11 116
 	AP	2
 	RTN	
-; lambda_6: (addr: 215)
+; lambda_6: (addr: 219)
 	LD	11 2
 	LD	0 0
 	LD	0 1
 	LD	11 2
 	AP	3
 	RTN	
-; let_7: (addr: 221)
-	LD	10 30
-	LD	10 86
+; let_7: (addr: 225)
+	LD	10 32
+	LD	10 90
 	LD	3 0
 	LD	1 0
 	LD	0 0
-	LD	10 30
+	LD	10 32
 	AP	5
-	LDF	215
+	LDF	219
 	CONS	
 	RTN	
-; let_8: (addr: 231)
+; let_8: (addr: 235)
 	DUM	1
-	LD	10 64
-	LDF	206
+	LD	10 66
+	LDF	210
 	LD	4 0
-	LD	10 64
+	LD	10 66
 	AP	3
-	LDF	221
+	LDF	225
 	RAP	1
 	RTN	
-; let_9: (addr: 240)
+; let_9: (addr: 244)
 	DUM	1
 	LD	1 0
-	LD	9 64
-	LDF	197
+	LD	9 66
+	LDF	201
 	LD	3 0
-	LD	9 64
+	LD	9 66
 	AP	3
 	LD	1 0
 	AP	2
-	LDF	231
+	LDF	235
 	RAP	1
 	RTN	
-; let_10: (addr: 252)
+; let_10: (addr: 256)
 	DUM	1
-	LDF	193
-	LDF	240
+	LDF	197
+	LDF	244
 	RAP	1
 	RTN	
-; let_11: (addr: 257)
+; let_11: (addr: 261)
 	DUM	1
-	LD	7 64
-	LDF	175
+	LD	7 66
+	LDF	179
 	LD	1 0
-	LD	7 64
+	LD	7 66
 	AP	3
-	LDF	252
+	LDF	256
 	RAP	1
 	RTN	
-; let_12: (addr: 266)
+; let_12: (addr: 270)
 	DUM	1
-	LD	6 58
+	LD	6 60
 	LD	1 0
 	LD	2 0
-	LD	6 58
+	LD	6 60
 	AP	3
-	LDF	257
+	LDF	261
 	RAP	1
 	RTN	
-; let_13: (addr: 275)
+; let_13: (addr: 279)
 	DUM	1
-	LD	5 78
+	LD	5 82
 	LD	3 0
 	CAR	
-	LD	5 78
+	LD	5 82
 	AP	2
-	LDF	266
+	LDF	270
 	RAP	1
 	RTN	
-; let_14: (addr: 284)
+; let_14: (addr: 288)
 	DUM	1
-	LD	4 78
+	LD	4 82
 	LD	2 0
-	LD	4 78
+	LD	4 82
 	AP	2
-	LDF	275
+	LDF	279
 	RAP	1
 	RTN	
-; let_15: (addr: 292)
+; let_15: (addr: 296)
 	DUM	1
-	LD	3 39
+	LD	3 41
 	LD	1 0
-	LD	3 39
+	LD	3 41
 	AP	2
-	LDF	284
+	LDF	288
 	RAP	1
 	RTN	
-; lambda_16: (addr: 300)
+; lambda_16: (addr: 304)
 	DUM	1
-	LD	2 105
+	LD	2 109
 	LD	1 1
-	LD	2 105
+	LD	2 109
 	AP	2
-	LDF	292
+	LDF	296
 	RAP	1
 	RTN	
-; lambda_17: (addr: 308)
-	LD	5 81
+; lambda_17: (addr: 312)
+	LD	5 85
 	LD	0 1
 	LD	2 0
-	LD	5 81
+	LD	5 85
 	AP	3
 	RTN	
-; lambda_18: (addr: 314)
-	LD	6 28
+; lambda_18: (addr: 318)
+	LD	6 30
 	LD	4 0
 	LD	0 1
-	LD	6 28
+	LD	6 30
 	AP	3
 	RTN	
-; lambda_19: (addr: 320)
-	LD	7 19
+; lambda_19: (addr: 324)
+	LD	7 21
 	LD	6 1
 	LD	6 2
 	LD	0 1
-	LD	7 19
+	LD	7 21
 	AP	4
 	RTN	
-; lambda_20: (addr: 327)
-	LD	10 82
-	LD	10 81
+; lambda_20: (addr: 331)
+	LD	10 86
+	LD	10 85
 	LD	0 1
 	CDR	
 	LD	7 0
-	LD	10 81
+	LD	10 85
 	AP	3
 	LD	2 0
-	LD	10 82
+	LD	10 86
 	AP	3
 	RTN	
-; let_21: (addr: 338)
+; let_21: (addr: 342)
 	LD	0 0
 	LD	1 0
 	CONS	
 	RTN	
-; let_22: (addr: 342)
-	LDC	0
-	DBUG	
+; let_22: (addr: 346)
 	DUM	1
-	LD	11 34
+	LD	11 36
 	LD	10 1
 	LD	3 0
-	LD	11 34
+	LD	11 36
 	AP	3
-	LDF	338
-	RAP	1
-	RTN	
-; let_23: (addr: 353)
-	DUM	1
-	LD	1 0
-	CAR	
-	CAR	
 	LDF	342
 	RAP	1
 	RTN	
-; let_24: (addr: 360)
-	DUM	1
-	LD	9 64
-	LDF	327
-	LD	9 90
-	LD	9 64
-	AP	3
-	LDF	353
-	RAP	1
-	RTN	
-; let_25: (addr: 369)
+; let_23: (addr: 355)
 	DUM	1
 	LD	1 0
 	CAR	
-	LDF	360
+	CAR	
+	LDF	346
 	RAP	1
 	RTN	
-; let_26: (addr: 375)
+; let_24: (addr: 362)
 	DUM	1
-	LD	7 56
+	LD	9 66
+	LDF	331
+	LD	9 94
+	LD	9 66
+	AP	3
+	LDF	355
+	RAP	1
+	RTN	
+; let_25: (addr: 371)
+	DUM	1
 	LD	1 0
-	LD	7 56
+	CAR	
+	LDF	362
+	RAP	1
+	RTN	
+; let_26: (addr: 377)
+	DUM	1
+	LD	7 58
+	LD	1 0
+	LD	7 58
 	AP	2
-	LDF	369
+	LDF	371
 	RAP	1
 	RTN	
-; let_27: (addr: 383)
+; let_27: (addr: 385)
 	DUM	1
-	LD	6 61
-	LDF	320
+	LD	6 63
+	LDF	324
 	LD	1 0
-	LD	6 61
+	LD	6 63
 	AP	3
-	LDF	375
+	LDF	377
 	RAP	1
 	RTN	
-; let_28: (addr: 392)
+; let_28: (addr: 394)
 	DUM	1
-	LD	5 64
-	LDF	314
+	LD	5 66
+	LDF	318
 	LD	1 0
-	LD	5 64
+	LD	5 66
 	AP	3
-	LDF	383
+	LDF	385
 	RAP	1
 	RTN	
-; let_29: (addr: 401)
+; let_29: (addr: 403)
 	DUM	1
-	LD	4 62
-	LDF	308
-	LD	4 89
-	LD	4 62
+	LD	4 64
+	LDF	312
+	LD	4 93
+	LD	4 64
 	AP	3
-	LDF	392
+	LDF	394
 	RAP	1
 	RTN	
-; let_30: (addr: 410)
+; let_30: (addr: 412)
 	DUM	1
-	LD	3 117
-	LD	3 106
+	LD	3 121
+	LD	3 110
 	LD	2 2
-	LD	3 106
+	LD	3 110
 	AP	2
-	LD	3 117
+	LD	3 121
 	AP	2
-	LDF	401
+	LDF	403
 	RAP	1
 	RTN	
-; lambda_31: (addr: 421)
+; lambda_31: (addr: 423)
 	DUM	1
-	LD	2 105
+	LD	2 109
 	LD	1 2
-	LD	2 105
+	LD	2 109
 	AP	2
-	LDF	410
+	LDF	412
 	RAP	1
 	RTN	
-; lambda_32: (addr: 429)
-	LD	9 124
-	LD	9 121
+; lambda_32: (addr: 431)
+	LD	9 128
+	LD	9 125
 	LD	0 1
-	LD	9 121
+	LD	9 125
 	AP	2
-	LD	9 124
+	LD	9 128
 	AP	2
 	RTN	
-; lambda_33: (addr: 437)
-	LD	10 123
+; lambda_33: (addr: 439)
+	LD	10 87
+	LD	7 0
+	LD	10 126
 	LD	0 1
-	LD	10 123
+	LD	10 126
 	AP	2
-	LD	10 122
-	LD	0 1
-	LD	10 122
-	AP	2
-	LD	10 86
-	CONS	
-	CONS	
-	RTN	
-; let_34: (addr: 449)
-	LD	16 34
-	LD	15 1
-	LD	16 14
-	LD	0 0
-	LD	16 14
-	AP	2
-	LD	16 34
+	LD	10 87
 	AP	3
-	LD	16 13
+	RTN	
+; lambda_34: (addr: 448)
+	LD	11 127
+	LD	0 1
+	LD	11 127
+	AP	2
+	LD	11 126
+	LD	0 1
+	LD	11 126
+	AP	2
+	LD	11 90
+	CONS	
+	CONS	
+	RTN	
+; let_35: (addr: 460)
+	LD	17 36
+	LD	16 1
+	LD	17 16
 	LD	0 0
-	LD	16 13
+	LD	17 16
+	AP	2
+	LD	17 36
+	AP	3
+	LD	17 15
+	LD	0 0
+	LD	17 15
 	AP	2
 	CONS	
 	RTN	
-; then_35: (addr: 463)
+; then_36: (addr: 474)
 	DUM	1
-	LD	16 9
+	LD	17 11
 	LD	1 0
 	CAR	
 	LD	1 0
 	CDR	
-	LD	16 9
+	LD	17 11
 	AP	3
-	LDF	449
+	LDF	460
 	RAP	1
 	RTN	
-; else_36: (addr: 474)
+; else_37: (addr: 485)
+	LD	16 1
 	LD	15 1
-	LD	14 1
-	LD	14 2
-	LD	15 1
+	LD	15 2
+	LD	16 1
 	AP	3
 	RTN	
-; let_37: (addr: 480)
-	LD	15 84
+; let_38: (addr: 491)
+	LD	16 88
 	LD	0 0
 	ATOM	
-	LD	15 84
+	LD	16 88
 	AP	2
-	TSEL	463 474
+	TSEL	474 485
 	RTN	
-; let_38: (addr: 487)
+; let_39: (addr: 498)
 	DUM	1
-	LD	15 7
-	LD	15 86
-	LD	13 0
+	LD	16 7
+	LD	16 90
+	LD	14 0
+	LD	11 0
 	LD	10 0
-	LD	9 0
 	LD	4 0
 	LD	3 0
 	LD	2 0
 	LD	1 0
-	LD	15 7
-	AP	9
-	LDF	480
+	LD	7 0
+	LD	16 7
+	AP	10
+	LDF	491
 	RAP	1
 	RTN	
-; let_39: (addr: 502)
+; let_40: (addr: 514)
 	DUM	1
-	LD	14 26
+	LD	15 28
+	LD	14 1
+	LD	14 2
+	LD	15 28
+	AP	3
+	LDF	498
+	RAP	1
+	RTN	
+; let_41: (addr: 523)
+	DUM	1
+	LD	14 27
 	LD	13 1
 	LD	13 2
-	LD	14 26
+	LD	14 27
 	AP	3
-	LDF	487
+	LDF	514
 	RAP	1
 	RTN	
-; let_40: (addr: 511)
+; let_42: (addr: 532)
 	DUM	1
-	LD	13 25
-	LD	12 1
-	LD	12 2
-	LD	13 25
+	LD	13 56
+	LD	13 55
+	LD	9 0
+	LD	13 56
 	AP	3
-	LDF	502
+	LDF	523
 	RAP	1
 	RTN	
-; let_41: (addr: 520)
+; let_43: (addr: 541)
 	DUM	1
-	LD	12 54
 	LD	12 53
-	LD	8 0
-	LD	12 54
-	AP	3
-	LDF	511
-	RAP	1
-	RTN	
-; let_42: (addr: 529)
-	DUM	1
-	LD	11 51
-	LD	11 47
+	LD	12 49
 	LD	1 0
-	LD	11 51
+	LD	12 53
 	AP	3
-	LDF	520
-	RAP	1
-	RTN	
-; let_43: (addr: 538)
-	DUM	1
-	LD	5 0
-	LDC	-1
-	LD	7 0
-	LDC	1
-	LD	1 0
-	LDC	0
-	LD	5 0
-	AP	6
-	LDF	529
+	LDF	532
 	RAP	1
 	RTN	
 ; let_44: (addr: 550)
 	DUM	1
-	LD	9 62
-	LDF	437
+	LD	6 0
+	LDC	-1
+	LD	8 0
+	LDC	1
 	LD	1 0
-	LD	9 62
-	AP	3
-	LDF	538
+	LDC	0
+	LD	6 0
+	AP	6
+	LDF	541
 	RAP	1
 	RTN	
-; let_45: (addr: 559)
+; let_45: (addr: 562)
 	DUM	1
-	LD	8 64
-	LDF	429
-	LD	1 0
-	LD	8 64
+	LD	10 64
+	LDF	448
+	LD	2 0
+	LD	10 64
 	AP	3
 	LDF	550
 	RAP	1
 	RTN	
-; let_46: (addr: 568)
+; let_46: (addr: 571)
 	DUM	1
-	LD	7 107
-	LD	6 2
-	LD	7 107
+	LDC	4
+	LD	9 69
+	LD	9 64
+	LDF	439
+	LD	1 0
+	LD	9 64
+	AP	3
+	LD	9 69
 	AP	2
-	LDF	559
+	CGTE	
+	LDF	562
 	RAP	1
 	RTN	
-; let_47: (addr: 576)
+; let_47: (addr: 585)
+	DUM	1
+	LD	8 66
+	LDF	431
+	LD	1 0
+	LD	8 66
+	AP	3
+	LDF	571
+	RAP	1
+	RTN	
+; let_48: (addr: 594)
+	DUM	1
+	LD	7 111
+	LD	6 2
+	LD	7 111
+	AP	2
+	LDF	585
+	RAP	1
+	RTN	
+; let_49: (addr: 602)
 	DUM	1
 	LD	6 5
 	LD	4 0
@@ -629,10 +657,10 @@
 	LD	5 1
 	LD	6 5
 	AP	4
-	LDF	568
+	LDF	594
 	RAP	1
 	RTN	
-; let_48: (addr: 586)
+; let_50: (addr: 612)
 	DUM	1
 	LD	5 3
 	LD	3 0
@@ -643,774 +671,815 @@
 	AP	3
 	LD	5 3
 	AP	3
-	LDF	576
+	LDF	602
 	RAP	1
 	RTN	
-; let_49: (addr: 599)
+; let_51: (addr: 625)
 	DUM	1
-	LD	4 44
+	LD	4 46
 	LD	2 0
 	LD	1 0
-	LD	4 44
+	LD	4 46
 	AP	3
-	LDF	586
+	LDF	612
 	RAP	1
 	RTN	
-; let_50: (addr: 608)
+; let_52: (addr: 634)
 	DUM	1
-	LD	3 117
-	LD	3 106
+	LD	3 121
+	LD	3 110
 	LD	2 2
-	LD	3 106
+	LD	3 110
 	AP	2
-	LD	3 117
+	LD	3 121
 	AP	2
-	LDF	599
+	LDF	625
 	RAP	1
 	RTN	
-; lambda_51: (addr: 619)
+; lambda_53: (addr: 645)
 	DUM	1
-	LD	2 39
-	LD	2 105
+	LD	2 41
+	LD	2 109
 	LD	1 2
-	LD	2 105
+	LD	2 109
 	AP	2
-	LD	2 39
+	LD	2 41
 	AP	2
-	LDF	608
+	LDF	634
 	RAP	1
 	RTN	
-; lambda_52: (addr: 630)
-	LD	4 18
+; lambda_54: (addr: 656)
+	LD	4 20
 	LD	3 1
 	LD	0 1
-	LD	4 18
+	LD	4 20
 	AP	3
 	RTN	
-; lambda_53: (addr: 636)
+; lambda_55: (addr: 662)
 	LD	3 2
-	LD	4 14
+	LD	4 16
 	LD	0 1
-	LD	4 14
+	LD	4 16
 	AP	2
-	LD	4 73
+	LD	4 77
 	LD	2 4
 	LD	1 0
-	LD	4 73
+	LD	4 77
 	AP	3
 	LD	3 2
 	AP	3
 	RTN	
-; then_54: (addr: 649)
+; then_56: (addr: 675)
 	LD	0 1
 	RTN	
-; else_55: (addr: 651)
-	LD	4 11
+; else_57: (addr: 677)
+	LD	4 13
 	LD	0 1
 	LD	2 1
-	LD	4 11
+	LD	4 13
 	AP	3
 	RTN	
-; lambda_56: (addr: 657)
+; lambda_58: (addr: 683)
 	LDC	0
 	LD	2 1
 	CGT	
-	TSEL	649 651
+	TSEL	675 677
 	RTN	
-; lambda_57: (addr: 662)
-	LD	4 10
+; lambda_59: (addr: 688)
+	LD	4 12
 	LD	0 1
 	CAR	
-	LD	4 81
+	LD	4 85
 	LD	2 2
 	LD	0 1
 	CDR	
-	LD	4 81
+	LD	4 85
 	AP	3
 	LD	2 3
 	LD	1 0
 	LD	2 5
-	LD	4 10
+	LD	4 12
 	AP	6
 	RTN	
-; let_58: (addr: 677)
-	LD	3 64
-	LDF	636
-	LD	3 62
-	LDF	657
-	LD	3 62
+; let_60: (addr: 703)
+	LD	3 66
 	LDF	662
-	LD	3 90
-	LD	3 62
-	AP	3
-	LD	3 62
+	LD	3 64
+	LDF	683
+	LD	3 64
+	LDF	688
+	LD	3 94
+	LD	3 64
 	AP	3
 	LD	3 64
+	AP	3
+	LD	3 66
 	AP	3
 	RTN	
-; lambda_59: (addr: 691)
+; lambda_61: (addr: 717)
 	DUM	1
-	LD	3 62
-	LDF	630
+	LD	3 64
+	LDF	656
 	LD	1 4
-	LD	3 62
+	LD	3 64
 	AP	3
-	LDF	677
+	LDF	703
 	RAP	1
 	RTN	
-; lambda_60: (addr: 700)
-	LDF	691
+; lambda_62: (addr: 726)
+	LDF	717
 	RTN	
-; lambda_61: (addr: 702)
-	LD	3 124
-	LD	3 121
+; lambda_63: (addr: 728)
+	LD	3 128
+	LD	3 125
 	LD	0 1
-	LD	3 121
+	LD	3 125
 	AP	2
-	LD	3 124
+	LD	3 128
 	AP	2
 	RTN	
-; lambda_62: (addr: 710)
+; lambda_64: (addr: 736)
 	LDC	1
-	LD	4 83
+	LD	4 87
 	LD	1 1
 	LD	0 1
-	LD	4 83
+	LD	4 87
 	AP	3
 	CGTE	
 	RTN	
-; then_63: (addr: 718)
-	LD	3 84
-	LD	3 66
-	LDF	710
-	LD	3 73
+; then_65: (addr: 744)
+	LD	3 88
+	LD	3 68
+	LDF	736
+	LD	3 77
 	LD	1 0
-	LD	3 62
-	LD	3 122
+	LD	3 64
+	LD	3 126
 	LD	0 2
-	LD	3 62
+	LD	3 64
 	AP	3
-	LD	3 73
+	LD	3 77
 	AP	3
-	LD	3 66
+	LD	3 68
 	AP	3
-	LD	3 84
+	LD	3 88
 	AP	2
 	RTN	
-; else_64: (addr: 735)
-	LD	3 88
+; else_66: (addr: 761)
+	LD	3 92
 	RTN	
-; lambda_65: (addr: 737)
-	LD	3 45
+; lambda_67: (addr: 763)
+	LD	3 47
 	LD	2 1
 	LD	0 1
-	LD	3 45
+	LD	3 47
 	AP	3
-	LD	3 91
+	LD	3 95
 	CGT	
-	TSEL	718 735
+	TSEL	744 761
 	RTN	
-; let_66: (addr: 746)
-	LDF	737
+; let_68: (addr: 772)
+	LDF	763
 	RTN	
-; lambda_67: (addr: 748)
+; lambda_69: (addr: 774)
 	DUM	1
-	LD	2 62
-	LD	2 122
 	LD	2 64
-	LDF	702
-	LD	2 107
+	LD	2 126
+	LD	2 66
+	LDF	728
+	LD	2 111
 	LD	1 2
-	LD	2 107
+	LD	2 111
 	AP	2
+	LD	2 66
+	AP	3
 	LD	2 64
 	AP	3
-	LD	2 62
-	AP	3
-	LDF	746
+	LDF	772
 	RAP	1
 	RTN	
-; lambda_68: (addr: 764)
-	LD	4 124
-	LD	4 121
+; lambda_70: (addr: 790)
+	LD	4 128
+	LD	4 125
 	LD	0 1
-	LD	4 121
+	LD	4 125
 	AP	2
-	LD	4 124
+	LD	4 128
 	AP	2
 	RTN	
-; lambda_69: (addr: 772)
+; lambda_71: (addr: 798)
+	LD	5 129
 	LD	5 125
-	LD	5 121
 	LD	0 1
-	LD	5 121
-	AP	2
 	LD	5 125
+	AP	2
+	LD	5 129
 	AP	2
 	RTN	
-; then_70: (addr: 780)
+; then_72: (addr: 806)
 	LDC	50
 	LD	4 0
+	LD	0 3
+	SUB	
 	MUL	
 	RTN	
-; else_71: (addr: 784)
+; else_73: (addr: 812)
 	LDC	0
 	RTN	
-; lambda_72: (addr: 786)
-	LD	9 82
-	LD	9 122
+; lambda_74: (addr: 814)
+	LD	9 86
+	LD	9 126
 	LD	0 1
-	LD	9 122
+	LD	9 126
 	AP	2
 	LD	0 2
-	LD	9 82
+	LD	9 86
 	AP	3
-	TSEL	780 784
+	TSEL	806 812
 	RTN	
-; then_73: (addr: 796)
+; then_75: (addr: 824)
 	LDC	-9000
 	RTN	
-; then_74: (addr: 798)
+; then_76: (addr: 826)
 	LDC	-9000
 	RTN	
-; then_75: (addr: 800)
+; then_77: (addr: 828)
 	LDC	-10
 	RTN	
-; else_76: (addr: 802)
+; else_78: (addr: 830)
 	LDC	0
 	RTN	
-; else_77: (addr: 804)
+; else_79: (addr: 832)
 	LD	0 0
 	LDC	2
 	CEQ	
-	TSEL	800 802
+	TSEL	828 830
 	RTN	
-; else_78: (addr: 809)
+; else_80: (addr: 837)
 	LD	0 0
 	LDC	1
 	CEQ	
-	TSEL	798 804
+	TSEL	826 832
 	RTN	
-; let_79: (addr: 814)
+; let_81: (addr: 842)
 	LD	0 0
 	LDC	0
 	CEQ	
-	TSEL	796 809
+	TSEL	824 837
 	RTN	
-; lambda_80: (addr: 819)
+; lambda_82: (addr: 847)
 	DUM	1
-	LD	11 83
-	LD	11 122
+	LD	11 87
+	LD	11 126
 	LD	1 1
-	LD	11 122
+	LD	11 126
 	AP	2
 	LD	1 2
-	LD	11 83
+	LD	11 87
 	AP	3
-	LDF	814
+	LDF	842
 	RAP	1
 	RTN	
-; lambda_81: (addr: 831)
+; lambda_83: (addr: 859)
 	LD	3 0
 	LD	0 1
 	LD	1 1
 	LD	3 0
 	AP	3
 	RTN	
-; lambda_82: (addr: 837)
+; lambda_84: (addr: 865)
 	LD	3 0
 	LD	0 1
 	LD	1 1
 	LD	3 0
 	AP	3
 	RTN	
-; lambda_83: (addr: 843)
+; lambda_85: (addr: 871)
 	LD	4 0
 	LD	0 1
 	LD	1 1
+	LD	1 2
 	LD	4 0
-	AP	3
+	AP	4
 	RTN	
-; lambda_84: (addr: 849)
-	LD	11 79
-	LD	11 62
-	LDF	831
+; lambda_86: (addr: 878)
+	LD	11 83
+	LD	11 64
+	LDF	859
 	LD	8 0
-	LD	11 62
+	LD	11 64
 	AP	3
-	LD	11 79
+	LD	11 83
 	AP	2
-	LD	11 79
-	LD	11 62
-	LDF	837
-	LD	0 2
-	LD	11 62
+	LD	11 83
+	LD	11 64
+	LDF	865
+	LD	0 3
+	LD	11 64
 	AP	3
-	LD	11 79
+	LD	11 83
 	AP	2
-	LD	11 79
-	LD	11 62
-	LDF	843
+	LD	11 83
+	LD	11 64
+	LDF	871
 	LD	7 0
-	LD	11 62
+	LD	11 64
 	AP	3
-	LD	11 79
+	LD	11 83
 	AP	2
 	ADD	
 	ADD	
 	RTN	
-; then_85: (addr: 876)
+; then_87: (addr: 905)
 	LD	6 0
+	LD	0 2
+	SUB	
 	LDC	20
 	MUL	
 	RTN	
-; else_86: (addr: 880)
+; else_88: (addr: 911)
 	LDC	0
 	RTN	
-; then_87: (addr: 882)
-	LD	12 82
+; then_89: (addr: 913)
+	LD	12 86
 	LD	0 1
 	LD	5 0
-	LD	12 82
+	LD	12 86
 	AP	3
-	TSEL	876 880
+	TSEL	905 911
 	RTN	
-; else_88: (addr: 889)
+; else_90: (addr: 920)
 	LDC	0
 	RTN	
-; lambda_89: (addr: 891)
+; lambda_91: (addr: 922)
 	LD	6 0
+	LD	0 2
+	SUB	
 	LDC	0
 	CGT	
-	TSEL	882 889
+	TSEL	913 920
 	RTN	
-; lambda_90: (addr: 896)
+; lambda_92: (addr: 929)
 	LDC	10
-	LD	12 29
-	LD	12 45
+	LD	12 31
+	LD	12 47
 	LD	11 1
 	LD	0 1
-	LD	12 45
+	LD	12 47
 	AP	3
-	LD	12 29
+	LD	12 31
 	AP	2
 	MUL	
 	LD	2 0
 	LD	0 1
 	LD	0 2
+	LD	0 3
 	LD	2 0
-	AP	3
+	AP	4
 	LD	1 0
 	LD	0 1
+	LD	0 2
 	LD	1 0
-	AP	2
+	AP	3
 	ADD	
 	ADD	
 	RTN	
-; let_91: (addr: 918)
-	LDF	896
+; let_93: (addr: 953)
+	LDF	929
 	RTN	
-; let_92: (addr: 920)
+; let_94: (addr: 955)
 	DUM	1
-	LDF	891
-	LDF	918
+	LDF	922
+	LDF	953
 	RAP	1
 	RTN	
-; let_93: (addr: 925)
+; let_95: (addr: 960)
 	DUM	1
-	LDF	849
-	LDF	920
+	LDF	878
+	LDF	955
 	RAP	1
 	RTN	
-; let_94: (addr: 930)
+; let_96: (addr: 965)
 	DUM	1
-	LDF	819
-	LDF	925
+	LDF	847
+	LDF	960
 	RAP	1
 	RTN	
-; let_95: (addr: 935)
+; let_97: (addr: 970)
 	DUM	1
-	LDF	786
-	LDF	930
+	LDF	814
+	LDF	965
 	RAP	1
 	RTN	
-; let_96: (addr: 940)
+; let_98: (addr: 975)
 	DUM	1
-	LD	7 37
+	LD	7 39
 	LD	6 3
-	LD	7 37
+	LD	7 39
 	AP	2
-	LDF	935
+	LDF	970
 	RAP	1
 	RTN	
-; let_97: (addr: 948)
+; let_99: (addr: 983)
 	DUM	1
-	LD	6 108
+	LD	6 112
 	LD	5 2
-	LD	6 108
+	LD	6 112
 	AP	2
-	LDF	940
+	LDF	975
 	RAP	1
 	RTN	
-; let_98: (addr: 956)
+; let_100: (addr: 991)
 	DUM	1
-	LD	5 116
-	LD	5 106
+	LD	5 120
+	LD	5 110
 	LD	4 2
-	LD	5 106
+	LD	5 110
 	AP	2
-	LD	5 116
+	LD	5 120
 	AP	2
-	LDF	948
+	LDF	983
 	RAP	1
 	RTN	
-; let_99: (addr: 967)
+; let_101: (addr: 1002)
 	DUM	1
-	LD	4 64
-	LDF	772
+	LD	4 66
+	LDF	798
 	LD	2 0
-	LD	4 64
+	LD	4 66
 	AP	3
-	LDF	956
+	LDF	991
 	RAP	1
 	RTN	
-; let_100: (addr: 976)
+; let_102: (addr: 1011)
 	DUM	1
-	LD	3 64
-	LDF	764
+	LD	3 66
+	LDF	790
 	LD	1 0
-	LD	3 64
+	LD	3 66
 	AP	3
-	LDF	967
+	LDF	1002
 	RAP	1
 	RTN	
-; lambda_101: (addr: 985)
+; lambda_103: (addr: 1020)
 	DUM	1
-	LD	2 107
+	LD	2 111
 	LD	1 2
-	LD	2 107
+	LD	2 111
 	AP	2
-	LDF	976
+	LDF	1011
 	RAP	1
 	RTN	
-; then_102: (addr: 993)
+; then_104: (addr: 1028)
 	LD	0 1
 	RTN	
-; then_103: (addr: 995)
-	LD	8 0
-	LD	8 1
-	LD	8 2
-	LD	8 3
-	LD	8 4
-	LD	5 0
-	LD	8 6
-	LD	8 7
-	LD	8 8
-	LD	8 0
-	TAP	9
-	RTN	
-; then_104: (addr: 1007)
-	LD	11 0
-	LD	12 8
-	LD	11 1
-	LD	1 0
-	LD	12 8
-	AP	3
-	LD	11 2
-	LD	11 3
-	LD	11 4
-	LD	8 0
-	LD	12 54
-	LD	11 6
-	LD	3 0
-	LD	12 54
-	AP	3
-	LD	11 7
-	LD	11 8
-	LD	11 0
-	TAP	9
-	RTN	
-; then_105: (addr: 1027)
-	LD	11 0
-	LD	12 8
-	LD	11 1
-	LD	1 0
-	LD	12 8
-	AP	3
-	LD	11 2
-	LD	11 3
-	LD	11 4
-	LD	8 0
-	LD	12 54
-	LD	11 6
-	LD	3 0
-	LD	12 54
-	AP	3
-	LD	11 7
-	LD	11 8
-	LD	11 0
-	TAP	9
-	RTN	
-; lambda_106: (addr: 1047)
-	LD	16 84
-	LD	16 55
-	LD	3 0
-	LD	16 44
-	LD	15 2
-	LD	16 14
-	LD	0 1
-	LD	16 14
-	AP	2
-	LD	16 44
-	AP	3
-	LD	16 55
-	AP	3
-	LD	16 84
-	AP	2
-	RTN	
-; let_107: (addr: 1063)
-	LD	15 0
-	LD	15 1
-	LD	15 2
-	LD	15 3
-	LD	15 4
-	LD	0 0
-	LD	3 0
-	LD	15 7
-	LD	15 8
-	LD	15 0
-	TAP	9
-	RTN	
-; let_108: (addr: 1075)
-	DUM	1
-	LD	16 51
-	LD	12 0
-	LD	1 0
-	LD	16 51
-	AP	3
-	LDF	1063
-	RAP	1
-	RTN	
-; let_109: (addr: 1084)
-	DUM	1
-	LD	15 64
-	LDF	1047
-	LD	1 0
-	LD	15 64
-	AP	3
-	LDF	1075
-	RAP	1
-	RTN	
-; let_110: (addr: 1093)
-	DUM	1
-	LD	13 3
-	LD	9 0
-	LD	8 0
-	LDC	1
+; then_105: (addr: 1030)
 	LD	7 0
-	ADD	
-	LD	6 0
-	LD	2 0
-	LD	13 3
-	AP	6
-	LDF	1084
-	RAP	1
-	RTN	
-; else_111: (addr: 1107)
-	DUM	1
-	LD	13 54
-	LD	12 6
+	LD	7 1
+	LD	7 2
+	LD	7 3
+	LD	7 4
 	LD	4 0
-	LD	13 54
+	LD	7 6
+	LD	7 7
+	LD	7 8
+	LD	7 9
+	LD	7 0
+	TAP	10
+	RTN	
+; then_106: (addr: 1043)
+	LD	9 0
+	LD	10 10
+	LD	9 1
+	LD	10 14
+	LD	0 0
+	LD	10 9
+	LD	5 0
+	LD	9 8
+	LD	9 9
+	LD	10 9
+	AP	4
+	LD	10 14
 	AP	3
-	LDF	1093
+	LD	10 10
+	AP	3
+	LD	9 2
+	LD	9 3
+	LD	9 4
+	LD	6 0
+	LD	10 56
+	LD	9 6
+	LD	2 0
+	LD	10 56
+	AP	3
+	LD	9 7
+	LD	9 8
+	LD	9 9
+	LD	9 0
+	TAP	10
+	RTN	
+; then_107: (addr: 1073)
+	LD	9 0
+	LD	10 10
+	LD	9 1
+	LD	10 14
+	LD	0 0
+	LD	10 8
+	LD	5 0
+	LD	9 7
+	LD	10 8
+	AP	3
+	LD	10 9
+	LD	5 0
+	LD	9 8
+	LD	9 9
+	LD	10 9
+	AP	4
+	ADD	
+	LD	10 14
+	AP	3
+	LD	10 10
+	AP	3
+	LD	9 2
+	LD	9 3
+	LD	9 4
+	LD	6 0
+	LD	10 56
+	LD	9 6
+	LD	2 0
+	LD	10 56
+	AP	3
+	LD	9 7
+	LD	9 8
+	LD	9 9
+	LD	9 0
+	TAP	10
+	RTN	
+; lambda_108: (addr: 1109)
+	LD	12 88
+	LD	12 57
+	LD	1 0
+	LD	12 46
+	LD	11 2
+	LD	12 16
+	LD	0 1
+	LD	12 16
+	AP	2
+	LD	12 46
+	AP	3
+	LD	12 57
+	AP	3
+	LD	12 88
+	AP	2
+	RTN	
+; let_109: (addr: 1125)
+	LD	10 0
+	LD	10 1
+	LD	10 2
+	LD	10 3
+	LD	10 4
+	LD	11 53
+	LD	7 0
+	LD	11 66
+	LDF	1109
+	LD	10 3
+	LD	11 15
+	LD	8 0
+	LD	11 15
+	AP	2
+	LD	6 0
+	LDC	1
+	LD	5 0
+	ADD	
+	LD	4 0
+	LD	11 19
+	LD	1 0
+	LD	11 19
+	AP	2
+	LD	10 3
+	AP	6
+	LD	11 66
+	AP	3
+	LD	11 53
+	AP	3
+	LD	0 0
+	LD	10 7
+	LD	10 8
+	LD	10 9
+	LD	10 0
+	TAP	10
+	RTN	
+; else_110: (addr: 1161)
+	DUM	1
+	LD	11 56
+	LD	10 6
+	LD	3 0
+	LD	11 56
+	AP	3
+	LDF	1125
 	RAP	1
 	RTN	
-; else_112: (addr: 1116)
-	LD	5 0
-	LD	12 6
+; else_111: (addr: 1170)
+	LD	4 0
+	LD	10 6
 	CGT	
-	TSEL	1027 1107
+	TSEL	1073 1161
 	RTN	
-; let_113: (addr: 1121)
-	LD	2 0
+; let_112: (addr: 1175)
+	LD	1 0
 	LDC	0
 	CGT	
-	TSEL	1007 1116
+	TSEL	1043 1170
 	RTN	
-; let_114: (addr: 1126)
+; let_113: (addr: 1180)
 	DUM	1
-	LD	12 17
+	LD	10 14
+	LD	7 0
 	LD	1 0
-	LD	12 17
-	AP	2
-	LDF	1121
-	RAP	1
-	RTN	
-; let_115: (addr: 1134)
-	DUM	1
-	LD	11 12
-	LD	8 0
-	LD	1 0
-	LD	11 12
+	LD	10 14
 	AP	3
-	LDF	1126
+	LDF	1175
 	RAP	1
 	RTN	
-; else_116: (addr: 1143)
+; else_114: (addr: 1189)
 	DUM	1
-	LD	9 4
+	LD	8 4
 	LD	4 0
+	LD	3 0
 	LD	2 0
-	LD	9 4
-	AP	3
-	LDF	1134
+	LD	8 4
+	AP	4
+	LDF	1180
 	RAP	1
 	RTN	
-; let_117: (addr: 1152)
-	LD	9 55
-	LD	8 6
+; let_115: (addr: 1199)
+	LD	8 57
+	LD	7 6
 	LD	0 0
-	LD	9 55
+	LD	8 57
 	AP	3
-	TSEL	995 1143
+	TSEL	1030 1189
 	RTN	
-; let_118: (addr: 1159)
+; let_116: (addr: 1206)
 	DUM	1
-	LD	9 44
-	LD	8 2
+	LD	8 46
+	LD	7 2
 	LD	3 0
-	LD	9 44
+	LD	8 46
 	AP	3
-	LDF	1152
+	LDF	1199
 	RAP	1
 	RTN	
-; let_119: (addr: 1168)
+; let_117: (addr: 1215)
 	DUM	1
-	LD	8 16
-	LD	5 0
-	LD	8 16
-	AP	2
-	LDF	1159
-	RAP	1
-	RTN	
-; let_120: (addr: 1176)
-	DUM	1
-	LD	7 15
+	LD	7 18
 	LD	4 0
-	LD	7 15
-	AP	2
-	LDF	1168
-	RAP	1
-	RTN	
-; let_121: (addr: 1184)
-	DUM	1
-	LD	6 14
-	LD	3 0
-	LD	6 14
-	AP	2
-	LDF	1176
-	RAP	1
-	RTN	
-; let_122: (addr: 1192)
-	DUM	1
-	LD	5 13
-	LD	2 0
-	LD	5 13
-	AP	2
-	LDF	1184
-	RAP	1
-	RTN	
-; let_123: (addr: 1200)
-	DUM	1
-	LD	2 0
-	CDR	
-	LDF	1192
-	RAP	1
-	RTN	
-; let_124: (addr: 1206)
-	DUM	1
-	LD	1 0
-	CAR	
-	LDF	1200
-	RAP	1
-	RTN	
-; else_125: (addr: 1212)
-	DUM	1
-	LD	2 49
-	LD	1 5
-	LD	2 49
+	LD	7 18
 	AP	2
 	LDF	1206
 	RAP	1
 	RTN	
-; lambda_126: (addr: 1220)
-	LD	1 48
-	LD	0 5
-	LD	1 48
+; let_118: (addr: 1223)
+	DUM	1
+	LD	6 17
+	LD	3 0
+	LD	6 17
 	AP	2
-	TSEL	993 1212
+	LDF	1215
+	RAP	1
 	RTN	
-; then_127: (addr: 1226)
+; let_119: (addr: 1231)
+	DUM	1
+	LD	5 16
+	LD	2 0
+	LD	5 16
+	AP	2
+	LDF	1223
+	RAP	1
+	RTN	
+; let_120: (addr: 1239)
+	DUM	1
+	LD	2 0
+	CDR	
+	LDF	1231
+	RAP	1
+	RTN	
+; let_121: (addr: 1245)
+	DUM	1
+	LD	1 0
+	CAR	
+	LDF	1239
+	RAP	1
+	RTN	
+; else_122: (addr: 1251)
+	DUM	1
+	LD	2 51
+	LD	1 5
+	LD	2 51
+	AP	2
+	LDF	1245
+	RAP	1
+	RTN	
+; lambda_123: (addr: 1259)
+	LD	1 50
+	LD	0 5
+	LD	1 50
+	AP	2
+	TSEL	1028 1251
+	RTN	
+; lambda_124: (addr: 1265)
+	LDC	0
+	LD	1 87
+	LD	0 1
 	LD	0 2
-	LD	1 86
+	LD	1 87
+	AP	3
+	SUB	
+	RTN	
+; then_125: (addr: 1273)
+	LDC	0
+	RTN	
+; else_126: (addr: 1275)
+	LDC	0
+	LD	1 87
+	LD	0 1
+	LD	0 2
+	LD	1 87
+	AP	3
+	SUB	
+	RTN	
+; then_127: (addr: 1283)
+	LD	0 2
+	ATOM	
+	TSEL	1273 1275
+	RTN	
+; else_128: (addr: 1287)
+	LDC	0
+	RTN	
+; lambda_129: (addr: 1289)
+	LD	0 3
+	TSEL	1283 1287
+	RTN	
+; then_130: (addr: 1292)
+	LD	0 2
+	LD	1 90
 	CONS	
 	RTN	
-; then_128: (addr: 1230)
+; then_131: (addr: 1296)
 	LD	0 2
 	LD	0 1
 	CDR	
 	CONS	
 	RTN	
-; else_129: (addr: 1235)
+; else_132: (addr: 1301)
 	LD	0 1
 	RTN	
-; then_130: (addr: 1237)
-	LD	1 17
+; then_133: (addr: 1303)
+	LD	1 19
 	LD	0 2
-	LD	1 17
+	LD	1 19
 	AP	2
-	LD	1 17
+	LD	1 19
 	LD	0 1
 	CAR	
-	LD	1 17
+	LD	1 19
 	AP	2
 	CGT	
-	TSEL	1230 1235
+	TSEL	1296 1301
 	RTN	
-; else_131: (addr: 1249)
+; else_134: (addr: 1315)
 	LD	0 1
 	CAR	
-	LD	1 8
+	LD	1 10
 	LD	0 1
 	CDR	
 	LD	0 2
-	LD	1 8
+	LD	1 10
 	AP	3
 	CONS	
 	RTN	
-; else_132: (addr: 1259)
-	LD	1 13
+; else_135: (addr: 1325)
+	LD	1 15
 	LD	0 1
 	CAR	
-	LD	1 13
+	LD	1 15
 	AP	2
-	LD	1 13
+	LD	1 15
 	LD	0 2
-	LD	1 13
+	LD	1 15
 	AP	2
 	CEQ	
-	TSEL	1237 1249
+	TSEL	1303 1315
 	RTN	
-; lambda_133: (addr: 1271)
+; lambda_136: (addr: 1337)
 	LD	0 1
 	ATOM	
-	TSEL	1226 1259
+	TSEL	1292 1325
 	RTN	
-; then_134: (addr: 1275)
+; then_137: (addr: 1341)
 	LD	0 1
 	RTN	
-; then_135: (addr: 1277)
+; then_138: (addr: 1343)
 	LD	0 0
 	LD	0 2
 	CAR	
@@ -1419,7 +1488,7 @@
 	LD	0 0
 	TAP	3
 	RTN	
-; else_136: (addr: 1285)
+; else_139: (addr: 1351)
 	LD	0 0
 	LD	0 1
 	LD	0 2
@@ -1427,25 +1496,25 @@
 	LD	0 0
 	TAP	3
 	RTN	
-; else_137: (addr: 1292)
-	LD	1 17
+; else_140: (addr: 1358)
+	LD	1 19
 	LD	0 2
 	CAR	
-	LD	1 17
+	LD	1 19
 	AP	2
-	LD	1 17
+	LD	1 19
 	LD	0 1
-	LD	1 17
+	LD	1 19
 	AP	2
 	CGT	
-	TSEL	1277 1285
+	TSEL	1343 1351
 	RTN	
-; lambda_138: (addr: 1304)
+; lambda_141: (addr: 1370)
 	LD	0 2
 	ATOM	
-	TSEL	1275 1292
+	TSEL	1341 1358
 	RTN	
-; lambda_139: (addr: 1308)
+; lambda_142: (addr: 1374)
 	LD	0 1
 	LD	0 2
 	LD	0 3
@@ -1456,17 +1525,9 @@
 	CONS	
 	CONS	
 	RTN	
-; lambda_140: (addr: 1318)
-	LD	1 10
+; lambda_143: (addr: 1384)
+	LD	1 12
 	LD	0 2
-	LD	1 14
-	LD	0 1
-	LD	1 14
-	AP	2
-	LD	1 15
-	LD	0 1
-	LD	1 15
-	AP	2
 	LD	1 16
 	LD	0 1
 	LD	1 16
@@ -1475,19 +1536,19 @@
 	LD	0 1
 	LD	1 17
 	AP	2
-	LD	1 10
+	LD	1 18
+	LD	0 1
+	LD	1 18
+	AP	2
+	LD	1 19
+	LD	0 1
+	LD	1 19
+	AP	2
+	LD	1 12
 	AP	6
 	RTN	
-; lambda_141: (addr: 1339)
-	LD	1 10
-	LD	1 13
-	LD	0 1
-	LD	1 13
-	AP	2
-	LD	1 14
-	LD	0 1
-	LD	1 14
-	AP	2
+; lambda_144: (addr: 1405)
+	LD	1 12
 	LD	1 15
 	LD	0 1
 	LD	1 15
@@ -1495,84 +1556,92 @@
 	LD	1 16
 	LD	0 1
 	LD	1 16
+	AP	2
+	LD	1 17
+	LD	0 1
+	LD	1 17
+	AP	2
+	LD	1 18
+	LD	0 1
+	LD	1 18
 	AP	2
 	LD	0 2
-	LD	1 17
+	LD	1 19
 	LD	0 1
-	LD	1 17
+	LD	1 19
 	AP	2
 	ADD	
-	LD	1 10
+	LD	1 12
 	AP	6
 	RTN	
-; lambda_142: (addr: 1365)
+; lambda_145: (addr: 1431)
 	LD	0 1
 	CAR	
 	RTN	
-; lambda_143: (addr: 1368)
+; lambda_146: (addr: 1434)
 	LD	0 1
 	CDR	
 	CAR	
 	RTN	
-; lambda_144: (addr: 1372)
+; lambda_147: (addr: 1438)
 	LD	0 1
-	CDR	
-	CDR	
-	CAR	
-	RTN	
-; lambda_145: (addr: 1377)
-	LD	0 1
-	CDR	
 	CDR	
 	CDR	
 	CAR	
 	RTN	
-; lambda_146: (addr: 1383)
+; lambda_148: (addr: 1443)
+	LD	0 1
+	CDR	
+	CDR	
+	CDR	
+	CAR	
+	RTN	
+; lambda_149: (addr: 1449)
 	LD	0 1
 	CDR	
 	CDR	
 	CDR	
 	CDR	
 	RTN	
-; lambda_147: (addr: 1389)
-	LD	4 45
+; lambda_150: (addr: 1455)
+	LD	4 47
 	LD	3 1
-	LD	4 122
+	LD	4 126
 	LD	0 1
-	LD	4 122
+	LD	4 126
 	AP	2
-	LD	4 45
+	LD	4 47
 	AP	3
-	LD	4 91
+	LD	4 95
 	CGT	
 	RTN	
-; lambda_148: (addr: 1400)
+; lambda_151: (addr: 1466)
 	LD	0 1
 	CAR	
-	LD	4 81
+	LD	4 85
 	LD	0 1
 	CDR	
 	LD	2 0
-	LD	4 81
+	LD	4 85
 	AP	3
-	LD	4 86
+	LD	4 90
 	CONS	
 	CONS	
 	RTN	
-; then_149: (addr: 1412)
+; then_152: (addr: 1478)
 	LD	1 0
 	CAR	
 	RTN	
-; then_150: (addr: 1415)
-	LD	5 88
+; then_153: (addr: 1481)
+	LD	5 92
 	RTN	
-; then_151: (addr: 1417)
-	LD	5 88
+; then_154: (addr: 1483)
+	LD	5 92
 	RTN	
-; else_152: (addr: 1419)
-	LD	5 87
+; else_155: (addr: 1485)
+	LD	5 91
 	RTN	
-; else_153: (addr: 1421)
+; else_156: (addr: 1487)
 	LD	0 1
 	CAR	
 	LD	4 2
@@ -1580,9 +1649,9 @@
 	LDC	2
 	ADD	
 	CEQ	
-	TSEL	1417 1419
+	TSEL	1483 1485
 	RTN	
-; lambda_154: (addr: 1430)
+; lambda_157: (addr: 1496)
 	LD	0 1
 	CAR	
 	LD	4 2
@@ -1590,72 +1659,72 @@
 	LDC	2
 	SUB	
 	CEQ	
-	TSEL	1415 1421
+	TSEL	1481 1487
 	RTN	
-; then_155: (addr: 1439)
-	LD	4 64
-	LDF	1430
+; then_158: (addr: 1505)
+	LD	4 66
+	LDF	1496
 	LD	1 0
-	LD	4 64
+	LD	4 66
 	AP	3
 	CAR	
 	RTN	
-; else_156: (addr: 1446)
+; else_159: (addr: 1512)
 	LD	3 2
 	RTN	
-; else_157: (addr: 1448)
+; else_160: (addr: 1514)
 	LD	0 0
 	LDC	2
 	CEQ	
-	TSEL	1439 1446
+	TSEL	1505 1512
 	RTN	
-; let_158: (addr: 1453)
+; let_161: (addr: 1519)
 	LD	0 0
 	LDC	1
 	CEQ	
-	TSEL	1412 1448
+	TSEL	1478 1514
 	RTN	
-; let_159: (addr: 1458)
+; let_162: (addr: 1524)
 	DUM	1
-	LD	4 78
+	LD	4 82
 	LD	1 0
-	LD	4 78
+	LD	4 82
 	AP	2
-	LDF	1453
+	LDF	1519
 	RAP	1
 	RTN	
-; let_160: (addr: 1466)
+; let_163: (addr: 1532)
 	DUM	1
+	LD	3 66
+	LDF	1455
 	LD	3 64
-	LDF	1389
-	LD	3 62
-	LDF	1400
-	LD	3 90
-	LD	3 62
-	AP	3
-	LD	3 64
-	AP	3
-	LDF	1458
-	RAP	1
-	RTN	
-; lambda_161: (addr: 1479)
-	DUM	1
-	LD	2 122
-	LD	1 2
-	LD	2 122
-	AP	2
 	LDF	1466
+	LD	3 94
+	LD	3 64
+	AP	3
+	LD	3 66
+	AP	3
+	LDF	1524
 	RAP	1
 	RTN	
-; lambda_162: (addr: 1487)
-	LD	9 21
+; lambda_164: (addr: 1545)
+	DUM	1
+	LD	2 126
+	LD	1 2
+	LD	2 126
+	AP	2
+	LDF	1532
+	RAP	1
+	RTN	
+; lambda_165: (addr: 1553)
+	LD	9 23
 	LD	8 2
 	LD	0 1
 	LD	8 3
-	LD	9 21
+	LD	9 23
 	AP	4
 	RTN	
-; let_163: (addr: 1494)
+; let_166: (addr: 1560)
 	LD	7 0
 	LD	0 0
 	LD	2 0
@@ -1664,352 +1733,352 @@
 	ADD	
 	ADD	
 	RTN	
-; let_164: (addr: 1502)
+; let_167: (addr: 1568)
 	DUM	1
 	LDC	-5
-	LD	10 83
+	LD	10 87
 	LD	1 0
 	LD	9 3
-	LD	10 83
+	LD	10 87
 	AP	3
 	MUL	
-	LDF	1494
+	LDF	1560
 	RAP	1
 	RTN	
-; let_165: (addr: 1513)
+; let_168: (addr: 1579)
 	DUM	1
-	LD	9 25
+	LD	9 27
 	LD	8 1
 	LD	8 2
-	LD	9 25
+	LD	9 27
 	AP	3
-	LDF	1502
+	LDF	1568
 	RAP	1
 	RTN	
-; let_166: (addr: 1522)
+; let_169: (addr: 1588)
 	DUM	1
-	LD	8 79
-	LD	8 62
-	LDF	1487
+	LD	8 83
+	LD	8 64
+	LDF	1553
 	LD	3 0
-	LD	8 62
+	LD	8 64
 	AP	3
-	LD	8 79
+	LD	8 83
 	AP	2
-	LDF	1513
+	LDF	1579
 	RAP	1
 	RTN	
-; let_167: (addr: 1534)
+; let_170: (addr: 1600)
 	DUM	1
-	LD	7 29
+	LD	7 31
 	LD	1 0
-	LD	7 29
+	LD	7 31
 	AP	2
-	LDF	1522
+	LDF	1588
 	RAP	1
 	RTN	
-; let_168: (addr: 1542)
+; let_171: (addr: 1608)
 	DUM	1
-	LD	6 27
+	LD	6 29
 	LD	2 0
 	LD	5 3
-	LD	6 27
+	LD	6 29
 	AP	3
-	LDF	1534
+	LDF	1600
 	RAP	1
 	RTN	
-; let_169: (addr: 1551)
+; let_172: (addr: 1617)
 	DUM	1
-	LD	5 107
+	LD	5 111
 	LD	4 2
-	LD	5 107
+	LD	5 111
 	AP	2
-	LDF	1542
+	LDF	1608
 	RAP	1
 	RTN	
-; let_170: (addr: 1559)
+; let_173: (addr: 1625)
 	DUM	1
-	LD	4 105
+	LD	4 109
 	LD	3 2
-	LD	4 105
+	LD	4 109
 	AP	2
-	LDF	1551
+	LDF	1617
 	RAP	1
 	RTN	
-; let_171: (addr: 1567)
+; let_174: (addr: 1633)
 	DUM	1
 	LDC	-2
-	LD	3 20
+	LD	3 22
 	LD	1 0
 	LD	2 3
-	LD	3 20
+	LD	3 22
 	AP	3
 	MUL	
-	LDF	1559
+	LDF	1625
 	RAP	1
 	RTN	
-; lambda_172: (addr: 1578)
+; lambda_175: (addr: 1644)
 	DUM	1
-	LD	2 35
+	LD	2 37
 	LD	1 1
-	LD	2 35
+	LD	2 37
 	AP	2
-	LDF	1567
+	LDF	1633
 	RAP	1
 	RTN	
-; lambda_173: (addr: 1586)
-	LD	2 82
+; lambda_176: (addr: 1652)
+	LD	2 86
 	LD	0 1
 	LD	1 2
-	LD	2 82
+	LD	2 86
 	AP	3
 	RTN	
-; lambda_174: (addr: 1592)
-	LD	1 78
-	LD	1 64
-	LDF	1586
+; lambda_177: (addr: 1658)
+	LD	1 82
+	LD	1 66
+	LDF	1652
 	LD	0 1
-	LD	1 64
+	LD	1 66
 	AP	3
-	LD	1 78
+	LD	1 82
 	AP	2
 	RTN	
-; let_175: (addr: 1601)
+; let_178: (addr: 1667)
 	LD	0 0
 	LD	1 0
 	MUL	
 	RTN	
-; let_176: (addr: 1605)
+; let_179: (addr: 1671)
 	DUM	1
-	LD	4 22
-	LD	4 121
+	LD	4 24
+	LD	4 125
 	LD	3 2
-	LD	4 121
+	LD	4 125
 	AP	2
-	LD	4 22
+	LD	4 24
 	AP	2
-	LDF	1601
+	LDF	1667
 	RAP	1
 	RTN	
-; let_177: (addr: 1616)
+; let_180: (addr: 1682)
 	DUM	1
-	LD	3 24
+	LD	3 26
 	LD	2 3
 	LD	1 0
-	LD	3 24
+	LD	3 26
 	AP	3
-	LDF	1605
+	LDF	1671
 	RAP	1
 	RTN	
-; lambda_178: (addr: 1625)
+; lambda_181: (addr: 1691)
 	DUM	1
-	LD	2 122
+	LD	2 126
 	LD	1 2
-	LD	2 122
-	AP	2
-	LDF	1616
-	RAP	1
-	RTN	
-; then_179: (addr: 1633)
-	LDC	5
-	RTN	
-; then_180: (addr: 1635)
-	LDC	-1
-	RTN	
-; else_181: (addr: 1637)
-	LDC	0
-	RTN	
-; else_182: (addr: 1639)
-	LD	0 1
-	LD	1 99
-	CEQ	
-	TSEL	1635 1637
-	RTN	
-; lambda_183: (addr: 1644)
-	LD	0 1
-	LD	1 98
-	CEQ	
-	TSEL	1633 1639
-	RTN	
-; then_184: (addr: 1649)
-	LDC	-9000
-	RTN	
-; then_185: (addr: 1651)
-	LD	0 0
-	RTN	
-; else_186: (addr: 1653)
-	LD	2 23
-	RTN	
-; else_187: (addr: 1655)
-	LD	2 23
-	LD	0 0
-	CGT	
-	TSEL	1651 1653
-	RTN	
-; let_188: (addr: 1660)
-	LDC	1
-	LD	0 0
-	CGTE	
-	TSEL	1649 1655
-	RTN	
-; lambda_189: (addr: 1665)
-	DUM	1
-	LD	2 83
-	LD	1 1
-	LD	1 2
-	LD	2 83
-	AP	3
-	LDF	1660
-	RAP	1
-	RTN	
-; lambda_190: (addr: 1674)
-	LDC	0
-	LD	3 83
-	LD	1 0
-	LD	0 1
-	LD	3 83
-	AP	3
-	SUB	
-	RTN	
-; let_191: (addr: 1682)
-	LD	2 56
-	LD	2 61
-	LDF	1674
-	LD	2 36
-	LD	1 1
-	LD	2 36
-	AP	2
-	LD	2 61
-	AP	3
-	LD	2 56
-	AP	2
-	CAR	
-	RTN	
-; lambda_192: (addr: 1695)
-	DUM	1
-	LD	2 117
-	LD	2 106
-	LD	1 2
-	LD	2 106
-	AP	2
-	LD	2 117
+	LD	2 126
 	AP	2
 	LDF	1682
 	RAP	1
 	RTN	
-; then_193: (addr: 1706)
-	LD	3 86
+; then_182: (addr: 1699)
+	LDC	5
 	RTN	
-; lambda_194: (addr: 1708)
+; then_183: (addr: 1701)
+	LDC	-1
+	RTN	
+; else_184: (addr: 1703)
 	LDC	0
-	LD	4 83
-	LD	2 0
+	RTN	
+; else_185: (addr: 1705)
 	LD	0 1
-	LD	4 83
-	AP	3
-	SUB	
+	LD	1 103
+	CEQ	
+	TSEL	1701 1703
 	RTN	
-; else_195: (addr: 1716)
-	LD	3 56
-	LD	3 61
-	LDF	1708
+; lambda_186: (addr: 1710)
+	LD	0 1
+	LD	1 102
+	CEQ	
+	TSEL	1699 1705
+	RTN	
+; then_187: (addr: 1715)
+	LDC	-9000
+	RTN	
+; then_188: (addr: 1717)
 	LD	0 0
-	LD	3 61
-	AP	3
-	LD	3 56
-	AP	2
-	CAR	
 	RTN	
-; let_196: (addr: 1726)
+; else_189: (addr: 1719)
+	LD	2 25
+	RTN	
+; else_190: (addr: 1721)
+	LD	2 25
 	LD	0 0
-	ATOM	
-	TSEL	1706 1716
+	CGT	
+	TSEL	1717 1719
 	RTN	
-; let_197: (addr: 1730)
+; let_191: (addr: 1726)
+	LDC	1
+	LD	0 0
+	CGTE	
+	TSEL	1715 1721
+	RTN	
+; lambda_192: (addr: 1731)
 	DUM	1
-	LD	3 38
-	LD	2 1
-	LD	3 38
-	AP	2
+	LD	2 87
+	LD	1 1
+	LD	1 2
+	LD	2 87
+	AP	3
 	LDF	1726
 	RAP	1
 	RTN	
-; lambda_198: (addr: 1738)
+; lambda_193: (addr: 1740)
+	LDC	0
+	LD	3 87
+	LD	1 0
+	LD	0 1
+	LD	3 87
+	AP	3
+	SUB	
+	RTN	
+; let_194: (addr: 1748)
+	LD	2 58
+	LD	2 63
+	LDF	1740
+	LD	2 38
+	LD	1 1
+	LD	2 38
+	AP	2
+	LD	2 63
+	AP	3
+	LD	2 58
+	AP	2
+	CAR	
+	RTN	
+; lambda_195: (addr: 1761)
 	DUM	1
-	LD	2 117
-	LD	2 106
+	LD	2 121
+	LD	2 110
 	LD	1 2
-	LD	2 106
+	LD	2 110
 	AP	2
-	LD	2 117
+	LD	2 121
 	AP	2
-	LDF	1730
+	LDF	1748
 	RAP	1
 	RTN	
-; then_199: (addr: 1749)
-	LD	1 91
+; then_196: (addr: 1772)
+	LD	3 90
 	RTN	
-; then_200: (addr: 1751)
-	LD	1 91
+; lambda_197: (addr: 1774)
+	LDC	0
+	LD	4 87
+	LD	2 0
+	LD	0 1
+	LD	4 87
+	AP	3
+	SUB	
 	RTN	
-; else_201: (addr: 1753)
-	LD	1 77
+; else_198: (addr: 1782)
+	LD	3 58
+	LD	3 63
+	LDF	1774
+	LD	0 0
+	LD	3 63
+	AP	3
+	LD	3 58
+	AP	2
+	CAR	
+	RTN	
+; let_199: (addr: 1792)
+	LD	0 0
+	ATOM	
+	TSEL	1772 1782
+	RTN	
+; let_200: (addr: 1796)
+	DUM	1
+	LD	3 40
+	LD	2 1
+	LD	3 40
+	AP	2
+	LDF	1792
+	RAP	1
+	RTN	
+; lambda_201: (addr: 1804)
+	DUM	1
+	LD	2 121
+	LD	2 110
+	LD	1 2
+	LD	2 110
+	AP	2
+	LD	2 121
+	AP	2
+	LDF	1796
+	RAP	1
+	RTN	
+; then_202: (addr: 1815)
+	LD	1 95
+	RTN	
+; then_203: (addr: 1817)
+	LD	1 95
+	RTN	
+; else_204: (addr: 1819)
+	LD	1 81
 	LD	0 2
 	CAR	
-	LD	1 77
+	LD	1 81
 	LD	0 2
 	CDR	
 	LD	0 1
-	LD	1 77
+	LD	1 81
 	AP	3
-	LD	1 77
+	LD	1 81
 	AP	3
 	RTN	
-; else_202: (addr: 1765)
+; else_205: (addr: 1831)
 	LDC	0
 	LD	0 2
 	CDR	
 	CGT	
-	TSEL	1751 1753
+	TSEL	1817 1819
 	RTN	
-; lambda_203: (addr: 1771)
+; lambda_206: (addr: 1837)
 	LDC	0
 	LD	0 2
 	CAR	
 	CGT	
-	TSEL	1749 1765
+	TSEL	1815 1831
 	RTN	
-; lambda_204: (addr: 1777)
-	LD	1 27
+; lambda_207: (addr: 1843)
+	LD	1 29
 	LD	0 1
 	LD	0 2
-	LD	1 27
+	LD	1 29
 	AP	3
-	LD	1 91
+	LD	1 95
 	CGT	
 	RTN	
-; then_205: (addr: 1785)
+; then_208: (addr: 1851)
 	LDC	10
 	RTN	
-; then_206: (addr: 1787)
+; then_209: (addr: 1853)
 	LDC	50
 	RTN	
-; else_207: (addr: 1789)
+; else_210: (addr: 1855)
 	LDC	0
 	RTN	
-; else_208: (addr: 1791)
+; else_211: (addr: 1857)
 	LD	0 1
-	LD	1 94
+	LD	1 98
 	CEQ	
-	TSEL	1787 1789
+	TSEL	1853 1855
 	RTN	
-; lambda_209: (addr: 1796)
+; lambda_212: (addr: 1862)
 	LD	0 1
-	LD	1 93
+	LD	1 97
 	CEQ	
-	TSEL	1785 1791
+	TSEL	1851 1857
 	RTN	
-; lambda_210: (addr: 1801)
+; lambda_213: (addr: 1867)
 	LD	0 1
 	LD	0 2
 	LD	0 3
@@ -2018,270 +2087,270 @@
 	CONS	
 	CONS	
 	RTN	
-; lambda_211: (addr: 1809)
-	LD	1 30
+; lambda_214: (addr: 1875)
+	LD	1 32
 	LD	0 2
-	LD	1 76
+	LD	1 80
 	LDC	50
-	LD	1 35
+	LD	1 37
 	LD	0 1
-	LD	1 35
+	LD	1 37
 	AP	2
-	LD	1 76
+	LD	1 80
 	AP	3
 	CONS	
-	LD	1 36
-	LD	0 1
-	LD	1 36
-	AP	2
-	LD	1 37
-	LD	0 1
-	LD	1 37
-	AP	2
 	LD	1 38
 	LD	0 1
 	LD	1 38
 	AP	2
-	LD	1 30
+	LD	1 39
+	LD	0 1
+	LD	1 39
+	AP	2
+	LD	1 40
+	LD	0 1
+	LD	1 40
+	AP	2
+	LD	1 32
 	AP	5
 	RTN	
-; lambda_212: (addr: 1835)
-	LD	2 84
-	LD	2 82
+; lambda_215: (addr: 1901)
+	LD	2 88
+	LD	2 86
 	LD	0 1
 	LD	1 2
-	LD	2 82
+	LD	2 86
 	AP	3
-	LD	2 84
+	LD	2 88
 	AP	2
 	RTN	
-; lambda_213: (addr: 1844)
-	LD	1 30
-	LD	1 35
+; lambda_216: (addr: 1910)
+	LD	1 32
+	LD	1 37
 	LD	0 1
-	LD	1 35
+	LD	1 37
 	AP	2
-	LD	1 64
-	LDF	1835
-	LD	1 36
+	LD	1 66
+	LDF	1901
+	LD	1 38
 	LD	0 1
-	LD	1 36
+	LD	1 38
 	AP	2
-	LD	1 64
+	LD	1 66
 	AP	3
-	LD	1 37
+	LD	1 39
 	LD	0 1
-	LD	1 37
+	LD	1 39
 	AP	2
-	LD	1 38
+	LD	1 40
 	LD	0 1
-	LD	1 38
+	LD	1 40
 	AP	2
-	LD	1 30
+	LD	1 32
 	AP	5
 	RTN	
-; lambda_214: (addr: 1868)
-	LD	2 84
-	LD	2 82
+; lambda_217: (addr: 1934)
+	LD	2 88
+	LD	2 86
 	LD	0 1
 	LD	1 2
-	LD	2 82
+	LD	2 86
 	AP	3
-	LD	2 84
+	LD	2 88
 	AP	2
 	RTN	
-; lambda_215: (addr: 1877)
-	LD	1 30
-	LD	1 35
-	LD	0 1
-	LD	1 35
-	AP	2
-	LD	1 36
-	LD	0 1
-	LD	1 36
-	AP	2
+; lambda_218: (addr: 1943)
+	LD	1 32
 	LD	1 37
 	LD	0 1
 	LD	1 37
 	AP	2
-	LD	1 64
-	LDF	1868
 	LD	1 38
 	LD	0 1
 	LD	1 38
 	AP	2
-	LD	1 64
+	LD	1 39
+	LD	0 1
+	LD	1 39
+	AP	2
+	LD	1 66
+	LDF	1934
+	LD	1 40
+	LD	0 1
+	LD	1 40
+	AP	2
+	LD	1 66
 	AP	3
-	LD	1 30
+	LD	1 32
 	AP	5
 	RTN	
-; lambda_216: (addr: 1901)
+; lambda_219: (addr: 1967)
+	LD	1 35
+	LD	1 34
 	LD	1 33
-	LD	1 32
-	LD	1 31
 	LD	0 1
-	LD	0 2
-	LD	1 31
-	AP	3
-	LD	0 2
-	LD	1 32
-	AP	3
 	LD	0 2
 	LD	1 33
 	AP	3
+	LD	0 2
+	LD	1 34
+	AP	3
+	LD	0 2
+	LD	1 35
+	AP	3
 	RTN	
-; lambda_217: (addr: 1915)
+; lambda_220: (addr: 1981)
 	LD	0 1
 	CAR	
 	RTN	
-; lambda_218: (addr: 1918)
+; lambda_221: (addr: 1984)
 	LD	0 1
 	CDR	
 	CAR	
 	RTN	
-; lambda_219: (addr: 1922)
+; lambda_222: (addr: 1988)
 	LD	0 1
 	CDR	
 	CDR	
 	CAR	
 	RTN	
-; lambda_220: (addr: 1927)
+; lambda_223: (addr: 1993)
 	LD	0 1
 	CDR	
 	CDR	
 	CDR	
 	RTN	
-; let_221: (addr: 1932)
-	LD	3 40
-	LD	3 74
+; let_224: (addr: 1998)
+	LD	3 42
+	LD	3 78
 	LD	2 1
-	LD	3 74
+	LD	3 78
 	AP	2
 	LD	1 0
 	LD	0 0
 	MUL	
-	LD	3 40
+	LD	3 42
 	AP	3
 	LD	0 0
 	LD	1 0
 	CONS	
 	CONS	
 	RTN	
-; let_222: (addr: 1947)
+; let_225: (addr: 2013)
 	DUM	1
-	LD	3 78
+	LD	3 82
 	LD	2 1
 	CAR	
-	LD	3 78
+	LD	3 82
 	AP	2
-	LDF	1932
+	LDF	1998
 	RAP	1
 	RTN	
-; lambda_223: (addr: 1956)
+; lambda_226: (addr: 2022)
 	DUM	1
-	LD	2 78
+	LD	2 82
 	LD	1 1
-	LD	2 78
+	LD	2 82
 	AP	2
-	LDF	1947
+	LDF	2013
 	RAP	1
 	RTN	
-; then_224: (addr: 1964)
+; then_227: (addr: 2030)
 	LDC	1
 	LD	0 1
 	CAR	
 	CONS	
 	RTN	
-; let_225: (addr: 1969)
+; let_228: (addr: 2035)
 	LDC	0
 	LD	1 0
-	LD	3 40
+	LD	3 42
 	LD	0 0
 	CAR	
 	LD	1 0
-	LD	3 40
+	LD	3 42
 	AP	3
-	LD	3 40
+	LD	3 42
 	LD	0 0
 	CDR	
 	LD	2 2
 	LD	1 0
 	SUB	
-	LD	3 40
+	LD	3 42
 	AP	3
 	CONS	
 	CONS	
 	CONS	
 	RTN	
-; let_226: (addr: 1989)
+; let_229: (addr: 2055)
 	DUM	1
-	LD	3 69
+	LD	3 73
 	LD	1 0
 	LD	2 1
-	LD	3 69
+	LD	3 73
 	AP	3
-	LDF	1969
+	LDF	2035
 	RAP	1
 	RTN	
-; else_227: (addr: 1998)
+; else_230: (addr: 2064)
 	DUM	1
 	LD	1 2
 	LDC	2
 	DIV	
-	LDF	1989
+	LDF	2055
 	RAP	1
 	RTN	
-; lambda_228: (addr: 2005)
+; lambda_231: (addr: 2071)
 	LD	0 2
 	LDC	1
 	CEQ	
-	TSEL	1964 1998
+	TSEL	2030 2064
 	RTN	
-; lambda_229: (addr: 2010)
+; lambda_232: (addr: 2076)
 	LD	0 1
 	CAR	
 	RTN	
-; lambda_230: (addr: 2013)
+; lambda_233: (addr: 2079)
 	LD	0 1
 	CDR	
 	CAR	
 	RTN	
-; lambda_231: (addr: 2017)
+; lambda_234: (addr: 2083)
 	LD	0 1
 	CDR	
 	CDR	
 	RTN	
-; lambda_232: (addr: 2021)
+; lambda_235: (addr: 2087)
 	LD	0 2
 	CAR	
 	LD	0 2
 	CDR	
-	LD	1 42
+	LD	1 44
 	LD	0 1
-	LD	1 42
+	LD	1 44
 	AP	2
 	MUL	
 	ADD	
 	RTN	
-; lambda_233: (addr: 2032)
-	LD	1 46
-	LD	1 41
+; lambda_236: (addr: 2098)
+	LD	1 48
+	LD	1 43
 	LD	0 1
-	LD	1 41
+	LD	1 43
 	AP	2
-	LD	1 44
+	LD	1 46
 	LD	0 1
 	LD	0 2
-	LD	1 44
-	AP	3
 	LD	1 46
 	AP	3
+	LD	1 48
+	AP	3
 	RTN	
-; then_234: (addr: 2045)
+; then_237: (addr: 2111)
 	LD	0 1
 	CDR	
 	RTN	
-; then_235: (addr: 2048)
+; then_238: (addr: 2114)
 	LD	0 0
 	LD	0 1
 	CDR	
@@ -2291,7 +2360,7 @@
 	LD	0 0
 	TAP	3
 	RTN	
-; else_236: (addr: 2057)
+; else_239: (addr: 2123)
 	LD	0 0
 	LD	0 1
 	CDR	
@@ -2305,41 +2374,41 @@
 	LD	0 0
 	TAP	3
 	RTN	
-; else_237: (addr: 2070)
+; else_240: (addr: 2136)
 	LD	0 1
 	CDR	
 	CAR	
 	LD	0 2
 	CGT	
-	TSEL	2048 2057
+	TSEL	2114 2123
 	RTN	
-; lambda_238: (addr: 2077)
+; lambda_241: (addr: 2143)
 	LD	0 1
 	CAR	
-	TSEL	2045 2070
+	TSEL	2111 2136
 	RTN	
-; lambda_239: (addr: 2081)
+; lambda_242: (addr: 2147)
 	LD	0 1
 	CAR	
 	ATOM	
 	RTN	
-; lambda_240: (addr: 2085)
+; lambda_243: (addr: 2151)
 	LD	0 1
 	CAR	
 	CAR	
-	LD	1 52
+	LD	1 54
 	LD	0 1
 	CAR	
 	CDR	
 	LD	0 1
 	CDR	
 	CONS	
-	LD	1 52
+	LD	1 54
 	AP	2
 	CONS	
 	RTN	
-; lambda_241: (addr: 2099)
-	LD	1 52
+; lambda_244: (addr: 2165)
+	LD	1 54
 	LD	0 1
 	CAR	
 	LD	0 2
@@ -2347,66 +2416,66 @@
 	CDR	
 	CONS	
 	CONS	
-	LD	1 52
+	LD	1 54
 	AP	2
 	RTN	
-; lambda_242: (addr: 2110)
+; lambda_245: (addr: 2176)
 	LD	0 2
 	LD	0 1
 	CONS	
 	RTN	
-; lambda_243: (addr: 2114)
-	LD	1 52
+; lambda_246: (addr: 2180)
+	LD	1 54
 	LD	0 1
 	CAR	
-	LD	1 60
-	LDF	2110
+	LD	1 62
+	LDF	2176
 	LD	0 1
 	CDR	
 	LD	0 2
-	LD	1 60
+	LD	1 62
 	AP	4
 	CONS	
-	LD	1 52
+	LD	1 54
 	AP	2
 	RTN	
-; then_244: (addr: 2128)
-	LD	1 71
+; then_247: (addr: 2194)
+	LD	1 75
 	LD	0 1
 	CDR	
-	LD	1 71
+	LD	1 75
 	AP	2
-	LD	1 86
+	LD	1 90
 	CONS	
 	RTN	
-; else_245: (addr: 2136)
+; else_248: (addr: 2202)
 	LD	0 1
 	RTN	
-; lambda_246: (addr: 2138)
+; lambda_249: (addr: 2204)
 	LD	0 1
 	CAR	
 	ATOM	
-	TSEL	2128 2136
+	TSEL	2194 2202
 	RTN	
-; then_247: (addr: 2143)
+; then_250: (addr: 2209)
 	LD	0 2
-	LD	1 86
-	LD	1 86
+	LD	1 90
+	LD	1 90
 	CONS	
 	CONS	
 	RTN	
-; then_248: (addr: 2149)
+; then_251: (addr: 2215)
 	LD	0 1
 	RTN	
-; then_249: (addr: 2151)
+; then_252: (addr: 2217)
 	LD	0 1
 	CAR	
-	LD	1 54
+	LD	1 56
 	LD	0 1
 	CDR	
 	CAR	
 	LD	0 2
-	LD	1 54
+	LD	1 56
 	AP	3
 	LD	0 1
 	CDR	
@@ -2414,48 +2483,48 @@
 	CONS	
 	CONS	
 	RTN	
-; else_250: (addr: 2166)
+; else_253: (addr: 2232)
 	LD	0 1
 	CAR	
 	LD	0 1
 	CDR	
 	CAR	
-	LD	1 54
+	LD	1 56
 	LD	0 1
 	CDR	
 	CDR	
 	LD	0 2
-	LD	1 54
+	LD	1 56
 	AP	3
 	CONS	
 	CONS	
 	RTN	
-; else_251: (addr: 2181)
+; else_254: (addr: 2247)
 	LD	0 1
 	CAR	
 	LD	0 2
 	CGT	
-	TSEL	2151 2166
+	TSEL	2217 2232
 	RTN	
-; else_252: (addr: 2187)
+; else_255: (addr: 2253)
 	LD	0 2
 	LD	0 1
 	CAR	
 	CEQ	
-	TSEL	2149 2181
+	TSEL	2215 2247
 	RTN	
-; lambda_253: (addr: 2193)
+; lambda_256: (addr: 2259)
 	LD	0 1
 	ATOM	
-	TSEL	2143 2187
+	TSEL	2209 2253
 	RTN	
-; then_254: (addr: 2197)
-	LD	1 88
+; then_257: (addr: 2263)
+	LD	1 92
 	RTN	
-; then_255: (addr: 2199)
-	LD	1 87
+; then_258: (addr: 2265)
+	LD	1 91
 	RTN	
-; then_256: (addr: 2201)
+; then_259: (addr: 2267)
 	LD	0 0
 	LD	0 1
 	CDR	
@@ -2464,7 +2533,7 @@
 	LD	0 0
 	TAP	3
 	RTN	
-; else_257: (addr: 2209)
+; else_260: (addr: 2275)
 	LD	0 0
 	LD	0 1
 	CDR	
@@ -2473,38 +2542,38 @@
 	LD	0 0
 	TAP	3
 	RTN	
-; else_258: (addr: 2217)
+; else_261: (addr: 2283)
 	LD	0 1
 	CAR	
 	LD	0 2
 	CGT	
-	TSEL	2201 2209
+	TSEL	2267 2275
 	RTN	
-; else_259: (addr: 2223)
+; else_262: (addr: 2289)
 	LD	0 2
 	LD	0 1
 	CAR	
 	CEQ	
-	TSEL	2199 2217
+	TSEL	2265 2283
 	RTN	
-; lambda_260: (addr: 2229)
+; lambda_263: (addr: 2295)
 	LD	0 1
 	ATOM	
-	TSEL	2197 2223
+	TSEL	2263 2289
 	RTN	
-; lambda_261: (addr: 2233)
-	LD	1 57
+; lambda_264: (addr: 2299)
+	LD	1 59
 	LD	0 1
 	CAR	
 	LD	0 1
 	CDR	
-	LD	1 57
+	LD	1 59
 	AP	3
 	RTN	
-; then_262: (addr: 2241)
+; then_265: (addr: 2307)
 	LD	0 1
 	RTN	
-; then_263: (addr: 2243)
+; then_266: (addr: 2309)
 	LD	0 0
 	LD	0 2
 	CAR	
@@ -2513,7 +2582,7 @@
 	LD	0 0
 	TAP	3
 	RTN	
-; else_264: (addr: 2251)
+; else_267: (addr: 2317)
 	LD	0 0
 	LD	0 1
 	LD	0 2
@@ -2521,34 +2590,34 @@
 	LD	0 0
 	TAP	3
 	RTN	
-; else_265: (addr: 2258)
+; else_268: (addr: 2324)
 	LD	0 2
 	CAR	
 	CDR	
 	LD	0 1
 	CDR	
 	CGT	
-	TSEL	2243 2251
+	TSEL	2309 2317
 	RTN	
-; lambda_266: (addr: 2266)
+; lambda_269: (addr: 2332)
 	LD	0 2
 	ATOM	
-	TSEL	2241 2258
+	TSEL	2307 2324
 	RTN	
-; lambda_267: (addr: 2270)
-	LD	1 59
+; lambda_270: (addr: 2336)
+	LD	1 61
 	LDC	0
 	LDC	0
 	LDC	0
 	LD	0 1
 	LD	0 2
-	LD	1 59
+	LD	1 61
 	AP	6
 	RTN	
-; then_268: (addr: 2279)
+; then_271: (addr: 2345)
 	LD	0 1
 	RTN	
-; else_269: (addr: 2281)
+; else_272: (addr: 2347)
 	LD	0 0
 	LD	0 1
 	LDC	0
@@ -2560,13 +2629,13 @@
 	LD	0 0
 	TAP	6
 	RTN	
-; then_270: (addr: 2292)
+; then_273: (addr: 2358)
 	LD	0 3
 	LD	0 5
 	CEQ	
-	TSEL	2279 2281
+	TSEL	2345 2347
 	RTN	
-; else_271: (addr: 2297)
+; else_274: (addr: 2363)
 	LD	0 0
 	LD	0 2
 	LD	0 3
@@ -2582,16 +2651,16 @@
 	LD	0 0
 	TAP	6
 	RTN	
-; lambda_272: (addr: 2312)
+; lambda_275: (addr: 2378)
 	LD	0 2
 	LD	0 4
 	CEQ	
-	TSEL	2292 2297
+	TSEL	2358 2363
 	RTN	
-; then_273: (addr: 2317)
+; then_276: (addr: 2383)
 	LD	0 2
 	RTN	
-; else_274: (addr: 2319)
+; else_277: (addr: 2385)
 	LD	0 0
 	LD	0 1
 	LD	0 1
@@ -2605,12 +2674,12 @@
 	LD	0 0
 	TAP	4
 	RTN	
-; lambda_275: (addr: 2332)
+; lambda_278: (addr: 2398)
 	LD	0 3
 	ATOM	
-	TSEL	2317 2319
+	TSEL	2383 2385
 	RTN	
-; lambda_276: (addr: 2336)
+; lambda_279: (addr: 2402)
 	LD	0 1
 	LD	1 1
 	LD	0 1
@@ -2618,28 +2687,28 @@
 	AP	2
 	CONS	
 	RTN	
-; lambda_277: (addr: 2343)
-	LD	1 62
-	LDF	2336
+; lambda_280: (addr: 2409)
+	LD	1 64
+	LDF	2402
 	LD	0 2
-	LD	1 62
+	LD	1 64
 	AP	3
 	RTN	
-; lambda_278: (addr: 2349)
-	LD	1 71
-	LD	1 63
-	LD	1 86
+; lambda_281: (addr: 2415)
+	LD	1 75
+	LD	1 65
+	LD	1 90
 	LD	0 1
 	LD	0 2
-	LD	1 63
+	LD	1 65
 	AP	4
-	LD	1 71
+	LD	1 75
 	AP	2
 	RTN	
-; then_279: (addr: 2359)
+; then_282: (addr: 2425)
 	LD	0 1
 	RTN	
-; else_280: (addr: 2361)
+; else_283: (addr: 2427)
 	LD	0 0
 	LD	0 2
 	LD	0 3
@@ -2654,26 +2723,26 @@
 	LD	0 0
 	TAP	4
 	RTN	
-; lambda_281: (addr: 2375)
+; lambda_284: (addr: 2441)
 	LD	0 3
 	ATOM	
-	TSEL	2359 2361
+	TSEL	2425 2427
 	RTN	
-; lambda_282: (addr: 2379)
-	LD	1 71
-	LD	1 65
-	LD	1 86
+; lambda_285: (addr: 2445)
+	LD	1 75
+	LD	1 67
+	LD	1 90
 	LD	0 1
 	LD	0 2
-	LD	1 65
+	LD	1 67
 	AP	4
-	LD	1 71
+	LD	1 75
 	AP	2
 	RTN	
-; then_283: (addr: 2389)
+; then_286: (addr: 2455)
 	LD	0 1
 	RTN	
-; then_284: (addr: 2391)
+; then_287: (addr: 2457)
 	LD	0 0
 	LD	0 3
 	CAR	
@@ -2685,7 +2754,7 @@
 	LD	0 0
 	TAP	4
 	RTN	
-; else_285: (addr: 2402)
+; else_288: (addr: 2468)
 	LD	0 0
 	LD	0 1
 	LD	0 2
@@ -2694,26 +2763,26 @@
 	LD	0 0
 	TAP	4
 	RTN	
-; else_286: (addr: 2410)
+; else_289: (addr: 2476)
 	LD	0 2
 	LD	0 3
 	CAR	
 	LD	0 2
 	AP	2
-	TSEL	2391 2402
+	TSEL	2457 2468
 	RTN	
-; lambda_287: (addr: 2417)
+; lambda_290: (addr: 2483)
 	LD	0 3
 	ATOM	
-	TSEL	2389 2410
+	TSEL	2455 2476
 	RTN	
-; then_288: (addr: 2421)
-	LD	1 88
+; then_291: (addr: 2487)
+	LD	1 92
 	RTN	
-; then_289: (addr: 2423)
-	LD	1 87
+; then_292: (addr: 2489)
+	LD	1 91
 	RTN	
-; else_290: (addr: 2425)
+; else_293: (addr: 2491)
 	LD	0 0
 	LD	0 1
 	LD	0 2
@@ -2721,37 +2790,76 @@
 	LD	0 0
 	TAP	3
 	RTN	
-; else_291: (addr: 2432)
+; else_294: (addr: 2498)
 	LD	0 1
 	LD	0 2
 	CAR	
 	LD	0 1
 	AP	2
-	TSEL	2423 2425
+	TSEL	2489 2491
 	RTN	
-; lambda_292: (addr: 2439)
+; lambda_295: (addr: 2505)
 	LD	0 2
 	ATOM	
-	TSEL	2421 2432
+	TSEL	2487 2498
 	RTN	
-; lambda_293: (addr: 2443)
-	LD	1 71
-	LD	1 68
-	LD	1 86
+; lambda_296: (addr: 2509)
+	LD	1 70
+	LDC	9000
+	LD	0 1
+	LD	1 70
+	AP	3
+	RTN	
+; then_297: (addr: 2515)
+	LD	0 1
+	RTN	
+; then_298: (addr: 2517)
+	LD	1 69
+	LD	0 2
+	CAR	
+	LD	0 2
+	CDR	
+	LD	1 69
+	AP	3
+	RTN	
+; else_299: (addr: 2525)
+	LD	1 69
 	LD	0 1
 	LD	0 2
-	LD	1 68
+	CDR	
+	LD	1 69
+	AP	3
+	RTN	
+; else_300: (addr: 2532)
+	LD	0 1
+	LD	0 2
+	CAR	
+	CGT	
+	TSEL	2517 2525
+	RTN	
+; lambda_301: (addr: 2538)
+	LD	0 2
+	ATOM	
+	TSEL	2515 2532
+	RTN	
+; lambda_302: (addr: 2542)
+	LD	1 75
+	LD	1 72
+	LD	1 90
+	LD	0 1
+	LD	0 2
+	LD	1 72
 	AP	4
-	LD	1 71
+	LD	1 75
 	AP	2
 	RTN	
-; then_294: (addr: 2453)
+; then_303: (addr: 2552)
 	LD	0 1
 	RTN	
-; then_295: (addr: 2455)
+; then_304: (addr: 2554)
 	LD	0 1
 	RTN	
-; else_296: (addr: 2457)
+; else_305: (addr: 2556)
 	LD	0 0
 	LD	0 2
 	CAR	
@@ -2767,46 +2875,46 @@
 	LD	0 0
 	TAP	4
 	RTN	
-; else_297: (addr: 2472)
+; else_306: (addr: 2571)
 	LD	0 3
 	ATOM	
-	TSEL	2455 2457
+	TSEL	2554 2556
 	RTN	
-; lambda_298: (addr: 2476)
+; lambda_307: (addr: 2575)
 	LD	0 2
 	ATOM	
-	TSEL	2453 2472
+	TSEL	2552 2571
 	RTN	
-; let_299: (addr: 2480)
-	LD	2 71
+; let_308: (addr: 2579)
+	LD	2 75
 	LD	0 0
 	CAR	
-	LD	2 71
+	LD	2 75
 	AP	2
 	LD	0 0
 	CDR	
 	CONS	
 	RTN	
-; lambda_300: (addr: 2489)
+; lambda_309: (addr: 2588)
 	DUM	1
-	LD	2 70
+	LD	2 74
 	LD	1 1
-	LD	2 86
-	LD	2 86
+	LD	2 90
+	LD	2 90
 	CONS	
 	LD	1 2
-	LD	2 70
+	LD	2 74
 	AP	4
-	LDF	2480
+	LDF	2579
 	RAP	1
 	RTN	
-; then_301: (addr: 2501)
+; then_310: (addr: 2600)
 	LD	0 2
 	CAR	
 	LD	0 3
 	CONS	
 	RTN	
-; else_302: (addr: 2506)
+; else_311: (addr: 2605)
 	LD	0 0
 	LD	0 1
 	LDC	1
@@ -2824,23 +2932,23 @@
 	LD	0 0
 	TAP	4
 	RTN	
-; lambda_303: (addr: 2523)
+; lambda_312: (addr: 2622)
 	LD	0 1
 	LDC	0
 	CEQ	
-	TSEL	2501 2506
+	TSEL	2600 2605
 	RTN	
-; lambda_304: (addr: 2528)
-	LD	1 72
-	LD	1 86
+; lambda_313: (addr: 2627)
+	LD	1 76
+	LD	1 90
 	LD	0 1
-	LD	1 72
+	LD	1 76
 	AP	3
 	RTN	
-; then_305: (addr: 2534)
+; then_314: (addr: 2633)
 	LD	0 1
 	RTN	
-; else_306: (addr: 2536)
+; else_315: (addr: 2635)
 	LD	0 0
 	LD	0 2
 	CAR	
@@ -2851,44 +2959,44 @@
 	LD	0 0
 	TAP	3
 	RTN	
-; lambda_307: (addr: 2546)
+; lambda_316: (addr: 2645)
 	LD	0 2
 	ATOM	
-	TSEL	2534 2536
+	TSEL	2633 2635
 	RTN	
-; then_308: (addr: 2550)
+; then_317: (addr: 2649)
 	LD	0 2
 	RTN	
-; else_309: (addr: 2552)
+; else_318: (addr: 2651)
 	LD	0 1
 	CAR	
-	LD	1 73
+	LD	1 77
 	LD	0 1
 	CDR	
 	LD	0 2
-	LD	1 73
+	LD	1 77
 	AP	3
 	CONS	
 	RTN	
-; lambda_310: (addr: 2562)
+; lambda_319: (addr: 2661)
 	LD	0 1
 	ATOM	
-	TSEL	2550 2552
+	TSEL	2649 2651
 	RTN	
-; lambda_311: (addr: 2566)
-	LD	1 71
+; lambda_320: (addr: 2665)
 	LD	1 75
-	LD	1 86
+	LD	1 79
+	LD	1 90
 	LD	0 1
-	LD	1 75
+	LD	1 79
 	AP	3
-	LD	1 71
+	LD	1 75
 	AP	2
 	RTN	
-; then_312: (addr: 2575)
+; then_321: (addr: 2674)
 	LD	0 1
 	RTN	
-; then_313: (addr: 2577)
+; then_322: (addr: 2676)
 	LD	0 0
 	LD	0 1
 	LD	0 2
@@ -2896,7 +3004,7 @@
 	LD	0 0
 	TAP	3
 	RTN	
-; else_314: (addr: 2584)
+; else_323: (addr: 2683)
 	LD	0 0
 	LD	0 2
 	CAR	
@@ -2912,51 +3020,51 @@
 	LD	0 0
 	TAP	3
 	RTN	
-; else_315: (addr: 2599)
+; else_324: (addr: 2698)
 	LD	0 2
 	CAR	
 	ATOM	
-	TSEL	2577 2584
+	TSEL	2676 2683
 	RTN	
-; lambda_316: (addr: 2604)
+; lambda_325: (addr: 2703)
 	LD	0 2
 	ATOM	
-	TSEL	2575 2599
+	TSEL	2674 2698
 	RTN	
-; then_317: (addr: 2608)
-	LD	1 86
+; then_326: (addr: 2707)
+	LD	1 90
 	RTN	
-; then_318: (addr: 2610)
-	LD	1 86
+; then_327: (addr: 2709)
+	LD	1 90
 	RTN	
-; else_319: (addr: 2612)
+; else_328: (addr: 2711)
 	LD	0 2
 	CAR	
-	LD	1 76
+	LD	1 80
 	LD	0 1
 	LDC	1
 	SUB	
 	LD	0 2
 	CDR	
-	LD	1 76
+	LD	1 80
 	AP	3
 	CONS	
 	RTN	
-; else_320: (addr: 2624)
+; else_329: (addr: 2723)
 	LD	0 2
 	ATOM	
-	TSEL	2610 2612
+	TSEL	2709 2711
 	RTN	
-; lambda_321: (addr: 2628)
+; lambda_330: (addr: 2727)
 	LD	0 1
 	LDC	0
 	CEQ	
-	TSEL	2608 2624
+	TSEL	2707 2723
 	RTN	
-; then_322: (addr: 2633)
+; then_331: (addr: 2732)
 	LD	0 2
 	RTN	
-; then_323: (addr: 2635)
+; then_332: (addr: 2734)
 	LD	0 0
 	LD	0 1
 	LDC	1
@@ -2966,59 +3074,59 @@
 	LD	0 0
 	TAP	3
 	RTN	
-; else_324: (addr: 2644)
+; else_333: (addr: 2743)
 	LD	0 2
 	CAR	
 	RTN	
-; else_325: (addr: 2647)
+; else_334: (addr: 2746)
 	LD	0 1
-	TSEL	2635 2644
+	TSEL	2734 2743
 	RTN	
-; lambda_326: (addr: 2650)
+; lambda_335: (addr: 2749)
 	LD	0 2
 	ATOM	
-	TSEL	2633 2647
+	TSEL	2732 2746
 	RTN	
-; lambda_327: (addr: 2654)
+; lambda_336: (addr: 2753)
 	LD	0 1
 	LDC	1
 	ADD	
 	RTN	
-; lambda_328: (addr: 2658)
-	LD	1 60
-	LDF	2654
+; lambda_337: (addr: 2757)
+	LD	1 62
+	LDF	2753
 	LDC	0
 	LD	0 1
-	LD	1 60
+	LD	1 62
 	AP	4
 	RTN	
-; lambda_329: (addr: 2665)
+; lambda_338: (addr: 2764)
 	LD	0 1
 	LD	0 2
 	ADD	
 	RTN	
-; lambda_330: (addr: 2669)
-	LD	1 60
-	LDF	2665
+; lambda_339: (addr: 2768)
+	LD	1 62
+	LDF	2764
 	LDC	0
 	LD	0 1
-	LD	1 60
+	LD	1 62
 	AP	4
 	RTN	
-; lambda_331: (addr: 2676)
+; lambda_340: (addr: 2775)
 	LD	0 1
 	LD	0 2
 	MUL	
 	RTN	
-; lambda_332: (addr: 2680)
-	LD	1 60
-	LDF	2676
+; lambda_341: (addr: 2779)
+	LD	1 62
+	LDF	2775
 	LDC	0
 	LD	0 1
-	LD	1 60
+	LD	1 62
 	AP	4
 	RTN	
-; lambda_333: (addr: 2687)
+; lambda_342: (addr: 2786)
 	LD	0 1
 	CAR	
 	LD	0 2
@@ -3031,192 +3139,192 @@
 	ADD	
 	CONS	
 	RTN	
-; then_334: (addr: 2699)
-	LD	1 87
+; then_343: (addr: 2798)
+	LD	1 91
 	RTN	
-; else_335: (addr: 2701)
-	LD	1 88
+; else_344: (addr: 2800)
+	LD	1 92
 	RTN	
-; then_336: (addr: 2703)
+; then_345: (addr: 2802)
 	LD	0 1
 	CDR	
 	LD	0 2
 	CDR	
 	CEQ	
-	TSEL	2699 2701
+	TSEL	2798 2800
 	RTN	
-; else_337: (addr: 2710)
-	LD	1 88
+; else_346: (addr: 2809)
+	LD	1 92
 	RTN	
-; lambda_338: (addr: 2712)
+; lambda_347: (addr: 2811)
 	LD	0 1
 	CAR	
 	LD	0 2
 	CAR	
 	CEQ	
-	TSEL	2703 2710
+	TSEL	2802 2809
 	RTN	
-; lambda_339: (addr: 2719)
-	LD	1 85
+; lambda_348: (addr: 2818)
+	LD	1 89
 	LD	0 1
 	CAR	
 	LD	0 2
 	CAR	
 	SUB	
-	LD	1 85
+	LD	1 89
 	AP	2
-	LD	1 85
+	LD	1 89
 	LD	0 1
 	CDR	
 	LD	0 2
 	CDR	
 	SUB	
-	LD	1 85
+	LD	1 89
 	AP	2
 	ADD	
 	RTN	
-; lambda_340: (addr: 2737)
+; lambda_349: (addr: 2836)
 	LDC	1
 	LD	0 1
 	SUB	
 	RTN	
-; then_341: (addr: 2741)
+; then_350: (addr: 2840)
 	LDC	0
 	LD	0 1
 	SUB	
 	RTN	
-; else_342: (addr: 2745)
+; else_351: (addr: 2844)
 	LD	0 1
 	RTN	
-; lambda_343: (addr: 2747)
+; lambda_352: (addr: 2846)
 	LDC	0
 	LD	0 1
 	CGT	
-	TSEL	2741 2745
+	TSEL	2840 2844
 	RTN	
-; lambda_344: (addr: 2752)
+; lambda_353: (addr: 2851)
 	LD	0 1
 	CAR	
 	RTN	
-; lambda_345: (addr: 2755)
+; lambda_354: (addr: 2854)
 	LD	0 1
 	CDR	
 	CAR	
 	RTN	
-; lambda_346: (addr: 2759)
+; lambda_355: (addr: 2858)
 	LD	0 1
 	CDR	
 	CDR	
 	CAR	
 	RTN	
-; lambda_347: (addr: 2764)
+; lambda_356: (addr: 2863)
 	LD	0 1
 	CDR	
 	CDR	
 	CDR	
 	RTN	
-; lambda_348: (addr: 2769)
-	LD	0 1
-	LD	1 91
-	CEQ	
-	RTN	
-; lambda_349: (addr: 2773)
-	LD	0 1
-	LD	1 92
-	CEQ	
-	RTN	
-; lambda_350: (addr: 2777)
-	LD	0 1
-	LD	1 93
-	CEQ	
-	RTN	
-; lambda_351: (addr: 2781)
-	LD	0 1
-	LD	1 94
-	CEQ	
-	RTN	
-; lambda_352: (addr: 2785)
+; lambda_357: (addr: 2868)
 	LD	0 1
 	LD	1 95
 	CEQ	
 	RTN	
-; lambda_353: (addr: 2789)
+; lambda_358: (addr: 2872)
 	LD	0 1
 	LD	1 96
 	CEQ	
 	RTN	
-; lambda_354: (addr: 2793)
+; lambda_359: (addr: 2876)
 	LD	0 1
 	LD	1 97
 	CEQ	
 	RTN	
-; lambda_355: (addr: 2797)
-	LD	0 1
-	CAR	
-	RTN	
-; lambda_356: (addr: 2800)
-	LD	0 1
-	CDR	
-	CAR	
-	RTN	
-; lambda_357: (addr: 2804)
-	LD	0 1
-	CDR	
-	CDR	
-	CAR	
-	RTN	
-; lambda_358: (addr: 2809)
-	LD	0 1
-	CDR	
-	CDR	
-	CDR	
-	CAR	
-	RTN	
-; lambda_359: (addr: 2815)
-	LD	0 1
-	CDR	
-	CDR	
-	CDR	
-	CDR	
-	RTN	
-; lambda_360: (addr: 2821)
-	LD	0 1
-	CAR	
-	RTN	
-; lambda_361: (addr: 2824)
-	LD	0 1
-	CDR	
-	CAR	
-	RTN	
-; lambda_362: (addr: 2828)
-	LD	0 1
-	CDR	
-	CDR	
-	RTN	
-; lambda_363: (addr: 2832)
+; lambda_360: (addr: 2880)
 	LD	0 1
 	LD	1 98
 	CEQ	
 	RTN	
-; lambda_364: (addr: 2836)
+; lambda_361: (addr: 2884)
 	LD	0 1
 	LD	1 99
 	CEQ	
 	RTN	
-; lambda_365: (addr: 2840)
+; lambda_362: (addr: 2888)
 	LD	0 1
 	LD	1 100
 	CEQ	
 	RTN	
-; lambda_366: (addr: 2844)
+; lambda_363: (addr: 2892)
+	LD	0 1
+	LD	1 101
+	CEQ	
+	RTN	
+; lambda_364: (addr: 2896)
 	LD	0 1
 	CAR	
 	RTN	
-; lambda_367: (addr: 2847)
+; lambda_365: (addr: 2899)
+	LD	0 1
+	CDR	
+	CAR	
+	RTN	
+; lambda_366: (addr: 2903)
+	LD	0 1
+	CDR	
+	CDR	
+	CAR	
+	RTN	
+; lambda_367: (addr: 2908)
+	LD	0 1
+	CDR	
+	CDR	
+	CDR	
+	CAR	
+	RTN	
+; lambda_368: (addr: 2914)
+	LD	0 1
+	CDR	
+	CDR	
+	CDR	
+	CDR	
+	RTN	
+; lambda_369: (addr: 2920)
+	LD	0 1
+	CAR	
+	RTN	
+; lambda_370: (addr: 2923)
+	LD	0 1
+	CDR	
+	CAR	
+	RTN	
+; lambda_371: (addr: 2927)
+	LD	0 1
+	CDR	
+	CDR	
+	RTN	
+; lambda_372: (addr: 2931)
+	LD	0 1
+	LD	1 102
+	CEQ	
+	RTN	
+; lambda_373: (addr: 2935)
+	LD	0 1
+	LD	1 103
+	CEQ	
+	RTN	
+; lambda_374: (addr: 2939)
+	LD	0 1
+	LD	1 104
+	CEQ	
+	RTN	
+; lambda_375: (addr: 2943)
+	LD	0 1
+	CAR	
+	RTN	
+; lambda_376: (addr: 2946)
 	LD	0 1
 	CDR	
 	RTN	
-; let_368: (addr: 2850)
+; let_377: (addr: 2949)
 	LD	0 0
 	LD	1 0
 	LD	0 0

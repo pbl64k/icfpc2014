@@ -1,9 +1,4 @@
-; ! Consider ALL moves -- and pick the best one that finds something edible.
-; ! (Fall back) limit the number of steps and score by distance to nearest if too far away?
-; ! Optimize heavy-duty stuff? (bfs)
-; + go for pills if ghosts nearby? (check that there ARE pills)
 ; ? dangerous being near ghost spawn points?
-; ? figured it out: old AI may return no moves, too -- TagMismatch on classic when munching on tons of ghosts, omg?
 ; ? optimize list functions? -- not necessarily such a good idea (not clear which approach is better in practice)
 ; - only relevant for the idiotic AI -- take into account the number of ghosts on the field when scoring (don't bother.)
 ; - connectivity? (duh.)
@@ -29,7 +24,8 @@
             )
             (cons (ai-cons NIL fs fruit-loc ppills) (fun-abi [a b] (bfs-ai a b))))))
 
-; implements the logic of standard `step' -- but `main` must ensure it's converted to fun-abi
+; implements the logic of standard `step' -- but `main' must ensure it's converted to fun-abi
+; UNUSED -- except as a seriously crummy fallback
 (def step
     (fun [ai-state world-state]
         (let* (
@@ -45,7 +41,7 @@
             )
             (do
                 ; !!! REMOVE THIS
-                (debug 0)
+                ;(debug 0)
                 (let (
                     [new-ai (ai-update ai-state best-cell)]
                     )
@@ -65,14 +61,14 @@
             [f-cell-score (lm-cell-score-gen wmap ws ai-state)]
             [ghosties (ws-ghst ws)]
             [bad-ghosties (filter (fun [gh] (gh-std? (gh-vit gh))) ghosties)]
+            [ppill-comp (<= (min (map (fun [gh] (vec-l1-dist my-loc (gh-loc gh))) bad-ghosties)) 4)] ; arbitrary threshold
             [gh-pairs (map (fun [gh] (cons (gh-dir gh) (cons (gh-loc gh) NIL))) bad-ghosties)]
             [init-moves (f-neighbors -1 my-loc 1 gh-pairs 0)]
             [init-frontier (q-append q-empty init-moves)]
             [init-visited (set-ins set-empty my-floc)]
             [nrst-food (nearest-food ai-state ws)]
             [nrst-ppill (nearest-ppill ai-state ws)]
-            ;[best-moves (turbo-bfs NIL wmap f-neighbors (fun [p extra-bad-ghosties] (> (f-cell-score p extra-bad-ghosties) 0)) init-frontier init-visited nrst-food nrst-ppill)]
-            [best-moves (turbo-bfs NIL wmap f-neighbors f-cell-score init-frontier init-visited nrst-food nrst-ppill)]
+            [best-moves (turbo-bfs NIL wmap f-neighbors f-cell-score init-frontier init-visited nrst-food nrst-ppill ppill-comp)]
             )
             (do
                 (if [not (atom? best-moves)]
@@ -125,9 +121,9 @@
             [fruit (ws-fruit ws)]
             [fruit-loc (ai-fruit ai)]
             [lm-good-ghost-score
-                (fun [gh pos]
+                (fun [gh pos m-dist]
                     (if [vec-=? (gh-loc gh) pos] ; ignore the nonsense, we'll not account for expiring POWER
-                        (* 50 lm-vit-score) ; !!! change this to account for the number of moves taken
+                        (* 50 (- lm-vit-score m-dist))
                         0))]
             [lm-bad-ghost-score
                 (fun [gh pos]
@@ -142,60 +138,63 @@
                                     -10
                                     0)))))]
             [lm-ghost-score
-                (fun [pos extra-bad-ghosties]
-                    (+ (sum (map (fun [gh] (lm-bad-ghost-score gh pos)) bad-ghosties)) (+ (sum (map (fun [gh] (lm-bad-ghost-score gh pos)) extra-bad-ghosties)) (sum (map (fun [gh] (lm-good-ghost-score gh pos)) good-ghosties)))))]
+                (fun [pos m-dist extra-bad-ghosties]
+                    (+ (sum (map (fun [gh] (lm-bad-ghost-score gh pos)) bad-ghosties)) (+ (sum (map (fun [gh] (lm-bad-ghost-score gh pos)) extra-bad-ghosties)) (sum (map (fun [gh] (lm-good-ghost-score gh pos m-dist)) good-ghosties)))))]
             [lm-fruit-score
-                (fun [pos]
-                    (if [> fruit 0]
+                (fun [pos m-dist]
+                    (if [> (- fruit m-dist) 0]
                         (if [vec-=? pos fruit-loc]
-                            (* fruit 20) ; !!! change this to account for the number of moves taken
+                            (* (- fruit m-dist) 20)
                             0)
                         0))]
             )
-            (fun [pos extra-bad-ghosties]
-                (+ (* 10 (cell-score (bstm-ix wmap pos))) (+ (lm-ghost-score pos extra-bad-ghosties) (lm-fruit-score pos)))))))
+            (fun [pos m-dist extra-bad-ghosties]
+                (+ (* 10 (cell-score (bstm-ix wmap pos))) (+ (lm-ghost-score pos m-dist extra-bad-ghosties) (lm-fruit-score pos m-dist)))))))
 
 (def TURBO-THRESH 20)
 
 ; nothing particularly fast about it
 ; it's just meant to be TURBO.
 (def turbo-bfs
-    (fun [acc bstm-w f-neighbors f-val q-frontier set-visited nrst-food nrst-ppill]
+    (fun [acc bstm-w f-neighbors f-val q-frontier set-visited nrst-food nrst-ppill ppill-comp]
         (do
             (if [q-isempty? q-frontier]
                 acc
-                ; !!! optimization
                 (let* (
                     [state-1 (q-pop q-frontier)]
                     [mov-0 (car state-1)]
                     [q-frontier-1 (cdr state-1)]
-                    [m-dir (bfsx-dir mov-0)]
                     [m-pos (bfsx-pos mov-0)]
                     [m-dist (bfsx-dist mov-0)]
                     [m-ghs (bfsx-ghs mov-0)]
                     [m-fpos (bstm-flatten-ix bstm-w m-pos)]
                     )
                     (if [set-has? set-visited m-fpos]
-                        (recur acc bstm-w f-neighbors f-val q-frontier-1 set-visited nrst-food nrst-ppill)
-                        ; !!! optimization
+                        (recur acc bstm-w f-neighbors f-val q-frontier-1 set-visited nrst-food nrst-ppill ppill-comp)
                         (let* (
-                            [cell-sc (f-val m-pos m-ghs)]
+                            [cell-sc (f-val m-pos m-dist m-ghs)]
                             [mov (bfsx-add-sc mov-0 cell-sc)]
-                            [m-sc (bfsx-sc mov)]
                             )
                             (if [> cell-sc 0]
-                                (recur (bfs-ins-move acc mov) bstm-w f-neighbors f-val q-frontier-1 (set-ins set-visited m-fpos) nrst-food nrst-ppill)
+                                (recur (bfs-ins-move acc (bfsx-add-sc mov (bfs-nppill-score m-pos nrst-ppill ppill-comp))) bstm-w f-neighbors f-val q-frontier-1 (set-ins set-visited m-fpos) nrst-food nrst-ppill ppill-comp)
                                 (if [> m-dist TURBO-THRESH]
-                                    ; !!! compute additional score
-                                    (recur (bfs-ins-move acc mov) bstm-w f-neighbors f-val q-frontier-1 (set-ins set-visited m-fpos) nrst-food nrst-ppill)
-                                    ; !!! optimization
+                                    (recur (bfs-ins-move acc (bfsx-add-sc mov (+ (bfs-nfood-score m-pos nrst-food) (bfs-nppill-score m-pos nrst-ppill ppill-comp)))) bstm-w f-neighbors f-val q-frontier-1 (set-ins set-visited m-fpos) nrst-food nrst-ppill ppill-comp)
                                     (let* (
                                         [set-visited-2 (set-ins set-visited m-fpos)]
-                                        [m-neighbors (f-neighbors m-dir m-pos (+ 1 m-dist) m-ghs m-sc)]
-                                        [new-moves (filter (fun [x] (not (set-has? set-visited-2 (bstm-flatten-ix bstm-w (bfsx-pos x))))) m-neighbors)]
-                                        [q-frontier-2 (q-append q-frontier-1 new-moves)]
                                         )
-                                        (recur acc bstm-w f-neighbors f-val q-frontier-2 set-visited-2 nrst-food nrst-ppill)))))))))))
+                                        (recur acc bstm-w f-neighbors f-val (q-append q-frontier-1 (filter (fun [x] (not (set-has? set-visited-2 (bstm-flatten-ix bstm-w (bfsx-pos x))))) (f-neighbors (bfsx-dir mov-0) m-pos (+ 1 m-dist) m-ghs (bfsx-sc mov)))) set-visited-2 nrst-food nrst-ppill ppill-comp)))))))))))
+
+(def bfs-nfood-score
+    (fun [pos food-pos]
+        (- 0 (vec-l1-dist pos food-pos))))
+
+(def bfs-nppill-score
+    (fun [pos ppill-pos f]
+        (if f
+            (if [atom? ppill-pos]
+                0
+                (- 0 (vec-l1-dist pos ppill-pos)))
+            0)))
 
 (def bfs-ins-move
     (fun [acc mov]
@@ -485,6 +484,15 @@
             (if [f (car xs)]
                 TRUE
                 (recur f (cdr xs))))))
+; weird behavior convenient here
+(def min (fun [xs] (min-acc 9000 xs)))
+(def min-acc
+    (fun [acc xs]
+        (if [atom? xs]
+            acc
+            (if [< (car xs) acc]
+                (min (car xs) (cdr xs))
+                (min acc (cdr xs))))))
 (def zip (fun [a b] (reverse (zip-rev NIL a b))))
 (def zip-rev
     (fun [acc a b]
@@ -531,6 +539,7 @@
                 NIL
                 (cons (car xs) (take (- n 1) (cdr xs)))))))
 ; TODO? I'm not sure this makes sense if the last element of a "tuple" is a cons cell itself
+; probably doesn't but I rewrote all accessors anyway
 (def ith
     (fun [ix xs]
         (if [atom? xs]
