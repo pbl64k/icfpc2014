@@ -1,0 +1,167 @@
+ICFPC this year just ROCKED.
+
+The problem wasn't anything particularly fancy, and boiled
+down to implementing player and mob AIs for a fairly faithful
+Pac-Man clone.
+
+The devil was in the details, of course.
+
+The AIs were supposed to be running on fairly idiosyncratic
+faux 80s simulated "hardware" -- Pac-Man AI on a Lisp-machine
+CPU, and ghost AI on an itty bitty "chip" resemblant of Z80,
+but purely 8-bit, and with smaller and more orthogonal op set.
+
+The original problem statement for the first 24 hours only
+required writing Pac-Man AI, but it was fairly obvious that
+ghosts would also come into play at some point. Coding the AI
+directly in Lisp-machine assembly would be possible, but
+perhaps inordinately painful, so implementing a compiler from
+HLL of some kind seemed prudent. The decision space was huge,
+and various teams opted for vastly different solutions here,
+but the path of least resistance, and the most popular choice,
+seems to have been a Lisp dialect of some kind. Well, duh,
+it's a Lisp-machine.
+
+Anyway, I felt this was right down my alley! I'm something of
+a PLT junkie nowadays, I've written (simple) implementations
+of Lisp-like languages before (e.g., here:
+https://github.com/pbl64k/Schism) and toy compilers, too.
+(https://github.com/pbl64k/COOL-CodeGen-MIPS) I'm not exactly
+averse to AI either.
+
+So right after the contest-started, I identified the following
+tasks that could advance my cause (of beating my personal best
+in ICFPCs):
+
+1. Implement a Lambda-Man VM (note that there was sluggish sim
+   with poor diagnostics provided by the organizers)
+2. Write a parser for my Lambda-Man HLL (but could opt for
+   eDSL instead, which some people did, and it might have been
+   a very good idea, in hindsight)
+3. Write codegen
+4. Implement static checks, and perhaps type inference (which
+   some teams did, apparently to great effect)
+5. Code up the AI
+
+As I was soloing once again (under the incredibly stupid name
+of "Supermassive Black Hom-set"), I decided I needed to
+concentrate on the final goal (which would be 5 above) and
+skip everything not strictly necessary, to conserve my rather
+scarce resources. Because of that, I skipped parts 1 and 4
+completely.
+
+As far as the tools were concerned, Haskell seemed like a
+perfect choice for the task at hand.
+
+So I designed a simple Lisp-like language, influenced by
+Scheme and Clojure, but diverging from the mold without much
+consideration where I'd find that convenient, and started
+writing the compiler for it. In just a few hours I had a more
+or less functional compiler.
+
+Sure, the language had more than a few quirks: ifs always had
+to be in tail position, special functions like `+' or `cons'
+were not first-class citizens etc. -- but I had a neat little
+language complete with closures and tail recursion on my
+hands. Of course, later it turned out that the compiler had a
+couple of nasty bugs in it, but I was lucky enough not to run
+into them during the lightning round, and apart from that the
+compiler went into feature freeze by the end of the first day,
+allowing me to concentrate on the "real stuff."
+
+I have to say that working on Scimitar gave me a perspective
+on some of Scheme's design choices that I didn't have before.
+I'd find those quirky before, but now I start to understand
+what's all that weirdness about. Frankly, because of that
+alone the contest was well worth all the blood and tears.
+
+Anyhow, a few hours before the end of the lightning round I
+started working on an actual AI, and I managed to submit --
+a simple, myopic -- but fully functional and informed AI
+shortly before the deadline.
+
+That was a clear win, as I wasn't entirely sure I'd even have
+a compiler by then when I was just starting on the task.
+
+(It's worth noting that the CPU does a lot of the heavy
+lifting here, and targetting a more traditional architecture
+would have been much more difficult.)
+
+Shortly after the deadline the rules were updated, and that's
+where ghost AIs came into play.
+
+Well, those are ENTIRELY unlike the Lisp-machine used by the
+Lambda-Man. Ghost AIs are limited to 256 instructions, run
+with just 256 octets of random-access memory plus nine 8-bit
+registers, and are limited to 1024 cycles before they time
+out (compared to the generous 3,000,000+ cycles limit for
+the Lambda-Man -- running on much more sophisticated
+hardware!)
+
+Well, I didn't fancy tinkering with that kind of crap, but
+the rules required us to submit a ghost AI. So I quickly
+wrote a translator that allowed sources with symbolic labels,
+and wrote a simple 90-opcode AI that doesn't do anything more
+sophisticated than chasing the player by considering immediate
+moves and Manhattan distances, attempting to get itself
+unstuck by counting turns, and providing a bit of variety by
+behaving slightly differently depending on the ghost index.
+
+Having done that I forgot about ghost AIs and never went back.
+It's worth noting, though, that even this simple AI would
+consistently beat the crap out of my Lambda-Men, as ghosts
+exhibit perhaps the most clear case of strength through
+numbers ever, constantly blocking the player in tunnels,
+leaving him no exit whatsoever.
+
+Anyway, after that I went back to my Lispful bliss and
+continued tinkering with Lambda-Man AI. I didn't intend to do
+anything particularly fancy, so over the next two days I wrote
+a simple BFS, augmented it with some tastefully picked bells
+and whistles, did some simple, and extremely approximate,
+prediction of ghost positions in the future, leveraged some
+simple data structures to improve performance... and
+eventually started running into cycle limit even on small-ish
+maps.
+
+Well, bummer.
+
+I really don't know what to do about this. It's virtually
+impossible to estimate number of cycles spent from inside the
+simulation -- especially without spending even MORE cycles! --
+and I couldn't even diagnose the problem using the sim, as I
+didn't have my own implementation, and on web sim my late
+model AIs would take seconds -- real-time! -- to compute a
+single move, so test runs could take hours.
+
+So I resorted to optimizing locals by hand, doing some fusion
+rewriting, again, by hand, and rewriting my standard lib to
+avoid using tail recursion where unnecessary (reversing the
+accumulator afterwards is far more expensive than all those
+RTNs).
+
+How well the resulting solution full of magic numbers for
+search cutoffs performs in the duels remains to be seen.
+
+As an aside, one of the most wonderful twists related to ghost
+AIs is that the Lambda-Man is provided with complete ghost
+programs. So, in theory, he can predict their actions
+perfectly by implementing the game mechanics from scratch.
+Given that even my simplistic BFS would easily run out of
+cycles, I'm not sure how practical that idea is.
+
+On Sunday, the organizers launched an unofficial Hall of Fame
+with three simple maps (http://94.173.40.148/). I could never
+get into the top on the last one, briefly hung somewhere in
+the bottom half on the second one, and managed to stay in the
+top until the end of the contest on the classic map.
+Unfortunately, the HoF is likely not representative of the
+real competition both in terms of maps... and in terms of
+teams represented, so this is not indicative of, well,
+anything.
+
+In any case, this was certainly the most exciting ICFPC since
+2009, when I first took part in all this madness, and the most
+rewarding -- regardless of the final standings -- too.
+
+(See also submission README in the code/ directory.)
