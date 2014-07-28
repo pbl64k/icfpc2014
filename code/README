@@ -1,10 +1,51 @@
-scimitar.hs is compiler for a simple Scheme-like language
-targetting Lambda-Man CPU.
+scimitar.hs is a compiler for a simple Scheme-like language
+targetting Lambda-Man CPU. The language is quite
+idiosyncratic.
 
-m.sh will compile scimitar.hs -- this requires GHC reasonably
-similar to mine, which most current GHCs should be.
+gen80.hs is a translator for Ghost CPU assembler adorned with
+labels.
 
-buildall.pl will build the compiler, then compile all *.scm
-files in the code/ directory to corresponding *.gcc -- this
-one requires Perl 5 reasonably similar to mine, which most
-current Perls should also be.
+Both accept source code on stdin and emit target code on
+stdout.
+
+m.sh is a bash script that will attempt to compile scimitar.hs
+and gen80.hs -- this requires GHC (Glasgow Haskell Compiler,
+that is) reasonably similar to mine, which most current GHCs
+should be.
+
+buildall.pl is a Perl script that attempts to compile the
+compilers, then compiles all the *.scm files in the code/
+directory to corresponding *.gcc's, and all *.ghc80 files to
+*.ghc's -- this one requires Perl 5 reasonably similar to
+mine, which most current Perls should also be.
+
+turbo-ai.scm is the final AI for the contest. Basically, it
+uses depth-limited BFS with a fairly convoluted utility
+function and some (very hare-brained) prediction of ghastly
+activities. It's built to be fairly cautious (except in some
+circumstances involving spawns and invisible ghosts where it
+simply does not understand that it's in danger). It wasn't
+tested on any particularly large maps, and may time out or
+wolf down all available memory in such circumstances. Oh well.
+It uses a few purely functional data structures for
+efficiency, but nothing fancy or particularly interesting.
+
+obstinate-ghost.ghc80 is a very simple ghost AI that uses
+Manhattan distance to pick the direction to chase the player,
+with simple turn counting to try and get itself unstuck from
+the corners. Ghost index is used for tie-breaking. It's kinda
+evil in large groups. This is my final submission for the
+Ghost AI.
+
+.scm files with -ai in name are various earlier versions of
+the AI.
+
+Other .scm file are simple tests I used for debugging the
+Scimitar compiler.
+
+stock-ghost.ghc80 is one of the provided ghosts translated
+back into a format with named labels, and used for initial
+testing.
+
+I relied on web simulator to run my AI's.
+

@@ -52,9 +52,10 @@
 ; alternate `step'
 ; heh heh! fall back to old step if this fails.
 (def bfs-ai
-    (fun [ai-state ws]
+    (fun [ai-state-0 ws]
         (let* (
             [wmap (bstm-cons (ws-map ws))]
+            [ai-state (ai-recompute-food wmap ai-state-0)]
             [my-loc (lm-loc (ws-lmst ws))]
             [my-floc (bstm-flatten-ix wmap my-loc)]
             [f-neighbors (lm-neighbors-gen wmap (lm-valid-cell?-gen wmap ws))]
@@ -151,7 +152,7 @@
             (fun [pos m-dist extra-bad-ghosties]
                 (+ (* 10 (cell-score (bstm-ix wmap pos))) (+ (lm-ghost-score pos m-dist extra-bad-ghosties) (lm-fruit-score pos m-dist)))))))
 
-(def TURBO-THRESH 20)
+(def TURBO-THRESH 12)
 
 ; nothing particularly fast about it
 ; it's just meant to be TURBO.
@@ -332,7 +333,7 @@
         (cons recent-cells (cons food (cons fruit-loc ppills)))))
 (def ai-add-cell
     (fun [ai cell]
-        (ai-cons (cons cell (take 50 (ai-rct ai))) (ai-food ai) (ai-fruit ai) (ai-ppills ai))))
+        (ai-cons (cons cell (take 20 (ai-rct ai))) (ai-food ai) (ai-fruit ai) (ai-ppills ai))))
 (def ai-drop-food
     (fun [ai cell]
         (ai-cons (ai-rct ai) (filter (fun [x] (not (vec-=? x cell))) (ai-food ai)) (ai-fruit ai) (ai-ppills ai))))
@@ -342,6 +343,16 @@
 (def ai-update
     (fun [ai cell]
         (ai-drop-ppill (ai-drop-food (ai-add-cell ai cell) cell) cell)))
+(def ai-recompute-food
+    (fun [wmap ai]
+        (if [> (length (ai-food ai)) 0]
+            ai
+            (let* (
+                [ps (cart (bstm-w wmap) (bstm-h wmap))]
+                [fs (filter (fun [p] (> (cell-score (bstm-ix wmap p)) 0)) ps)]
+                [ppills (filter (fun [p] (m-ppill? (bstm-ix wmap p))) ps)]
+                )
+                (ai-cons (ai-rct ai) fs (ai-fruit ai) ppills)))))
 (def ai-rct (fun [ai] (car ai)))
 (def ai-food (fun [ai] (car (cdr ai))))
 (def ai-fruit (fun [ai] (car (cdr (cdr ai)))))
