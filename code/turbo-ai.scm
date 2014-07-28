@@ -1,5 +1,4 @@
 ; ? dangerous being near ghost spawn points?
-; ? optimize list functions? -- not necessarily such a good idea (not clear which approach is better in practice)
 ; - only relevant for the idiotic AI -- take into account the number of ghosts on the field when scoring (don't bother.)
 ; - connectivity? (duh.)
 ; - all-sources shortest paths in main? (meeh.)
@@ -31,8 +30,7 @@
         (let* (
             [wmap (ws-map world-state)]
             [loc (lm-loc (ws-lmst world-state))]
-            [move-cells (map (fun [d] (vec-+ d loc)) neighbors)]
-            [valid-cells (filter (fun [pos] (valid-cell? wmap pos)) move-cells)]
+            [valid-cells (filter-map (fun [pos] (valid-cell? wmap pos)) (fun [d] (vec-+ d loc)) neighbors)]
             [cell-costs (map-map (fun [x] (ai-score ai-state world-state x)) valid-cells)]
             [best-cost (pick-best cell-costs)]
             [best-cell (car best-cost)]
@@ -69,7 +67,9 @@
             [init-visited (set-ins set-empty my-floc)]
             [nrst-food (nearest-food ai-state ws)]
             [nrst-ppill (nearest-ppill ai-state ws)]
-            [best-moves (turbo-bfs NIL wmap f-neighbors f-cell-score init-frontier init-visited nrst-food nrst-ppill ppill-comp)]
+            [comp-thr (fun [m] (if [<= (bstm-w m) 25] 20 (if [<= (bstm-w m) 35] 12 (if [<= (bstm-w m) 50] 8 5))))]
+            [TURBO-THRESH (comp-thr wmap)]
+            [best-moves (turbo-bfs NIL wmap f-neighbors f-cell-score init-frontier init-visited nrst-food nrst-ppill ppill-comp TURBO-THRESH)]
             )
             (do
                 (if [not (atom? best-moves)]
@@ -87,23 +87,21 @@
             (let* (
                 [new-ghosts (map (fun [gh] (move-ghost wmap gh)) ghs)]
                 )
-                (filter
+                (filter-map
                     (fun [mov] (f-valid-cell? (bfsx-pos mov) (append ghs new-ghosts)))
-                    (map
-                        (fun [mov]
+                    (fun [mov]
+                        ((fun [mov-0]
                             (if [< preset-dir 0]
-                                mov
-                                (bfsx-ch-dir mov preset-dir)))
-                        (map
-                            (fun [mov]
-                                (bfsx-cons (car mov) (vec-+ pos (cdr mov)) dist new-ghosts sc))
-                            nb-moves)))))))
+                                mov-0
+                                (bfsx-ch-dir mov-0 preset-dir)))
+                            (bfsx-cons (car mov) (vec-+ pos (cdr mov)) dist new-ghosts sc)))
+                    nb-moves)))))
 
 (def lm-valid-cell?-gen
     (fun [wmap ws]
         (let (
             ; I'm not sure ignoring invisible ghosts is a good idea
-            [ghosties (map gh-loc (filter (fun [gh] (gh-std? (gh-vit gh))) (ws-ghst ws)))]
+            [ghosties (map-filter gh-loc (fun [gh] (gh-std? (gh-vit gh))) (ws-ghst ws))]
             )
             (fun [pos extra-bad-ghosties]
                 (if [> (bstm-ix wmap pos) M-WALL]
@@ -152,12 +150,10 @@
             (fun [pos m-dist extra-bad-ghosties]
                 (+ (* 10 (cell-score (bstm-ix wmap pos))) (+ (lm-ghost-score pos m-dist extra-bad-ghosties) (lm-fruit-score pos m-dist)))))))
 
-(def TURBO-THRESH 12)
-
 ; nothing particularly fast about it
 ; it's just meant to be TURBO.
 (def turbo-bfs
-    (fun [acc bstm-w f-neighbors f-val q-frontier set-visited nrst-food nrst-ppill ppill-comp]
+    (fun [acc bstm-w f-neighbors f-val q-frontier set-visited nrst-food nrst-ppill ppill-comp TURBO-THRESH]
         (do
             (if [q-isempty? q-frontier]
                 acc
@@ -171,19 +167,19 @@
                     [m-fpos (bstm-flatten-ix bstm-w m-pos)]
                     )
                     (if [set-has? set-visited m-fpos]
-                        (recur acc bstm-w f-neighbors f-val q-frontier-1 set-visited nrst-food nrst-ppill ppill-comp)
+                        (recur acc bstm-w f-neighbors f-val q-frontier-1 set-visited nrst-food nrst-ppill ppill-comp TURBO-THRESH)
                         (let* (
                             [cell-sc (f-val m-pos m-dist m-ghs)]
                             [mov (bfsx-add-sc mov-0 cell-sc)]
                             )
                             (if [> cell-sc 0]
-                                (recur (bfs-ins-move acc (bfsx-add-sc mov (bfs-nppill-score m-pos nrst-ppill ppill-comp))) bstm-w f-neighbors f-val q-frontier-1 (set-ins set-visited m-fpos) nrst-food nrst-ppill ppill-comp)
+                                (recur (bfs-ins-move acc (bfsx-add-sc mov (bfs-nppill-score m-pos nrst-ppill ppill-comp))) bstm-w f-neighbors f-val q-frontier-1 (set-ins set-visited m-fpos) nrst-food nrst-ppill ppill-comp TURBO-THRESH)
                                 (if [> m-dist TURBO-THRESH]
-                                    (recur (bfs-ins-move acc (bfsx-add-sc mov (+ (bfs-nfood-score m-pos nrst-food) (bfs-nppill-score m-pos nrst-ppill ppill-comp)))) bstm-w f-neighbors f-val q-frontier-1 (set-ins set-visited m-fpos) nrst-food nrst-ppill ppill-comp)
+                                    (recur (bfs-ins-move acc (bfsx-add-sc mov (+ (bfs-nfood-score m-pos nrst-food) (bfs-nppill-score m-pos nrst-ppill ppill-comp)))) bstm-w f-neighbors f-val q-frontier-1 (set-ins set-visited m-fpos) nrst-food nrst-ppill ppill-comp TURBO-THRESH)
                                     (let* (
                                         [set-visited-2 (set-ins set-visited m-fpos)]
                                         )
-                                        (recur acc bstm-w f-neighbors f-val (q-append q-frontier-1 (filter (fun [x] (not (set-has? set-visited-2 (bstm-flatten-ix bstm-w (bfsx-pos x))))) (f-neighbors (bfsx-dir mov-0) m-pos (+ 1 m-dist) m-ghs (bfsx-sc mov)))) set-visited-2 nrst-food nrst-ppill ppill-comp)))))))))))
+                                        (recur acc bstm-w f-neighbors f-val (q-append q-frontier-1 (filter (fun [x] (not (set-has? set-visited-2 (bstm-flatten-ix bstm-w (bfsx-pos x))))) (f-neighbors (bfsx-dir mov-0) m-pos (+ 1 m-dist) m-ghs (bfsx-sc mov)))) set-visited-2 nrst-food nrst-ppill ppill-comp TURBO-THRESH)))))))))))
 
 (def bfs-nfood-score
     (fun [pos food-pos]
@@ -233,7 +229,7 @@
     (fun [wmap gh]
         (let* (
             [gh-pos (gh-loc gh)]
-            [valid-cells (filter (fun [mov] (> (bstm-ix wmap (gh-loc mov)) M-WALL)) (map (fun [mov] (cons (car mov) (cons (vec-+ (cdr mov) gh-pos) NIL))) nb-moves))]
+            [valid-cells (filter-map (fun [mov] (> (bstm-ix wmap (gh-loc mov)) M-WALL)) (fun [mov] (cons (car mov) (cons (vec-+ (cdr mov) gh-pos) NIL))) nb-moves)]
             [valid-cells-len (length valid-cells)]
             )
             (if [= valid-cells-len 1]
@@ -345,7 +341,7 @@
         (ai-drop-ppill (ai-drop-food (ai-add-cell ai cell) cell) cell)))
 (def ai-recompute-food
     (fun [wmap ai]
-        (if [> (length (ai-food ai)) 0]
+        (if [not (atom? (ai-food ai))]
             ai
             (let* (
                 [ps (cart (bstm-w wmap) (bstm-h wmap))]
@@ -474,20 +470,49 @@
             init
             (recur f (f init (car xs)) (cdr xs)))))
 (def map-map (fun [f xs] (map (fun [x] (cons x (f x))) xs)))
-(def map (fun [f xs] (reverse (map-rev NIL f xs))))
-(def map-rev
-    (fun [acc f xs]
+(def map
+    (fun [f xs]
         (if [atom? xs]
-            acc
-            (recur (cons (f (car xs)) acc) f (cdr xs)))))
-(def filter (fun [f xs] (reverse (filter-rev NIL f xs))))
-(def filter-rev
-    (fun [acc f xs]
+            NIL
+            (cons (f (car xs)) (map f (cdr xs))))))
+;(def map (fun [f xs] (reverse (map-rev NIL f xs))))
+;(def map-rev
+;    (fun [acc f xs]
+;        (if [atom? xs]
+;            acc
+;            (recur (cons (f (car xs)) acc) f (cdr xs)))))
+(def filter
+    (fun [f xs]
         (if [atom? xs]
-            acc
+            NIL
             (if [f (car xs)]
-                (recur (cons (car xs) acc) f (cdr xs))
-                (recur acc f (cdr xs))))))
+                (cons (car xs) (filter f (cdr xs)))
+                (recur f (cdr xs))))))
+(def filter-map
+    (fun [p f xs]
+        (if [atom? xs]
+            NIL
+            (let* (
+                [r (f (car xs))]
+                )
+                (if [p r]
+                    (cons r (filter-map p f (cdr xs)))
+                    (recur p f (cdr xs)))))))
+(def map-filter
+    (fun [f p xs]
+        (if [atom? xs]
+            NIL
+            (if [p (car xs)]
+                (cons (f (car xs)) (map-filter f p (cdr xs)))
+                (recur f p (cdr xs))))))
+;(def filter (fun [f xs] (reverse (filter-rev NIL f xs))))
+;(def filter-rev
+;    (fun [acc f xs]
+;        (if [atom? xs]
+;            acc
+;            (if [f (car xs)]
+;                (recur (cons (car xs) acc) f (cdr xs))
+;                (recur acc f (cdr xs))))))
 (def any?
     (fun [f xs]
         (if [atom? xs]
@@ -502,16 +527,23 @@
         (if [atom? xs]
             acc
             (if [< (car xs) acc]
-                (min (car xs) (cdr xs))
-                (min acc (cdr xs))))))
-(def zip (fun [a b] (reverse (zip-rev NIL a b))))
-(def zip-rev
-    (fun [acc a b]
+                (recur (car xs) (cdr xs))
+                (recur acc (cdr xs))))))
+(def zip
+    (fun [a b]
         (if [atom? a]
-            acc
+            NIL
             (if [atom? b]
-                acc
-                (recur (cons (cons (car a) (car b)) acc) (cdr a) (cdr b))))))
+                NIL
+                (cons (cons (car a) (car b)) (zip (cdr a) (cdr b)))))))
+;(def zip (fun [a b] (reverse (zip-rev NIL a b))))
+;(def zip-rev
+;    (fun [acc a b]
+;        (if [atom? a]
+;            acc
+;            (if [atom? b]
+;                acc
+;                (recur (cons (cons (car a) (car b)) acc) (cdr a) (cdr b))))))
 (def span
     (fun [n xs]
         (let (
@@ -534,14 +566,21 @@
         (if [atom? xs]
             ys
             (cons (car xs) (append (cdr xs) ys)))))
-(def concat (fun [xs] (reverse (concat-acc NIL xs))))
-(def concat-acc
-    (fun [acc xs]
+(def concat
+    (fun [xs]
         (if [atom? xs]
-            acc
+            NIL
             (if [atom? (car xs)]
-                (recur acc (cdr xs))
-                (recur (cons (car (car xs)) acc) (cons (cdr (car xs)) (cdr xs)))))))
+                (recur (cdr xs))
+                (cons (car (car xs)) (concat (cons (cdr (car xs)) (cdr xs))))))))
+;(def concat (fun [xs] (reverse (concat-acc NIL xs))))
+;(def concat-acc
+;    (fun [acc xs]
+;        (if [atom? xs]
+;            acc
+;            (if [atom? (car xs)]
+;                (recur acc (cdr xs))
+;                (recur (cons (car (car xs)) acc) (cons (cdr (car xs)) (cdr xs)))))))
 (def take
     (fun [n xs]
         (if [= n 0]
