@@ -1,7 +1,15 @@
-*.png
+code/hint/*.png
 .*.swp
 *.hi
 *.o
 *.exe
 *.tar.gz
 secret.txt
+presentation/*.aux
+presentation/*.fdb_latexmk
+presentation/*.log
+presentation/*.nav
+presentation/*.out
+presentation/*.snm
+presentation/*.toc
+
