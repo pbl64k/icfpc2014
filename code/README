@@ -1,3 +1,10 @@
+Post-contest remark:
+
+Read "gen80" as "ghc80" -- GHC80 is something of a tribute to
+a Z80 assembler called GEN80.
+
+Original text:
+
 scimitar.hs is a compiler for a simple Scheme-like language
 targetting Lambda-Man CPU. The language is quite
 idiosyncratic.
